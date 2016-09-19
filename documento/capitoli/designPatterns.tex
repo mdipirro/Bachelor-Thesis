@@ -1,0 +1,201 @@
+\subsection{Module Pattern}
+I moduli sono parte integrante di qualsiasi applicazione di grandi dimensioni, e tipicamente aiutano ad organizzare il codice. In JavaScript ci sono diverse opzioni per implementare un modulo; tra le più conosciute ci sono la \textbf{Object literal notation} e il \textbf{Module pattern}.
+
+\paragraph{Object Literal} \mbox{} \\
+Nella \textit{object literal notation} un oggetto viene descritto come un insieme di coppie nome/valore separate da virgole (',') e contenute tra parentesi graffe ('\{\}'). Il \lstlistingname~\ref{objectLiteral} mostra un esempio:
+\begin{lstlisting}[
+		caption={Oggetto JavaScript in notazione classica},
+		label=objectLiteral,
+		language=JavaScript,
+		firstnumber=1
+	]
+var contatore = {
+	k: 0,
+	incrementa_e_stampa: function() {
+		this.k++;;
+		console.log(this.k);
+	}
+};
+
+contatore.incrementa_e_stampa(); // stampa "1"
+contatore.i = 50; // aggiunto i con valore 50
+contatore.k = 20; // k ora vale 20
+contatore.incrementa_e_stampa(); // stampa "21"
+\end{lstlisting}
+Questa notazione non richiede l'utilizzo dell'operatore \texttt{new}. Dall'esterno, tuttavia, chiunque può aggiungere proprietà all'oggetto \texttt{contatore}. L'istruzione \texttt{contatore.i = 50;} ne è un esempio. Oltre a questo, chiunque può modificare \texttt{contatore.k} senza utilizzare il metodo dedicato: non verrà quindi stampato a video il nuovo valore e l'utilizzatore non noterà, inizialmente, nessun risultato.
+
+Questa soluzione manca completamente di \textbf{incapsulazione}: tutti possono vedere, modificare o aggiungere proprietà all'oggetto.
+
+\paragraph{Una soluzione migliore: il Module Pattern} \mbox{} \\
+In JavaScript, il \textbf{Module Pattern} è utilizzato per \textit{emulare} il concetto di classe, in modo da avere attributi e metodi pubblici e privati. È quindi possibile decidere quali parti del modulo esporre e quali no, semplicemente ritornando un oggetto contenente le proprietà pubbliche del modulo. 
+
+È importante notare che in JavaScript non è presente il concetto di ''\textit{privacy}'', in quanto non esistono i modificatori di accesso presenti negli altri linguaggi. Le variabili non possono essere dichiarate \textit{pubbliche} o \textit{private}, ed è necessario utilizzare l'ambito di visibilità delle funzioni per simulare questo concetto. Con il Module \textit{pattern} le variabili e le funzioni dichiarate dentro il modulo sono private; al contrario, quelle contenute nell'oggetto ritornato sono pubbliche. 
+
+Il \lstlistingname~\ref{modulePattern} mostra un esempio:
+\begin{lstlisting}[
+		caption={Module pattern},
+		label=modulePattern,
+		language=JavaScript,
+		firstnumber=1
+	]
+var contatore = (function() {
+	var k = 0; // attributo privato
+	
+	var incrementa_e_stampa = function() {
+		k++;
+		stampa();
+	};
+	
+	var decrementa_e_stampa = function() {
+		k--;
+		stampa();
+	};
+	
+	var get_contatore = function() {
+		return k;
+	};
+	
+	// metodo privato
+	var stampa = function() {
+		console.log(k);
+	};
+	
+	// pubbliche
+	return {
+		incrementa_e_stampa: incrementa_e_stampa,
+		decrementa_e_stampa: decrementa_e_stampa,
+		get_contatore: get_contatore
+	};
+})();
+
+contatore.incrementa_e_stampa(); // stampa "1"
+contatore.decrementa_e_stampa(); // stampa "0"
+contatore.k = 20;
+contatore.get_contatore(); // ritorna "0"
+contatore.k; // "20"
+\end{lstlisting}
+
+\newpage
+\subparagraph{Vantaggi}
+\begin{itemize}
+\item Aggiunge il concetto di incapsulazione a JavaScript.
+\item Se vengono aggiunti dei metodi esternamente alla definizione del modulo, questi non possono accedere alle variabili private.
+\end{itemize}
+
+\subparagraph{Svantaggi}
+\begin{itemize}
+\item Complica l'utilizzo dell'ereditarietà.
+\item Rispetto alla notazione ad oggetti classica complica il \textit{testing} perché alcuni membri sono inaccessibili.
+\end{itemize}
+
+\subparagraph{Contestualizzazione} \mbox{} \\
+In Catalogue Manager tutti i moduli sono realizzati con il Module pattern. Questo ha consentito di progettarli in modo molto più \textit{object-oriented} e di ottenere l'incapsulazione che sarebbe altrimenti assente.
+
+\subsection{Template Method} 
+In Figura~\ref{fig:templateMethod} è riportata la struttura del \textit{design pattern} \textbf{Template Method}.
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[scale=0.6]{designPattern/TemplateMethod}
+  \caption[Design pattern Template Method]{Design pattern Template Method}
+  \label{fig:templateMethod}
+  \end{center} 
+\end{figure}
+
+Questo \textit{pattern} consente di definire la struttura di un algoritmo, lasciando alle sottoclassi il compito di implementare alcuni passi secondo le loro necessità. In questo modo si può ridefinire e personalizzare parte del comportamento nelle varie sottoclassi, senza dover riscrivere più volte il codice in comune. Inoltre evita la duplicazione di codice nelle sottoclassi e aderisce all'\textbf{Hollywood Principle}\footnote{''\textbf{Don't call us, we'll call you}''. Proviene dalla filosofia di Hollywood, secondo lo quale sono le case produttrici a chiamare gli attori se hanno bisogno di loro. Contestualizzando, le componenti di alto livello (superclassi) decidono quando e come utilizzare le componenti di basso livello (sottoclassi)}. 
+
+\paragraph{Vantaggi}
+\begin{itemize}
+\item Nessuna duplicazione di codice.
+\item Il riutilizzo di codice avviene per ereditarietà e non per composizione; solo alcuni metodi devono subire l'\textit{override}.
+\item Le sottoclassi decidono come implementare i passi dell'algoritmo, migliorando la flessibilità.
+\end{itemize}
+
+\paragraph{Svantaggi}
+\begin{itemize}
+\item Aumenta la difficoltà di \textit{debugging}.
+\item Rende più difficile comprendere il flusso di esecuzione.
+\end{itemize}
+
+\paragraph{Contestualizzazione} \mbox{} \\
+Il \textit{design pattern} Template Method è utilizzato per la gerarchia di classi che gestiscono le immagini salvate su \textit{file system}. \texttt{ImageHandler} espone due metodi, \texttt{save} e \texttt{remove}, che chiamano dei metodi astratti che devono essere implementati dalle sottoclassi. 
+
+\subsection{Middleware}
+Questo \textit{pattern} consente di definire uno o più intermediari tra i vari componenti \textit{software} dell'applicazione in modo da semplificare la loro connessione e collaborazione. In generale è molto utile nello sviluppo e nella gestione di di sistemi distribuiti complessi, contesto nel quale Catalogue Manager si colloca perfettamente. 
+
+Viene utilizzato da Express.js per fornire una libreria di funzioni comuni: definisce una serie di livelli (o funzioni) per gestire le varie richieste dell'applicazione. Tutti i componenti del \textit{pattern} \textbf{Middleware} sono collegati l'uno con l'altro e ricevono a turno una richiesta in ingresso finché uno di questi non decide di partire con l'elaborazione: l'\textit{output} di un \textit{middleware} diventa l'\textit{input} per il successivo. Per questo è anche conosciuto con il nome di \textbf{Pipeline}.
+
+Anche mongoose.js utilizza questo concetto: come già spiegato è possibile definire delle funzioni da eseguire prima o dopo un'operazione specificata. 
+
+%In Figura~\ref{fig:middlewareStruttura} è mostrata una possibile struttura del \textit{pattern} Middleware. Si nota che il \textit{Client} contiene un \textit{array} di \textit{middlewares}: questo \textit{array} rappresenta la catena. Per aggiungerne uno è sufficiente utilizzare la funzione \textit{use}, passando come parametro un'istanza di una classe che implementa l'interfaccia \textit{Middleware}. Quest'ultima interfaccia serve solamente a fornire un ''tipo'' utilizzabile da \textit{Client}. In JavaScript il discorso dei tipi è quasi inesistente, e il fatto che anche le funzioni siano trattate come oggetti consente di utilizzare queste ultime come \textit{middlewares}.
+%
+%\begin{figure}[hbpc]
+%  \begin{center}
+%    \includegraphics[scale=0.6]{designPattern/MiddlewareStruttura}
+%  \caption[Design pattern Middleware]{Design pattern Middleware}
+%  \label{fig:middlewareStruttura}
+%  \end{center} 
+%\end{figure}
+
+Middleware è fortemente legato al \textbf{Chain of Responsibility}, descritto più avanti.
+
+\subparagraph{Vantaggi}
+\begin{itemize}
+\item Riutilizzo di codice comune a più parti dell'applicazione.
+\item Aderenza al \textbf{Single Responsibility Principle}.\footnote{Ogni elemento di un \textit{software} deve avere una sola responsabilità, e tale responsabilità deve essere interamente incapsulata dall'elemento stesso. Tutti i servizi offerti dall'elemento dovrebbero essere strettamente allineati a tale responsabilità.}
+\end{itemize}
+
+\subparagraph{Svantaggi}
+\begin{itemize}
+\item Se mal utilizzato rende difficile la comprensione del flusso di controllo.
+\end{itemize}
+
+\subparagraph{Contestualizzazione}\mbox{} \\
+In Catalogue Manager il \textit{pattern} Middleware viene utilizzato ampiamente sia nel contesto di Express.js sia in quello di mongoose.js.
+
+Per Express.js serve per registrare funzioni di validazione del \textit{token}, le \textit{routes}, il gestore dell'errore 404 e così via.
+
+Per mongoose.js, invece, serve, ad esempio, a validare i dati inviati (\glossaryItem{url} e categorie in particolare), a forzare il mantenimento di vincoli personalizzati (come quello che impone che applicazioni pubbliche non abbiano lo stesso nome), ad escludere dalle ricerche su \textit{database} determinati valori (ad esempio le applicazioni con il \textit{flag} \texttt{removed == true} o con \texttt{available == false}), eccetera. 
+
+%\begin{figure}[hbpc]
+%  \begin{center}
+%    \includegraphics[scale=0.6]{designPattern/MiddlewareCatMgr}
+%  \caption[Design pattern Middleware in Catalogue Manager]{Design pattern Middleware in Catalogue Manager}
+%  \label{fig:middlewareCatMgr}
+%  \end{center} 
+%\end{figure}
+\subsection{Chain of Responsibility}
+Il \textit{pattern} \textbf{Chain of Responsibility} permette ad un oggetto di inviare un evento senza sapere chi lo riceverà e chi lo gestirà. Questo passaggio rende i due (o più) oggetti parte di una catena: ciascun oggetto nella catena può gestire l'evento, passarlo al successivo o entrambi. 
+
+Lo scopo è quello di evitare un collegamento statico tra chi emette l'evento e chi lo gestisce: formando una catena la richiesta viene passata da un oggetto all'altro, senza sapere chi e quando la gestirà. Ogni nodo della catena decide se esaudire la richiesta o no, delegando, in quest'ultimo caso, l'onere al nodo successivo. La catena viene attraversata finché un nodo non può eseguire l'ordine del mittente. In questo modo si evita l’\textbf{accoppiamento} fra il mittente di una richiesta e il destinatario.
+
+Un \textit{pattern} di questo tipo si lega facilmente e fortemente al Middleware, e trova in lui una naturale istanziazione: Express.js, infatti, lo utilizza per la gestione dei \textit{middlewares} (così come mongoose.js) e del \textit{routing}. In Figura~\ref{fig:cor} è mostrata la struttura.
+
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[scale=0.5]{designPattern/ChainOfResponsibility}
+  \caption[Design pattern ChainOfResponsibility]{Design pattern ChainOfResponsibility}
+  \label{fig:cor}
+  \end{center} 
+\end{figure}
+
+Nel gergo di Express.js i \textit{middleware} corrispondono agli oggetti \texttt{ConcreteHandler} del \textit{design pattern}. Sebbene il comportamento e lo scopo sia quasi identico, l'implementazione di Express.js presenta alcune differenze:
+\begin{itemize}
+\item i \textit{middlewares} di Express.js possono essere classi con un metodo \texttt{handle} o semplici funzioni, in pieno accordo con lo stile funzionale utilizzato dalla maggioranza delle librerie e delle applicazioni scritte in Node.js. In Catalogue Manager è stata utilizzata principalmente la seconda versione;
+\item il \textit{design pattern} prevede che l'oggetto \texttt{Handler} abbia un riferimento \texttt{successor} all’\texttt{Handler} successivo. Express.js, invece, passa al metodo di esecuzione del \textit{middleware} una \texttt{callback}. Il \textit{middleware}, eseguendo la \texttt{callback}, passa nuovamente il controllo all'oggetto del server di Express.js il quale passerà il controllo al successivo \textit{middleware};
+\item Express.js divide i \textit{middlewares} in due gruppi:  standard e di gestione degli errori. Si distinguono per il numero di parametri che possono gestire (tre e quattro, rispettivamente). Ogni \textit{middleware} può decidere a quale dei due passare il controllo semplicemente variando il numero di parametri (nel secondo caso va specificato l'errore da gestire). Questa funzionalità serve per permettere la gestione di errori senza utilizzare i costrutti \texttt{try catch}, tipici dei linguaggi imperativi, ma inefficaci quando si utilizza lo stile di programmazione asincrono;
+\item ogni \textit{middleware} di Express.js deve essere invocato con i seguenti parametri: l'eventuale errore, l'oggetto della richiesta (\texttt{Express.Request}), l'oggetto della risposta (\texttt{Express.Response}), la \texttt{callback} da utilizzare per passare il controllo al successivo \textit{middleware}. L'ordine è importante.
+\end{itemize}
+
+\subparagraph{Vantaggi} \mbox{} \\
+\begin{itemize}
+\item Riduzione dell'accoppiamento.
+\item Maggiore flessibilità nell'assegnazione delle responsabilità.
+\end{itemize}
+
+\subparagraph{Svantaggi} \mbox{} \\
+\begin{itemize}
+\item La gestione di una richiesta non è garantita, sia per la possibile mancanza di un \textit{middleware} con quella specifica responsabilità sia per una configurazione sbagliata della catena.
+\end{itemize}
+
+\subparagraph{Contestualizzazione}\mbox{} \\
+Come già detto per il \textit{pattern} Middleware, il Chain of Responsibility viene utilizzato largamente da Express.js e mongoose.js.

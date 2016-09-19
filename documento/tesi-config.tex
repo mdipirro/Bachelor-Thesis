@@ -1,0 +1,100 @@
+%**************************************************************
+% file contenente le impostazioni della tesi
+%**************************************************************
+
+%**************************************************************
+% Frontespizio
+%**************************************************************
+\input{config/comandi}
+
+
+%**************************************************************
+% Impostazioni di impaginazione
+% see: http://wwwcdf.pd.infn.it/AppuntiLinux/a2547.htm
+%**************************************************************
+
+\setlength{\parindent}{14pt}   % larghezza rientro della prima riga
+\setlength{\parskip}{0pt}   % distanza tra i paragrafi
+
+
+%**************************************************************
+% Impostazioni di biblatex
+%**************************************************************
+\input{config/bibliografia}
+
+
+%**************************************************************
+% Impostazioni di caption
+%**************************************************************
+\input{config/caption}
+
+%**************************************************************
+% Impostazioni di glossaries
+%**************************************************************
+\input{config/glossarioImp}
+
+
+%**************************************************************
+% Impostazioni di graphicx
+%**************************************************************
+\graphicspath{{immagini/}} % cartella dove sono riposte le immagini
+
+
+%**************************************************************
+% Impostazioni di hyperref
+%**************************************************************
+\input{config/hyperref}
+
+%**************************************************************
+% Impostazioni di itemize
+%**************************************************************
+\input{config/itemize}
+
+
+%**************************************************************
+% Impostazioni di listings
+%**************************************************************
+\input{config/lstlisting}
+
+
+%**************************************************************
+% Impostazioni di xcolor
+%**************************************************************
+\definecolor{webgreen}{rgb}{0,.5,0}
+\definecolor{webbrown}{rgb}{.6,0,0}
+
+
+%**************************************************************
+% Altro
+%**************************************************************
+
+\newcommand{\omissis}{[\dots\negthinspace]} % produce [...]
+
+% eccezioni all'algoritmo di sillabazione
+\hyphenation
+{
+    ma-cro-istru-zio-ne
+}
+
+% nomi per le traduzioni italiane
+\newcommand{\sectionname}{Sezione}
+\addto\captionsitalian{\renewcommand{\figurename}{Figura}
+                       \renewcommand{\tablename}{Tabella}}
+
+
+\newcommand{\intro}[1]{\emph{\textsf{#1}}}
+
+%**************************************************************
+% Environment per ``rischi''
+%**************************************************************
+\input{config/risk}
+
+%**************************************************************
+% Environment per ``use case''
+%**************************************************************
+\input{config/usecase}
+
+%**************************************************************
+% Environment per ``namespace description''
+%**************************************************************
+\input{config/namespacedesc}

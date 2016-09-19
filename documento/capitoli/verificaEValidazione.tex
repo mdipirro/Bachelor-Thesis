@@ -1,0 +1,54 @@
+\chapter{Verifica e validazione} \label{vev}
+
+\section{Verifica}
+Per \textbf{verifica} si intende il processo che ha il compito di accertare che l'esecuzione delle altre attività non abbia introdotto errori. Risponde quindi alla domanda ''\textbf{Did I build the system right?}''.
+
+Per assicurare un'alta qualità, il \textit{software} è stato analizzato con due diverse tecniche:
+\begin{itemize}
+\item \textbf{analisi statica}, non prevede l'esecuzione del prodotto;
+\item \textbf{analisi dinamica}, prevede l'esecuzione del prodotto.
+\end{itemize}
+
+Si è cercato di raggiungere la correttezza del prodotto \textbf{by construction}: la definizione di regole e strategie ha portato alla stesura di codice facile da verificare fin dall'inizio. L'alternativa è la cosiddetta correttezza \textbf{by correction}, che prevede di correggere al volo senza però fare nulla per evitare a priori gli errori più comuni.
+
+\subsection{Analisi statica}
+L'analisi statica si basa sulla verifica del codice senza eseguire lo stesso: attraverso strumenti esterni è possibile analizzare quanto scritto per rilevare le principali fonti di \glossaryItemPl{bug}. 
+
+Uno dei principali strumenti in questo campo è \hyperref[jshint]{JSHint}. Grazie alla semplicità e velocità di configurazione, JSHint si integra con moltissimi \textit{editors} di testo e analizza il codice ''al volo'', durante la scrittura. Dopo averlo configurato con le regole di codifica più adatte, JSHint analizzerà il codice alla ricerca di violazioni delle regole precedentemente impostate. Molto spesso, infatti, un utilizzo errato del linguaggio di programmazione scelto inserisce nel prodotto dei \glossaryItemPl{bug} difficili da trovare. L'esempio più classico sono le variabili definite e non inizializzate, ma ce ne sono molti altri: variabili utilizzate e mai dichiarate, conversioni di tipo automatiche, variabili solo scritte e mai lette, eccetera. Un linguaggio estremamente permissivo come JavaScript, inoltre, rende molto difficile l'individuazione di errori di questo tipo, che diventano visibili solo a \textit{run time}: come sarà spiegato successivamente, risalire alla causa degli errori rilevati a \textit{run time} è spesso molto complesso.
+
+JSHint, invece, permette di rilevare alcuni problemi senza eseguire il codice, velocizzando e facilitando il percorso verso la correttezza. La configurazione di regole di codifica ben precise, inoltre, aiuta a scrivere codice facilmente comprensibile, leggibile e, di conseguenza, manutenibile. 
+
+\subsection{Analisi dinamica}
+Secondo quanto affermato da Edsger Wybe Dijkstra nel trattato \textbf{Notes On Structured Programming} (1970), il \textit{testing}\footnote{Con \textit{testing} si intendono le tecniche di analisi dinamica.} di un \textit{software} può solo dimostrare la presenza di \glossaryItemPl{bug}, ma mai la loro assenza:
+
+\begin{displayquote}
+\centering
+\textit{Program testing can be used to show the presence of bugs, but never to show their absence!}
+
+\textit{Edsger Wybe Dijkstra}
+\end{displayquote}
+
+È dunque necessario stabilire il giusto numero di \textit{test} per poter trovare il maggior numero di \glossaryItem{bug}, evitando però di cadere nella ridondanza. La progettazione e la scrittura dei \textit{test} ha un costo che deve essere analizzato e non sottovalutato. 
+
+Quando si parla di \textit{testing} del \textit{software} è necessario distinguere tra \glossaryItem{fault} e \glossaryItem{failure}. L'esecuzione dei \textit{test} rileva i \glossaryItemPl{failure}, ma è compito di chi ha scritto il codice risalire ai \glossaryItemPl{fault}: questo compito è particolarmente difficile, visto che non esiste un modo per risalire in modo univoco al \glossaryItem{fault} presente.
+
+Il bersaglio di un \textit{test} può variare: un singolo modulo, un gruppo di moduli (collegati tra loro per uso, struttura, scopo o comportamento) o l'intero sistema. In base a questa distinzione possono essere identificati tre livelli di \textit{testing}: 
+\begin{itemize}
+\item \textbf{unità}: verificano il funzionamento in isolamento di un elemento \textit{software} atomico (\textbf{unità}\footnote{Con \textbf{unità} si intende la più piccola quantità di \textit{software} che conviene provare da sola. Nel presente documento una unità è rappresentata da un modulo JavaScript o da una \textit{route} di Express.js.});
+\item \textbf{integrazione}: verificano l'interazione tra i diversi componenti. Tipicamente si utilizza una strategia incrementale che mira a mettere insieme solo parti già provate, soprattutto per \textit{software} di grandi dimensioni. La strategia opposta è detta \textit{big bang testing} e consiste nel mettere insieme tutte le componenti un'unica vola e provarle tutte insieme. In questo modo, però, risalire ai \glossaryItemPl{fault} può essere molto complicato;
+\item \textbf{sistema}: verificano il comportamento dell'intero sistema. A questo punto i \textit{test} di unità e integrazione hanno rilevato la maggior parte dei difetti del prodotto: i \textit{test} di sistema mirano quindi a provare le caratteristiche non funzionali del \textit{software}, come sicurezza o velocità.
+\end{itemize}
+Esiste un altro tipo di \textit{test}, di \textbf{regressione}, che viene eseguito in seguito alla modifica di una parte \textit{P} del sistema \textit{S} per verificare che la modifica di \textit{P} non abbia introdotto errori né in \textit{P} né nelle altre parti di \textit{S} che hanno relazione con \textit{P}.
+
+Catalogue Manager è stato verificato utilizzando la strategia incrementale descritta in precedenza. Inizialmente sono stati provati i moduli comuni utilizzati dalle \textit{routes} e le \textit{routes} che non utilizzano nessun modulo. Successivamente, man mano che il loro funzionamento è stato verificato, le componenti sono state combinate fino a verificare l'intero sistema nel complesso. 
+
+Per essere efficaci i \textit{test} devono essere \textbf{ripetibili}: le condizioni (stato iniziale del sistema, \textit{input} e \textit{output} attesi) di svolgimento devono quindi essere sempre uguali, in modo da poter valutare e confrontare i risultati ottenuti. Affinché la valutazione dei risultati sia obiettiva, inoltre, l'esecuzione dei \textit{test} deve essere automatizzata. Per questo motivo, per la maggior parte della verifica del prodotto sviluppato è stato utilizzato il \glossaryItem{framework} \hyperref[mocha]{Mocha.js}, con la libreria di asserzioni offerta da \hyperref[express]{Express.js}. Per prove veloci è stato anche utilizzato lo strumento \hyperref[dhc]{DHC}: ogni \textit{test} fallito (che ha rivelato \glossaryItem{failure}) è successivamente stato aggiunto ai \textit{test} automatizzati.
+
+Lo sviluppo parallelo del front end, infine, ha portato alla luce diversi \glossaryItemPl{failure} e ha contribuito alla definizione dei casi di \textit{test}.
+
+\section{Validazione}
+Per \textbf{validazione} si intende il processo che conferma, attraverso misurazioni e prove oggettive, che le specifiche del \textit{software} siano conformi ai bisogni dell'utente. Risponde quindi alla domanda ''\textbf{Did I build the right system?}''.
+
+I \textbf{test di accettazione} sono utilizzati per fornire queste prove oggettive, e controllano che i requisiti fissati dall'utente e identificati nell'iniziale processo di analisi siano stati rispettati. 
+
+Catalogue Manager rispetta tutti i requisiti definiti inizialmente, a ha soddisfatto tutte le aspettative.

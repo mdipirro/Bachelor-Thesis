@@ -1,0 +1,12 @@
+#!/bin/bash
+
+DIR="."	# modificare per scegliere il nome della cartella di destinazione
+NAME="presentazione"		# modificiare per scegliere il nome del file di origine (.tex)
+
+pdflatex -output-directory=$DIR $NAME
+
+rm $DIR/*.acn $DIR/*.aux $DIR/*.bbl $DIR/*.bcf $DIR/*.glo $DIR/*.acr $DIR/*.alg
+rm $DIR/*.ist $DIR/*.lof $DIR/*.lot $DIR/*.run.xml $DIR/*.toc $DIR/*.snm $DIR/*.out
+# Per mantenere i log commentare la linea seguente
+rm $DIR/*.blg  $DIR/*.log
+

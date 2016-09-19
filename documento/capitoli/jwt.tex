@@ -1,0 +1,140 @@
+\paragraph{Descrizione} \mbox{} \\
+\glossaryItem{jwt} (logo in Figura~\ref{fig:jwt}) è uno standard \textit{open} (\cite{rfc:7519}) che definisce un modo \textbf{compatto} e \textbf{self-contained} per trasmettere informazioni in modo sicuro sotto forma di oggetti \glossaryItem{json}. Le informazioni possono essere verificate dato che sono firmate: la firma può avvenire attraverso una stringa (il cosiddetto \textbf{secret}), con l'algoritmo \glossaryItem{hmac}, o usando una coppia di chiavi pubbliche e private, grazie a \glossaryItem{rsa}.
+
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[scale=0.5]{jwt}
+  \caption[Logo di JWT]{Logo di JWT\protect\footnotemark}
+  \label{fig:jwt}
+  \end{center} 
+\end{figure}
+\footnotetext{Immagine tratta da \cite{site:jwtintro}}
+
+\glossaryItem{jwt} è \textbf{compatto} perché grazie alla sua dimensione ridotta può essere inviato attraverso un \glossaryItem{url}, come parametro di una richiesta POST o dentro un \textit{header} \glossaryItem{http}. Inoltre, occupando poco spazio, può essere trasmesso velocemente. 
+
+\glossaryItem{jwt} è \textbf{self-contained} perché il \textbf{payload} contiene tutte le informazioni riguardo l'utente, evitando di dover interrogare il \textit{database} più di una volta.
+
+I due scenari di utilizzo più comuni sono i seguenti:
+\begin{itemize}
+\item \textbf{\glossaryItem{autenticazione}}: è il caso d'uso più comune. Dopo la prima \glossaryItem{autenticazione} ogni successiva richiesta conterrà il \textit{token} e permetterà all'utente di accedere a tutto ciò che il suo ruolo gli consente (servizi, risorse, eccetera). \glossaryItem{jwt} è molto usato con il \glossaryItem{sso} grazie alla sua interoperabilità e alla facilità di utilizzo;
+\item \textbf{scambio di informazioni}: \glossaryItem{jwt} è un ottimo modo per trasmettere informazioni in modo sicuro tra parti diverse, grazie alla possibilità di firmarli. Visto che la firma è calcolata sul contenuto, si può anche controllare che le informazioni non siano state alterate.
+\end{itemize}
+
+\paragraph{Struttura} \mbox{} \\
+In Figura~\ref{fig:token} è mostrato un esempio di \textit{token} utilizzato in Catalogue Manager. Come si può notare è composto da tre parti separate da '.':
+\begin{itemize}
+\item \textbf{Header};
+\item \textbf{Payload};
+\item \textbf{Signature}.
+\end{itemize}
+
+\begin{figure}[hbpc]
+  \begin{center}
+    \includegraphics[scale=0.4]{token}
+  \caption[Esempio di token di Catalogue Manager]{Esempio di token di Catalogue Manager}
+  \label{fig:token}
+  \end{center} 
+\end{figure}
+
+L'\textbf{header} tipicamente consiste di due parti: il tipo del \textit{token} (\texttt{typ}, che deve essere \textbf{JWT}) e l'algoritmo di firma utilizzato (\texttt{alg}), che può essere \glossaryItem{hmac} con \textit{\glossaryItem{sha}-256} o \glossaryItem{rsa}. Nel \lstlistingname~\ref{headerEsempio} è mostrato un esempio di \textit{header}.
+\begin{lstlisting}[
+		caption={Esempio di header JWT},
+		label=headerEsempio,
+		language=json,
+		firstnumber=1
+	]
+{
+  typ: "JWT",
+  alg: "RS256" // RSA
+}
+\end{lstlisting}
+Il tutto è poi codificato con \glossaryItem{base64} e forma la prima parte del \textit{token}.
+
+La seconda parte è il \textbf{payload} e contiene le ''affermazioni'' (o \textbf{claims}), ovvero delle asserzioni di sicurezza riguardo un'entità (tipicamente l'utente) e dati aggiuntivi. Ci sono tre tipi di affermazioni:
+\begin{itemize}
+\item \textbf{riservate}: insieme di asserzioni predefinite, non obbligatorie, ma raccomandate per fornire un \textit{token} utile. In particolare sono:
+	\begin{itemize}
+	\item \texttt{iss}: indica l'\texttt{issuer} (emittente) del \textit{token}, e il suo utilizzo generalmente è fortemente dipendente dall'applicazione;
+	\item \texttt{sub}: indice il \texttt{subject} (soggetto) del \textit{token} e deve essere unico globalmente o per singolo \texttt{issuer}. Come per il campo \texttt{iss}, anche il suo utilizzo è  fortemente dipendente dall'applicazione;
+	\item \texttt{aud}: indica l'\texttt{audience} (pubblico) del \textit{token}. Chiunque voglia utilizzare il \textit{token} deve identificarsi in uno dei casi descritti in questo campo. Se questo non accade, il \glossaryItem{jwt} deve essere scartato. Solitamente è un \textit{array} di stringhe che identificano i diversi casi d'uso;
+	\item \texttt{exp}: indica l'\texttt{expiration time} (tempo di scadenza) oltre il quale il \textit{token} non deve essere accettato;
+	\item \texttt{nbf}: indica il \texttt{not before time} (non prima di) prima del quale il \textit{token} non deve essere accettato;
+	\item \texttt{iat}: indica il momento in cui il \textit{token} è stato emesso (\texttt{issued at}) e può essere usato per determinare l'età del \glossaryItem{jwt};
+	\item \texttt{jti}: fornisce un identificatore univoco (\glossaryItem{jwt} ID) per il \textit{token}. L'ID deve essere assegnato in modo tale da garantire l'unicità; se l'applicazione usa più di un \texttt{issuer}, le collisioni devono essere previste ed evitate. È una stringa \textit{case sensitive}, e in generale è utilizzata per evitare la replicazione dei \textit{token}.
+	\end{itemize}
+I nomi sono tutti di tre caratteri per enfatizzare la compattezza di \glossaryItem{jwt};
+\item \textbf{pubbliche}: possono essere definite dagli utilizzatori dei \glossaryItem{jwt}, ma devono essere registrate presso il \textbf{\glossaryItem{JWT} \glossaryItem{iana} Registry} o definite come \glossaryItem{uri}, in modo da evitare collisioni;
+\item \textbf{private}: personalizzate ed utilizzate per scambiare informazioni tra due parti in accordo sulle modalità di utilizzo.
+\end{itemize}
+Un esempio di \textit{payload} è riportato nel \lstlistingname~\ref{payloadEsempio}.
+\begin{lstlisting}[
+		caption={Esempio di payload JWT},
+		label=payloadEsempio,
+		language=json,
+		firstnumber=1
+	]
+{
+  sub: "1234567890",
+  name: "John Doe",
+  admin: true
+}
+\end{lstlisting}
+Il tutto è poi codificato con \glossaryItem{base64} e forma la seconda parte del \textit{token}.
+
+Per creare la terza parte tutto quello che serve è l'\textit{header} codificato, il \textit{payload} codificato, una chiave (il \textbf{secret}) e l'algoritmo specificato nell'\textit{header}. Tutto questo va firmato. Nel \lstlistingname~\ref{signatureEsempio} è mostrato un esempio utilizzando \glossaryItem{hmac} con \glossaryItem{sha}-256.
+\begin{lstlisting}[
+		caption={Esempio di signature JWT},
+		label=signatureEsempio,
+		language=signature,
+		firstnumber=1
+	]
+HMACSHA256(
+  base64UrlEncode(header) + "." +
+  base64UrlEncode(payload),
+  secret)
+\end{lstlisting}
+La firma è utilizzata per verificare che chi invia il \glossaryItem{jwt} sia chi dice di essere e per assicurare che il messaggio non venga modificato.
+
+L'\textit{output} finale è un insieme di tre stringhe codificate con \glossaryItem{base64} separate da punti ('.') che può essere facilmente trasmessa con il protocollo \glossaryItem{http}. La stringa ottenuta è inoltre molto più compatta di altre alternative, come le asserzioni \glossaryItem{saml}. Un esempio è stato mostrato in Figura~\ref{fig:token}.
+
+È importante notare come le informazioni siano solo codificate con \glossaryItem{base64} e non criptate: questo le rende visibili da chiunque intercetti il \textit{token}. Vanno quindi inseriti solamente dati pubblici e assolutamente non sensibili.
+
+\paragraph{Utilizzo} \mbox{} \\
+Nel caso d'uso dell'\glossaryItem{autenticazione}, quando un utente effettua il \textit{login} utilizzando le proprie credenziali viene generato, e ritornato, un \glossaryItem{jwt} che deve essere salvato localmente. Questa modalità differisce da quella ''classica'', che prevedeva di creare una sessione lato server e di ritornare un \glossaryItem{cookie}.
+
+Ogniqualvolta l'utente vuole accedere ad un servizio, o risorsa, protetto, il \textit{token} deve essere inviato al server. L'invio avviene tipicamente nell'\textit{header} \textbf{Authorization} usando lo schema \texttt{Bearer}. Il contenuto dell'\textit{header} sarà dunque quello mostrato nel \lstlistingname~\ref{bearer}
+\begin{lstlisting}[
+		caption={Esempio di header HTTP per l'invio di un JWT},
+		label=bearer,
+		language=bearer,
+		firstnumber=1
+	]
+Authorization: Bearer <token>
+\end{lstlisting}
+L'\glossaryItem{autenticazione} effettuata in questo modo è \textit{stateless} perché lo stato dell'utente non è mai salvato nella memoria del server. I servizi protetti del server controlleranno se il \glossaryItem{jwt} inviato è valido e se permette di accedere alla risorsa richiesta. Dato che i \textit{token} \glossaryItem{jwt} sono \textit{self-contained}, tutte le informazioni necessarie sono già presenti, e non è necessario interrogare, nuovamente, il \textit{database}. Il diagramma in Figura~\ref{fig:jwtdiagram} mostra l'intero processo.
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[scale=0.2]{jwt-diagram}
+  \caption[Autenticazione con JWT]{Autenticazione con JWT\protect\footnotemark}
+  \label{fig:jwtdiagram}
+  \end{center} 
+\end{figure}
+\footnotetext{Immagine tratta da \cite{site:jwtintro}}
+
+\paragraph{Vantaggi} \mbox{} \\
+\begin{itemize}
+\item \textbf{Compattezza}: le dimensioni ridotte dei \glossaryItem{jwt} li rendono molto versatili.
+\item \textbf{Completezza}: il \textit{payload} può contenere tutti i dati necessari a definire l'identità dell'utente, evitando numerose e ricorrenti interrogazioni al \textit{database}.
+\item \textbf{Sicurezza}: i \textit{token} vengono firmati in modo da poter verificare che nessuno modifichi i dati che contengono.
+\item \textbf{Supporto a \glossaryItem{cors}}: essendo il processo \textit{stateless} non importa quale dominio fornisce le \glossaryItem{api}. Le informazioni necessarie sono tutte nel \textit{token} e nessun \glossaryItem{cookie} viene memorizzato lato server, quindi l'\glossaryItem{autenticazione} è assolutamente indipendente dal dominio.
+\end{itemize}
+
+\paragraph{Svantaggi} \mbox{} \\
+\begin{itemize}
+\item \textbf{\glossaryItem{xss}}: nonostante risultino molto più sicuri dei \textit{cookie} per certi tipi di minacce, anche i \glossaryItem{jwt} sono vulnerabili ad attacchi di tipo \glossaryItem{xss}; la
+grande differenza, però, sta nel fatto che mentre i \textit{cookie} hanno la possibilità di rendersi invisibili a codice JavaScript, i \textit{token} (salvati nello \textit{storage} del \textit{browser}) non possono impedire a codice malevolo di accedervi. Una buona strategia per mitigare i rischi di un attacco \glossaryItem{xss} è quello di impostare un valore basso per la scadenza del \textit{token}, prediligendo un rinnovo più frequente dello stesso e limitando
+temporalmente la possibilità che un \textit{token} rubato possa essere utilizzato per accedere a risorse protette.
+\end{itemize}
+
+\paragraph{Motivazioni della scelta} \mbox{} \\
+Si è scelto l'utilizzo dei \textit{token} \glossaryItem{jwt} per la natura di Catalogue Manager: essendo un sistema \glossaryItem{saas} ogni azione effettuata dall'utente, attraverso il front end, genera una richiesta ad un apposito servizio fornito dal back end. La corretta identificazione dell'utente, quindi, risulta fondamentale, non tanto, attualmente, per una questione di \glossaryItem{autorizzazione} (che comunque è prevista nelle versioni successive dell'applicazione), ma per una questione di \textit{logging} delle operazioni svolte. I \glossaryItem{jwt} grazie alla capacità di includere al loro interno informazioni sull'utente in modo sicuro, firmate in modo tale che qualsiasi tentativo di corruzione del \textit{token} venga rilevato durante la verifica di integrità, sono lo strumento ideale a tale scopo. Si adattano, inoltre, molto bene a diversi tipi di dispositivi, consentendo agli utenti di poter utilizzare l'applicativo anche da ambienti \textit{mobile}. La facilità con cui i \glossaryItem{jwt} supportano comunicazioni di tipo \glossaryItem{cors} garantisce infine scalabilità all'applicazione.

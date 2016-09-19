@@ -1,0 +1,357 @@
+\newpage
+\subsection{Operazioni generali per l'Utente Autenticato}
+\begin{figure}[hbpc]
+  \begin{center}
+    \includegraphics[width=12cm]{UC/UtenteAutenticato}
+  \caption[Operazioni Generali per l'Utente Autenticato]{Operazioni di alto livello permesse ad un Utente Autenticato}
+  \end{center} 
+\end{figure}
+\newpage
+\begin{center}
+  \bgroup
+  \def\arraystretch{1.8}     
+  \begin{longtable}{  p{3.5cm} | p{8cm} } 
+    \hline
+    \multicolumn{2}{ | c | }{ \cellcolor[gray]{0.9} \textbf{Operazioni generali per l'Utente Autenticato}} \\
+    \textbf{Attori Primari} & Utente Autenticato \\ 
+    \textbf{Scopo e Descrizione} & All'Utente Autenticato viene mostrata una \textit{dashboard} a partire dalla quale può eseguire varie operazioni. Queste operazioni permettono di gestire l'intero catalogo applicativo, i raggruppamenti di applicazioni e i cataloghi specifici per i domini aziendali. È possibile anche cercare le applicazioni sulla base di vari filtri, visualizzare statistiche e \textit{log}. \\ 
+    \textbf{Precondizioni}  & L'Utente Autenticato ha effettuato l'accesso a Catalogue Manager a partire da Monokee attraverso \glossaryItem{saml}. \\
+    \textbf{Postcondizioni} & Catalogue Manager ha preso in carico, ed eseguito, l'operazione voluta dall'Utente Autenticato.  \\ 
+    \textbf{Flusso Principale} & 
+    1. L'Utente Autenticato visualizza la lista di applicazioni presenti nel catalogo. (UCA1) \newline
+    2. L'Utente Autenticato aggiunge un'applicazione al catalogo. (UCA2) \newline
+    3. L'Utente Autenticato modifica i dati di un'applicazione del catalogo. (UCA3) \newline 
+    4. L'Utente Autenticato rimuove un'applicazione. (UCA4) \newline
+    5. L'Utente Autenticato gestisce i cataloghi specifici dei domini aziendali. (UCA5) \newline
+    5. L'Utente Autenticato ricerca un'applicazione. (UCA6) \newline
+    6. L'Utente Autenticato gestisce i raggruppamenti di applicazioni. (UCA10) \newline
+    7. L'Utente Autenticato visualizza le statistiche sul numero di applicazioni e gruppi (UCA14) \newline
+    8. L'Utente Autenticato visualizza i \textit{log} sulle operazioni effettuate da lui e dagli altri utenti dell'applicazione. (UCA15) \newline
+    I \textit{log} riguardano sia le operazioni eseguite con successo (UCA16) sia quelle che hanno generato errori (UCA17).\\
+    \textbf{Estensioni} & L'Utente Autenticato cerca di inserire un'applicazione pubblica che è già presente nel catalogo. (UCA13)
+  \end{longtable}
+  \egroup
+\end{center}
+
+\subsubsection{UCA1 - Visualizzazione Applicazioni}
+\begin{center}
+  \bgroup
+  \def\arraystretch{1.8}     
+  \begin{longtable}{  p{3.5cm} | p{8cm} } 
+    \multicolumn{2}{ | c | }{ \cellcolor[gray]{0.9} \textbf{UCA1 - Visualizzazione Applicazioni}} \\
+    \hline
+    
+    \textbf{Attori Primari} & Utente Autenticato \\ 
+    \textbf{Scopo e Descrizione} & L'Utente Autenticato può visualizzare le applicazioni presenti nel catalogo di Monokee. \\ 
+    
+    \textbf{Precondizioni}  & Catalogue Manager presenta all'Utente Autenticato una pagina contenente l'elenco delle applicazioni presenti in Monokee. \\ 
+    
+    \textbf{Postcondizioni} & L'Utente Autenticato ha visualizzato le applicazioni presenti in Monokee. \\ 
+    \textbf{Flusso Principale} & 
+    1. L'Utente Autenticato visualizza i dettagli di un'applicazione presente in Monokee.   
+  \end{longtable}
+  \egroup
+\end{center}
+
+\subsubsection{UCA2 - Aggiunta Applicazione Pubblica}
+\begin{center}
+  \bgroup
+  \def\arraystretch{1.8}     
+  \begin{longtable}{  p{3.5cm} | p{8cm} } 
+    \multicolumn{2}{ | c | }{ \cellcolor[gray]{0.9} \textbf{UCA2 - Aggiunta Applicazione Pubblica}} \\
+    \hline
+    
+    \textbf{Attori Primari} & Utente Autenticato \\ 
+    \textbf{Scopo e Descrizione} & L'Utente Autenticato può aggiungere una nuova applicazione al catalogo di Monokee. \\ 
+    
+    \textbf{Precondizioni}  & Catalogue Manager presenta all'Utente Autenticato una pagina contenente un \textit{form} per l'aggiunta di un'applicazione al catalogo di Monokee. \\ 
+    
+    \textbf{Postcondizioni} & L'Utente Autenticato ha aggiunto un'applicazione al catalogo di Monokee. \\ 
+    \textbf{Flusso Principale} & 
+    1. L'Utente Autenticato inserisce il nome dell'applicazione. \newline
+    2. L'Utente Autenticato inserisce la descrizione dell'applicazione. \newline
+    3. L'Utente Autenticato inserisce l'\glossaryItem{url} dell'applicazione. \newline
+    4. L'Utente Autenticato inserisce l'immagine dell'applicazione. \newline
+    5. L'Utente Autenticato seleziona le categorie di appartenenza dell'applicazione. \newline
+    6. L'Utente Autenticato seleziona la tipologia di \glossaryItem{autenticazione}. \newline
+    7. L'Utente Autenticato seleziona il nome del gruppo di applicazioni nel quale inserire l'applicazione. \\
+    \textbf{Estensioni} & 
+        1. L'Utente Autenticato visualizza un messaggio di errore come conseguenza al tentativo di inserimento dello stesso nome di un'altra applicazione pubblica di Monokee.
+  \end{longtable}
+  \egroup
+\end{center}
+
+\subsubsection{UCA3 - Modifica Applicazione Pubblica}
+\begin{center}
+  \bgroup
+  \def\arraystretch{1.8}     
+  \begin{longtable}{  p{3.5cm} | p{8cm} } 
+    \multicolumn{2}{ | c | }{ \cellcolor[gray]{0.9} \textbf{UCA3 - Modifica Applicazione Pubblica}} \\
+    \hline
+    
+    \textbf{Attori Primari} & Utente Autenticato \\ 
+    \textbf{Scopo e Descrizione} & L'Utente Autenticato può modificare un'applicazione esistente nel catalogo di Monokee. \\ 
+    
+    \textbf{Precondizioni}  & Catalogue Manager presenta all'Utente Autenticato una pagina contenente un \textit{form} per la modifica di un'applicazione nel catalogo di Monokee. \\ 
+    
+    \textbf{Postcondizioni} & L'Utente Autenticato ha modificato un'applicazione nel catalogo Monokee. \\ 
+    \textbf{Flusso Principale} & 
+    1. L'Utente Autenticato modifica il nome dell'applicazione. \newline
+    2. L'Utente Autenticato modifica la descrizione dell'applicazione. \newline
+    3. L'Utente Autenticato modifica l'\glossaryItem{url} dell'applicazione. \newline
+    4. L'Utente Autenticato modifica l'immagine dell'applicazione. \newline
+    5. L'Utente Autenticato seleziona le categorie di appartenenza dell'applicazione. \newline
+    6. L'Utente Autenticato modifica i dati necessari all'\glossaryItem{autenticazione}. \newline
+    	Tali dati possono riguardare l'accesso \textit{form-based}, tramite \glossaryItem{saml} o di terzo tipo. \newline
+    7. L'Utente Autenticato seleziona il nome del gruppo di applicazioni nel quale modificare l'applicazione. \newline
+    8. L'Utente Autenticato decide se pubblicare l'applicazione. \newline
+    9. L'Utente Autenticato decide se mettere l'applicazione in manutenzione.\\
+    \textbf{Estensioni} & 
+    1. L'Utente Autenticato visualizza un messaggio di errore come conseguenza al tentativo di inserimento dello stesso nome di un'altra applicazione pubblica di Monokee.
+  \end{longtable}
+  \egroup
+\end{center}
+
+\subsubsection{UCA4 - Rimozione Applicazione Pubblica}
+\begin{center}
+  \bgroup
+  \def\arraystretch{1.8}     
+  \begin{longtable}{  p{3.5cm} | p{8cm} } 
+    \multicolumn{2}{ | c | }{ \cellcolor[gray]{0.9} \textbf{UC4 - Rimozione Applicazione Pubblica}} \\
+    \hline
+    \textbf{Attori Primari} & Utente Autenticato \\ 
+    \textbf{Scopo e Descrizione} & L'Utente Autenticato può rimuovere un'applicazione pubblica dal catalogo di Monokee. \\ 
+    
+    \textbf{Precondizioni}  & L'applicazione selezionata è presente nel catalogo di Monokee e l'Utente Autenticato ha selezionato il comando di rimozione su di essa. \\ 
+    
+    \textbf{Postcondizioni} & L'applicazione selezionata è stata rimossa dal catalogo di Monokee. \\ 
+    \textbf{Flusso Principale} &
+    1. L'Utente Autenticato conferma l'operazione di rimozione. \\
+    \textbf{Inclusioni} & Richiesta di conferma rimozione.
+  \end{longtable}
+  \egroup
+\end{center}
+
+\subsubsection{UCA5 - Gestione Cataloghi di Dominio}
+\begin{center}
+  \bgroup
+  \def\arraystretch{1.8}     
+  \begin{longtable}{  p{3.5cm} | p{8cm} } 
+    \multicolumn{2}{ | c | }{ \cellcolor[gray]{0.9} \textbf{UCA5 - Gestione Cataloghi di Dominio}} \\
+    \hline
+    
+    \textbf{Attori Primari} & Utente Autenticato \\ 
+    \textbf{Scopo e Descrizione} & L'Utente Autenticato può gestire i cataloghi associati a domini aziendali. \\ 
+    
+    \textbf{Precondizioni}  & Catalogue Manager presenta all'Utente Autenticato la pagina per la gestione dei cataloghi associati a domini aziendali. \\ 
+    
+    \textbf{Postcondizioni} & Catalogue Manager ha preso in carico, ed eseguito, le operazioni richieste dall'Utente Autenticato. \\ 
+    \textbf{Flusso Principale} & 
+    1. L'Utente Autenticato può aggiungere un nuovo catalogo di dominio ad un dominio senza catalogo. \newline 
+    2. L'Utente Autenticato può visualizzare i cataloghi di dominio esistenti. \newline 
+    3. L'Utente Autenticato può aggiungere un'applicazione ad un catalogo di dominio esistente. \newline
+    4. L'Utente Autenticato può rimuovere un'applicazione da un catalogo di dominio esistente. \newline
+    5. L'Utente Autenticato può rimuovere un catalogo di dominio esistente. \newline 
+    6. L'Utente Autenticato può cercare un catalogo di dominio tra quelli esistenti. \newline
+    	La ricerca può avvenire in base al nome del dominio. \\
+    \textbf{Estensioni} &
+    1. L'Utente Autenticato visualizza un messaggio di errore dovuto all'esistenza di un altro catalogo per il dominio selezionato.
+  \end{longtable}
+  \egroup
+\end{center}
+
+\subsubsection{UCA6 - Ricerca Applicazione}
+\begin{center}
+  \bgroup
+  \def\arraystretch{1.8}     
+  \begin{longtable}{  p{3.5cm} | p{8cm} } 
+    \multicolumn{2}{ | c | }{ \cellcolor[gray]{0.9} \textbf{UCA6 - Ricerca Applicazione}} \\
+    \hline
+    
+    \textbf{Attori Primari} & Utente Autenticato \\ 
+    \textbf{Scopo e Descrizione} & L'Utente Autenticato può cercare un'applicazione del catalogo di Monokee. La ricerca può avvenire per nome o per categoria. \\ 
+    
+    \textbf{Precondizioni}  & Catalogue Manager ha mostrato all'utente la pagina di ricerca. L'Utente Autenticato può effettuare ricerche di vario tipo. \\ 
+    
+    \textbf{Postcondizioni} & Catalogue Manager ha mostrato i risultati della ricerca. \\ 
+    \textbf{Flusso Principale} & 
+    1. L'Utente Autenticato seleziona le modalità di ricerca e inserisce le informazioni richieste.
+  \end{longtable}
+  \egroup
+\end{center}
+
+\subsubsection{UCA10 - Gestione Gruppi di Applicazioni}
+\begin{center}
+  \bgroup
+  \def\arraystretch{1.8}     
+  \begin{longtable}{  p{3.5cm} | p{8cm} } 
+    \multicolumn{2}{ | c | }{ \cellcolor[gray]{0.9} \textbf{UCA10 - Gestione Gruppi di Applicazioni}} \\
+    \hline
+    \textbf{Attori Primari} & Utente Autenticato \\ 
+    \textbf{Scopo e Descrizione} & L'Utente Autenticato può gestire i gruppi di applicazioni del catalogo di Monokee. \\ 
+    
+    \textbf{Precondizioni}  & Catalogue Manager mostra all'Utente Autenticato la pagina di gestione dei gruppi di applicazioni. \\ 
+    
+    \textbf{Postcondizioni} & Catalogue Manager ha preso in carico le richieste dell'Utente Autenticato e le ha eseguite. \\ 
+    \textbf{Flusso Principale} &
+    1. L'Utente Autenticato può aggiungere un gruppo di applicazioni. \newline
+    2. L'Utente Autenticato può visualizzare i gruppi di applicazioni presenti. \newline
+    3. L'Utente Autenticato può gestire un gruppo di applicazioni esistente. \newline
+    	In particolare, L'Utente Autenticato può aggiungere o rimuovere un'applicazione dal gruppo selezionato. \newline
+    4. L'Utente Autenticato può modificare gli attributi di un gruppo di applicazioni esistente. \newline
+    5. L'Utente Autenticato può rimuovere un gruppo di applicazioni esistente. 
+  \end{longtable}
+  \egroup
+\end{center}
+
+\subsubsection{UCA13 - Visualizzazione di un messaggio di errore per applicazione pubblica già presente}
+\begin{center}
+  \bgroup
+  \def\arraystretch{1.8}     
+  \begin{longtable}{  p{3.5cm} | p{8cm} } 
+    \multicolumn{2}{ | c | }{ \cellcolor[gray]{0.9} \textbf{UCA13 - Visualizzazione di un messaggio di errore per applicazione pubblica già presente}} \\
+    \hline
+    
+    \textbf{Attori Primari} & Utente Autenticato \\ 
+    \textbf{Scopo e Descrizione} & L'Utente Autenticato ha cercato di inserire un nome corrispondente ad un'applicazione pubblica già presente nel catalogo di Monokee. Catalogue Manager presenta all'Utente Autenticato un messaggio di errore. \\ 
+    
+    \textbf{Precondizioni}  & L'Utente Autenticato ha inserito (nella pagina di aggiunta o di modifica di un'applicazione) un nome già utilizzato per un'applicazione pubblica. \\ 
+    
+    \textbf{Postcondizioni} & L'Utente Autenticato ha visualizzato il messaggio di errore presentato da Catalogue Manager. \\
+    \textbf{Flusso Principale} & 
+    1. L'Utente Autenticato visualizza il messaggio di errore.
+  \end{longtable}
+  \egroup
+\end{center}
+
+\subsubsection{UCA14 - Visualizzazione Statistiche}
+\begin{center}
+  \bgroup
+  \def\arraystretch{1.8}     
+  \begin{longtable}{  p{3.5cm} | p{8cm} } 
+    \multicolumn{2}{ | c | }{ \cellcolor[gray]{0.9} \textbf{UCA14 - Visualizzazione Statistiche}} \\
+    \hline
+    
+    \textbf{Attori Primari} & Utente Autenticato \\ 
+    \textbf{Scopo e Descrizione} & L'Utente Autenticato può visualizzare delle statistiche riguardanti l'applicazione Catalogue Manager. In particolare, le statistiche riguardano:
+    	\begin{enumerate}
+ 	    \item numero di applicazioni aggiunte e rimosse in intervalli di tempo definiti a priori: ultime 24 ore, ultima settimana, ultimo mese e ultimo anno;
+ 	    \item numero di accessi in intervalli di tempo definiti a priori: ultime 24 ore e ultima settimana;
+ 	    \item numero di utenti attivi;
+ 	    \item numero di applicazioni e gruppi pubblici e privati;
+ 	    \item numero di applicazioni, pubbliche e private, appartenenti ad ogni categoria (intesa come ''sotto categoria'');
+ 	    \item numero di applicazioni, pubbliche e private, appartenenti ad una specifica ''sovra categoria''.
+ 	  	\end{enumerate} \\ 
+    
+    \textbf{Precondizioni}  & L'Utente Autenticato ha richiesto la visualizzazione delle statistiche dell'applicazione Catalogue Manager. \\ 
+    
+    \textbf{Postcondizioni} & L'Utente Autenticato ha visualizzato le statistiche dell'applicazione Catalogue Manager. \\
+    \textbf{Flusso Principale} & 
+    1. L'Utente Autenticato visualizza il numero di applicazioni aggiunte e rimosse in intervalli di tempo definiti a priori: ultime 24 ore, ultima settimana, ultimo mese e ultimo anno. \newline
+    2. L'Utente Autenticato visualizza il numero di accessi in intervalli di tempo definiti a priori: ultime 24 ore e ultima settimana. \newline
+    3. L'Utente Autenticato visualizza il numero di utenti attivi. \newline
+    4. L'Utente Autenticato visualizza il numero di applicazioni e gruppi pubblici e privati. \newline
+    5. L'Utente Autenticato visualizza il numero di applicazioni, pubbliche e private, appartenenti ad ogni categoria (intesa come ''sotto categoria''). \newline
+    6. L'Utente Autenticato visualizza il numero di applicazioni, pubbliche e private, appartenenti ad una specifica ''sovra categoria''.
+  \end{longtable}
+  \egroup
+\end{center}
+
+\subsubsection{UCA15 - Visualizzazione Log}
+\begin{center}
+  \bgroup
+  \def\arraystretch{1.8}     
+  \begin{longtable}{  p{3.5cm} | p{8cm} } 
+    \multicolumn{2}{ | c | }{ \cellcolor[gray]{0.9} \textbf{UCA15 - Visualizzazione Log}} \\
+    \hline
+    
+    \textbf{Attori Primari} & Utente Autenticato \\ 
+    \textbf{Scopo e Descrizione} & L'Utente Autenticato può visualizzare i \textit{log} delle operazioni eseguite nell'applicazione Catalogue Manager. In particolare i \textit{log} possono riguardare le operazioni eseguite con successo (UCA16) e quelle che hanno generato un errore (UCA17). I \textit{log} salvati possono essere filtrati per intervallo di date, per \textit{keywords} e per tipologia. \\
+    
+    \textbf{Precondizioni}  & L'Utente Autenticato ha richiesto la visualizzazione dei \textit{log} dell'applicazione Catalogue Manager. \\ 
+    
+    \textbf{Postcondizioni} & L'Utente Autenticato ha visualizzato i \textit{log} dell'applicazione Catalogue Manager. \\
+    \textbf{Flusso Principale} & 
+    1. L'Utente Autenticato visualizza i \textit{log} dell'applicazione. 
+  \end{longtable}
+  \egroup
+\end{center}
+
+\subsubsection{UCA16 - Visualizzazione Log sulle operazioni che hanno avuto successo}
+\begin{center}
+  \bgroup
+  \def\arraystretch{1.8}     
+  \begin{longtable}{  p{3.5cm} | p{8cm} } 
+    \multicolumn{2}{ | c | }{ \cellcolor[gray]{0.9} \textbf{UCA16 - Visualizzazione Log sulle operazioni che hanno avuto successo}} \\
+    \hline
+    
+    \textbf{Attori Primari} & Utente Autenticato \\ 
+    \textbf{Scopo e Descrizione} & L'Utente Autenticato può visualizzare i \textit{log} delle operazioni eseguite con successo nell'applicazione Catalogue Manager. I \textit{log} salvati possono essere filtrati per intervallo di date, per \textit{keywords} e per tipologia. \\
+    
+    \textbf{Precondizioni}  & L'Utente Autenticato ha richiesto la visualizzazione dei \textit{log} dell'applicazione Catalogue Manager. Ha successivamente selezionato la visualizzazione dei \textit{log} delle operazioni eseguite con successo. \\ 
+    
+    \textbf{Postcondizioni} & L'Utente Autenticato ha visualizzato i \textit{log} delle operazioni eseguite con successo dell'applicazione Catalogue Manager. \\
+    \textbf{Flusso Principale} & 
+    1. L'Utente Autenticato visualizza i \textit{log} delle operazioni eseguite con successo.
+  \end{longtable}
+  \egroup
+\end{center}
+
+\subsubsection{UCA17 - Visualizzazione Log delle operazioni che hanno generato errori}
+\begin{center}
+  \bgroup
+  \def\arraystretch{1.8}     
+  \begin{longtable}{  p{3.5cm} | p{8cm} } 
+    \multicolumn{2}{ | c | }{ \cellcolor[gray]{0.9} \textbf{UCA17 - Visualizzazione Log delle operazioni che hanno generato errori}} \\
+    \hline
+    
+    \textbf{Attori Primari} & Utente Autenticato \\ 
+    \textbf{Scopo e Descrizione} & L'Utente Autenticato può visualizzare i \textit{log} delle operazioni che hanno generato errori nell'applicazione Catalogue Manager. I \textit{log} salvati possono essere filtrati per intervallo di date, per \textit{keywords} e per tipologia. \\
+    
+    \textbf{Precondizioni}  & L'Utente Autenticato ha richiesto la visualizzazione dei \textit{log} dell'applicazione Catalogue Manager. Ha successivamente selezionato la visualizzazione dei \textit{log} delle operazioni che hanno generato errori. \\ 
+    
+    \textbf{Postcondizioni} & L'Utente Autenticato ha visualizzato i \textit{log} delle operazioni che hanno generato errori dell'applicazione Catalogue Manager. \\
+    \textbf{Flusso Principale} & 
+    1. L'Utente Autenticato visualizza i \textit{log} delle operazioni che hanno generato errore. 
+  \end{longtable}
+  \egroup
+\end{center}
+
+\subsubsection{UCA18 - Ricerca Domini Aziendali di Monokee}
+\begin{center}
+  \bgroup
+  \def\arraystretch{1.8}     
+  \begin{longtable}{  p{3.5cm} | p{8cm} } 
+    \multicolumn{2}{ | c | }{ \cellcolor[gray]{0.9} \textbf{UCA18 - Ricerca Domini Aziendali di Monokee}} \\
+    \hline
+    \textbf{Attori Primari} & Utente Autenticato \\ 
+    \textbf{Scopo e Descrizione} & L'Utente Autenticato può effettuare una ricerca tra i domini aziendali di Monokee. La ricerca avviene per nome. \\ 
+    
+    \textbf{Precondizioni}  & Catalogue Manager mostra all'Utente Autenticato la pagina di gestione dei cataloghi di dominio di Monokee. \\ 
+    
+    \textbf{Postcondizioni} & Catalogue Manager ha preso cercato tra i domini aziendali di Monokee e ha mostrato all'Utente Autenticato i risultati. \\ 
+    \textbf{Flusso Principale} &
+    1. L'Utente Autenticato cerca un dominio aziendale di Monokee. 
+  \end{longtable}
+  \egroup
+\end{center}
+
+\subsubsection{UCA19 - Visualizzazione di un messaggio di errore per catalogo già presente}
+\begin{center}
+  \bgroup
+  \def\arraystretch{1.8}     
+  \begin{longtable}{  p{3.5cm} | p{8cm} } 
+    \multicolumn{2}{ | c | }{ \cellcolor[gray]{0.9} \textbf{UCA19 - Visualizzazione di un messaggio di errore per catalogo già presente}} \\
+    \hline
+    
+    \textbf{Attori Primari} & Utente Autenticato \\ 
+    \textbf{Scopo e Descrizione} & L'Utente Autenticato ha cercato di aggiungere un catalogo di dominio ad un dominio che ha già un catalogo. Catalogue Manager presenta all'Utente Autenticato un messaggio di errore. \\ 
+    
+    \textbf{Precondizioni}  & L'Utente Autenticato ha cercato di aggiungere un catalogo di dominio ad un dominio che ha già un catalogo. \\ 
+    
+    \textbf{Postcondizioni} & L'Utente Autenticato ha visualizzato il messaggio di errore presentato da Catalogue Manager. \\
+    \textbf{Flusso Principale} & 
+    1. L'Utente Autenticato visualizza il messaggio di errore.
+  \end{longtable}
+  \egroup
+\end{center}

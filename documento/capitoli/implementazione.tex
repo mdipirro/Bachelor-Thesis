@@ -1,0 +1,126 @@
+\chapter{Implementazione} \label{implementazione}
+\section{Autenticazione a Catalogue Manager}
+\subsection{Implementazione dei JWT}
+L'autenticazione a Catalogue Manager avviene tramite \glossaryItem{saml} nella modalità \textbf{\glossaryItem{idp} Initiated}. L'accesso deve essere eseguito attraverso Monokee e, in seguito ad esso, viene generato un \textit{token} \glossaryItem{jwt} trasmesso al front end di Catalogue Manager, che, successivamente, invierà questo \textit{token} al back end per ogni richiesta effettuata. Quest'ultimo verificherà la firma del \textit{token} stesso per controllare che le informazioni non siano state alterate e che l'utente sia chi dice di essere. 
+
+Non essendo previsto un sistema di ruoli, l'unico controllo viene effettuato al momento della generazione del \textit{token} e riguarda l'associazione tra utente e applicazione: in questo modo può accedere a Catalogue Manager solo chi ha questa applicazione nel proprio \textit{application broker}. 
+
+Il periodo di validità del \textit{token} è di nove ore, dopodiché è necessario autenticarsi nuovamente. È stato scelto questo periodo di tempo in modo da rendere valido il \textit{token} per una giornata di lavoro e per imporre una nuova \glossaryItem{autenticazione} ogni giorno.
+
+Il \lstlistingname~\ref{header} mostra un esempio di \textit{header} di un \textit{token} di Catalogue Manager.
+\begin{lstlisting}[
+		caption={Header di un JWT di Catalogue Manager},
+		label=header,
+		language=json,
+		firstnumber=1
+	]
+{
+  typ: "JWT",
+  alg: "HS256"
+}
+\end{lstlisting}
+Come descritto in precedenza, questa parte del \textit{token} contiene le informazioni su tipo e algoritmo di firma. La scelta per la modalità di firma è caduta su \textbf{HS256} (\glossaryItem{hmac} con \textit{\glossaryItem{sha}-256}) e non su \textit{RS256} (\glossaryItem{rsa}) per un motivo sostanzialmente legato alle \textit{performance}: la firma e la verifica, nel primo caso, sono molto più veloci rispetto al secondo. Inoltre, la dimensione del \textit{token} è molto minore. 
+
+La differenza sostanziale, comunque, risiede nella modalità di firma. Con \glossaryItem{hmac} chi pensa all'\glossaryItem{autenticazione} ha la chiave (il ''\textbf{secret}''); fornisce la chiave e il messaggio all'algoritmo scelto, che produce la versione firmata. Dopodiché invia il messaggio originale e quello firmato al verificatore, che, disponendo della stessa chiave, ricalcola la firma, controllando se quanto ottenuto è uguale a quanto ricevuto. Con \glossaryItem{rsa}, invece, esistono due chiavi diverse (pubblica e privata). Il messaggio viene firmato con quella privata e inviato al verificatore, che, attraverso l'algoritmo di verifica (ora diverso da quello di firma) controlla se il messaggio originale è uguale a quello ottenuto utilizzando la chiave pubblica. 
+
+È chiaro che nel primo caso entrambe le parti condividono la stessa chiave e il verificatore può, se vuole, generare messaggi che vengono validati senza problemi. Nel secondo caso non accade, perché la chiave pubblica funziona solo per verificare i messaggi e non per firmarli.
+
+Nel caso specifico di Catalogue Manager il compito di creare i \textit{token} e quello di verificarli ricadono su due componenti della stessa applicazione, quindi una può fidarsi, senza problemi, dell'altra (la verifica vera e propria viene effettuata utilizzando un noto modulo di Node.js, \textit{expressjwt}). Tolto questo problema, \glossaryItem{hmac} funziona molto più velocemente, e pertanto è stato preferito a \glossaryItem{rsa}.
+
+Il \lstlistingname~\ref{payload} mostra un esempio di \textit{payload} di un \textit{token} di Catalogue Manager.
+\begin{lstlisting}[
+		caption={Payload di un JWT di Catalogue Manager},
+		label=payload,
+		language=json,
+		firstnumber=1
+	]
+{
+  id: "5783969ebf947349bb34f7b7",
+  email: "matteo.dipirro@email.com",
+  iat: 1468413576,
+  exp: 1470213576
+}
+\end{lstlisting}
+Come si nota le informazioni fornite sono molto basilari e, come già detto, nessuna di esse è riservata. Oltre ai vincoli sulla validità vengono inviati solo l'ID dell'applicazione Catalogue Manager e l'indirizzo email dell'utente, che sarà utilizzato per salvare i \textit{log} delle operazioni svolte durante la sessione. È ovviamente compito del client inviare il \textit{token} ad ogni richiesta, tramite \textit{header} \glossaryItem{http}. L'ID di Catalogue Manager serve per verificare la presenza dell'associazione tra l'applicazione e l'utente.
+
+\subsection{Modalità SAML IdP Initiated}
+In Figura~\ref{fig:idpinitiatedcatmgr} è mostrato il processo di \glossaryItem{autenticazione} \glossaryItem{idp} Initiated utilizzato. L'utente deve innanzitutto autenticarsi a Monokee e avere in uno dei suoi \textit{application brokers} Catalogue Manager. Il compito di accertare l'identità è quindi di Monokee.
+
+\newpage
+
+\begin{figure}[hbpc]
+  \begin{center}
+    \includegraphics[scale=0.2]{IdPInitiatedCATMGR}
+  \caption[Single Sign On IdP Initiated in Catalogue Manager]{Single Sign On IdP Initiated in Catalogue Manager}
+  \label{fig:idpinitiatedcatmgr}
+  \end{center} 
+\end{figure}
+
+Di seguito saranno descritti i passi compiuti, automaticamente, durante l'accesso.
+\begin{enumerate}
+\item L'utente clicca sull'applicazione Catalogue Manager. Questo causa l'invocazione del un servizio di Monokee che si occupa del \glossaryItem{sso} \glossaryItem{idp} Initiated.
+\item Il back end di Monokee effettua una chiamata all'\glossaryItem{idp}, parametrizzata con il \textit{token} dell'utente, l'ID dell'applicazione (Catalogue Manager in questo caso) e l'ID del dominio di appartenenza dell'utente.
+\item L'\glossaryItem{idp} può comunicare ulteriormente con il back end di Monokee per ricevere degli attributi aggiuntivi dell'utente. Nel caso di Catalogue Manager, viene prelevato l'indirizzo email.
+\item L'\glossaryItem{idp} fornisce la \textit{SAMLResponse} al back end di Monokee.
+\item Il back end di Monokee invia la \textit{SAMLResponse} tramite \textit{form} al \textit{browser} dell'utente. Questo, automaticamente, la inoltra ad un servizio di Catalogue Manager (\textbf{/acs}), l'\textit{Assertion Consumer Service} di \glossaryItem{saml}. Il compito di questo servizio è di inoltrare la \textit{SAMLResponse} al \glossaryItem{sp}, aspettare la risposta, validarla e generare il \textit{token} corrispondente.
+\item Il back end di Catalogue Manager chiama il \glossaryItem{sp} inviando la \textit{SAMLResponse} ricevuta in precedenza.
+\item Il \glossaryItem{sp} risponde al back end di Catalogue Manager. 
+\item Il back end di Catalogue Manager chiama il front end in base alla risposta del \glossaryItem{sp}:
+	\begin{itemize}
+	\item \textbf{Errore nella risposta del \glossaryItem{sp}}: viene chiamato il front end di Catalogue Manager e segnalato l'errore.
+	\item \textbf{Successo}: arriva l'indirizzo email dell'utente. Viene controllato che l'utente sia collegato all'applicazione:
+	\begin{itemize}
+	\item se no, l'errore viene notificato al front end di Catalogue Manager;
+	\item se sì, viene generato il \textit{token} dell'utente.
+	\end{itemize}
+	\end{itemize}
+\end{enumerate}
+%\section{Prodotto realizzato}
+%Parallelamente al back end è stato sviluppato, da una dipendente di \textit{Athesys S.r.l}, il front end di Catalogue Manager. Questo ha permesso di integrare dopo poco tempo l'applicazione con Monokee e di utilizzarla a supporto delle attività di sviluppo del prodotto padre. Come verrà descritto in seguito, inoltre, è stato possibile eseguire dei test di utilizzo dei servizi sviluppati e di ricevere dei \textit{feedbacks} sul livello di esperienza utente. Di seguito verranno descritte le funzionalità sviluppate.
+
+\section{Elenco dei servizi implementati} \label{servizi}
+%Di seguito viene fornito un elenco dei servizi implementati .
+
+%\subsection{Moduli}
+%In Tabella~\ref{tab:moduliREST} vengono elencati i moduli di appoggio per i servizi \glossaryItem{rest} implementati. Questi moduli permettono di raggruppare le operazioni comuni alle \textit{routes}, evitando la duplicazione di codice e rendendo, di conseguenza, il prodotto più manutenibile. Ogni modulo è fortemente coeso, e dipende in misura quasi completamente nulla dagli altri moduli. L'unica eccezione è rappresentata dalla dipendenza nei confronti del modulo di \textit{logging}.
+%\begin{center}
+%  \bgroup
+%  
+%  \begin{longtable}{ | m{4.8cm} | p{7cm} |}
+%    \hline
+%    \cellcolor[gray]{0.9} \textbf{Nome} & \cellcolor[gray]{0.9} \textbf{Descrizione} \\ \hline
+%    ApplicationImageHandler.js & Utilizzato per semplificare la gestione delle immagini delle applicazioni. \\ \hline
+%    ErrorHandler.js & Utilizzato per la gestione degli errori. \\ \hline
+%    GroupImageHandler.js & Utilizzato per semplificare la gestione delle immagini dei gruppi. \\ \hline
+%    ImageHandler.js & Modulo base per la gestione delle immagini. \\ \hline
+%    SAMLInstructionsImageHandler.js & Utilizzato per semplificare la gestione delle immagini delle istruzioni per la configurazione di applicazioni \glossaryItem{saml}. \\ \hline
+%    check\_required\_fields.js & Utilizzato per controllare la correttezza dei parametri obbligatori dei servizi \glossaryItem{rest}. \\ \hline
+%    clear\_db.js & Utilizzato per eliminare i residui della \glossaryItem{softdeletion} dal \textit{database} di Monokee. \\ \hline
+%    db\_logger.js & Utilizzato per salvare i log delle operazioni o degli errori. \\ \hline
+%    domain\_catalogue.js & Utilizzato per popolare il catalogo di uno specifico dominio. \\ \hline
+%    group\_applications\_handler.js& Utilizzato per raggruppare le operazioni sui gruppi di applicazioni. \\ \hline
+%    logger.js & Utilizzato per mostrare nella \textit{console} i log prodotti dai servizi \glossaryItem{rest} e per salvarli su \textit{file}. \\ \hline
+%    remove\_app.js & Utilizzato per eliminare un'applicazione dal \textit{database} di Monokee. \\ \hline
+%    reset\_first\_sign\_in.js & Utilizzato per reimpostare al valore di \textit{default} dei \textit{flag} utilizzati da Monokee per capire quando un utente deve inserire le credenziali. \\ \hline
+%    \caption[Moduli del back end di Catalogue Manager]{Moduli del back end di Catalogue Manager}
+%    \label{tab:moduliREST} 
+%    \end{longtable}
+%  \egroup
+%\end{center} 
+
+%\subsection{Servizi} \label{servizi}
+In Tabella~\ref{tab:serviziREST} vengono elencati i servizi \glossaryItem{rest} implementati ed esposti dal back end di Catalogue Manager. I nomi sono stati assegnati seguendo le convenzioni utilizzate dal \textit{team} di sviluppo.
+
+Tutti i servizi che contengono \texttt{auth/} nel loro \glossaryItem{url} richiedono l'invio di un \textit{token} valido per essere eseguiti.
+\begin{center}
+  \bgroup
+  
+  \begin{longtable}{ | m{6.5cm} | p{6.5cm} |}
+    \hline
+    \cellcolor[gray]{0.9} \textbf{Nome} & \cellcolor[gray]{0.9} \textbf{Descrizione} \\ \hline
+    \input{capitoli/serviziREST}
+    \caption[Servizi REST esposti dal back end di Catalogue Manager]{Servizi REST esposti dal back end di Catalogue Manager}
+    \label{tab:serviziREST} 
+    \end{longtable}
+  \egroup
+\end{center} 

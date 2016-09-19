@@ -1,0 +1,771 @@
+
+%**************************************************************
+% Acronimi
+%**************************************************************
+\renewcommand{\acronymname}{Acronimi e abbreviazioni}
+
+\newacronym[description=\glslink{IAM}{\textbf{I}dentity and \textbf{A}ccess \textbf{M}anagement}]
+    {iam}{IAM}{\textbf{I}dentity and \textbf{A}ccess \textbf{M}anagement}
+    
+\newacronym[description=\glslink{IT}{\textbf{I}nformation \textbf{T}echnology}]
+    {it}{IT}{\textbf{I}nformation \textbf{T}echnology}
+
+\newacronym[description=\glslink{DLM}{\textbf{D}ata \textbf{L}ifetime \textbf{M}anagement}]
+	{dlm}{DLM}{\textbf{D}ata \textbf{L}ifetime \textbf{M}anagement}
+
+\newacronym[description=\glslink{ITIL}{\textbf{I}nformation \textbf{T}echnology \textbf{I}nfrastructure \textbf{L}ibrary}]
+	{itil}{ITIL}{\textbf{I}nformation \textbf{T}echnology \textbf{I}nfrastructure \textbf{L}ibrary}
+	
+\newacronym[description=\glslink{DBA}{\textbf{D}ata\textbf{B}ase \textbf{A}dministrator}]
+	{dba}{DBA}{\textbf{D}ata\textbf{B}ase \textbf{A}dministrator}
+	
+\newacronym[description=\glslink{SSO}{\textbf{S}ingle \textbf{S}ign \textbf{O}n}]
+	{sso}{SSO}{\textbf{S}ingle \textbf{S}ign \textbf{O}n}
+	
+\newacronym[description=\glslink{SPID}{\textbf{S}istema \textbf{P}ubblico \textbf{I}dentità \textbf{D}igitale}]
+	{spid}{SPID}{\textbf{S}istema \textbf{P}ubblico \textbf{I}dentità \textbf{D}igitale}
+	
+\newacronym[description=\glslink{AgID}{\textbf{Ag}enzia per l'\textbf{I}talia \textbf{D}igitale}]
+	{agid}{AgID}{\textbf{A}genzia per l'\textbf{I}talia \textbf{D}igitale}
+	
+\newacronym[description=\glslink{IoT}{\textbf{I}nternet \textbf{o}f \textbf{T}hings}]
+	{iot}{IoT}{\textbf{I}nternet \textbf{o}f \textbf{T}hings}
+	
+\newacronym[description=\glslink{IdM}{\textbf{Id}entity \textbf{M}anagement}]
+	{idm}{IdM}{\textbf{Id}entity \textbf{M}anagement}
+	
+\newacronym[description=\glslink{AM}{\textbf{A}ccess \textbf{M}anagement}]
+	{am}{AM}{\textbf{A}ccess \textbf{M}anagement}
+	
+\newacronym[description=\glslink{IO}{\textbf{I}nput/\textbf{O}utput}]
+	{io}{I/O}{\textbf{I}nput/\textbf{O}utput}
+	
+\newacronym[description=\glslink{DBMS}{\textbf{D}ata\textbf{B}ase \textbf{M}anagement \textbf{S}ystem}]
+	{dbms}{DBMS}{\textbf{D}ata\textbf{B}ase \textbf{M}anagement \textbf{S}ystem}
+	
+\newacronym[description=\glslink{NoSQL}{\textbf{N}ot \textbf{o}nly \textbf{SQL}}]
+	{nosql}{NoSQL}{\textbf{N}ot \textbf{o}nly \textbf{SQL}}
+	
+\newacronym[description=\glslink{REST}{\textbf{RE}presentational \textbf{S}tate \textbf{T}ransfer}]
+	{rest}{REST}{\textbf{RE}presentational \textbf{S}tate \textbf{T}ransfer}
+
+\newacronym[description=\glslink{URI}{\textbf{U}niform \textbf{R}esource \textbf{I}dentifier}]
+	{uri}{URI}{\textbf{U}niform \textbf{R}esource \textbf{I}dentifier}
+	
+\newacronym[description=\glslink{HTTP}{\textbf{H}yper\textbf{T}ext \textbf{T}ransfer \textbf{P}rotocol}]
+	{http}{HTTP}{\textbf{H}yper\textbf{T}ext \textbf{T}ransfer \textbf{P}rotocol}
+
+\newacronym[description=\glslink{IDoT}{\textbf{ID}entity \textbf{o}f \textbf{T}hings}]
+	{idot}{IDoT}{\textbf{ID}entity \textbf{o}f \textbf{T}hings}
+	
+\newacronym[description=\glslink{API}{\textbf{A}pplication \textbf{P}rogramming \textbf{I}nterface}]
+	{api}{API}{\textbf{A}pplication \textbf{P}rogramming \textbf{I}nterface}
+	
+\newacronym[description=\glslink{IDaaS}{\textbf{ID}entity \textbf{a}s \textbf{a} \textbf{S}ervice}]
+	{idaas}{IDaaS}{\textbf{ID}entity \textbf{a}s \textbf{a} \textbf{S}ervice}
+	
+\newacronym[description=\glslink{SAML}{\textbf{S}ecurity \textbf{A}ssertion \textbf{M}arkup \textbf{L}angage}]
+	{saml}{SAML}{\textbf{S}ecurity \textbf{A}ssertion \textbf{M}arkup \textbf{L}angage}
+	
+\newacronym[description=\glslink{AD}{\textbf{A}ctive \textbf{D}irectory}]
+	{ad}{AD}{\textbf{A}ctive \textbf{D}irectory}
+	
+\newacronym[description=\glslink{AJAX}{\textbf{A}synchronous \textbf{J}avaScript \textbf{a}nd \textbf{X}ML}]
+	{ajax}{AJAX}{\textbf{A}synchronous \textbf{J}avaScript \textbf{a}nd \textbf{X}ML}
+	
+\newacronym[description=\glslink{URL}{\textbf{U}niform \textbf{R}esource \textbf{L}ocator}]
+	{url}{URL}{\textbf{U}niform \textbf{R}esource \textbf{L}ocator}
+	
+\newacronym[description=\glslink{MAC}{\textbf{M}andatory \textbf{A}ccess \textbf{C}ontrol}]
+	{mac}{MAC}{\textbf{M}andatory \textbf{A}ccess \textbf{C}ontrol}
+	
+\newacronym[description=\glslink{DAC}{\textbf{D}iscretionary \textbf{A}ccess \textbf{C}ontrol}]
+	{dac}{DAC}{\textbf{D}iscretionary \textbf{A}ccess \textbf{C}ontrol}
+	
+\newacronym[description=\glslink{RBAC}{\textbf{R}ole-\textbf{B}ased \textbf{A}ccess \textbf{C}ontrol}]
+	{rbac}{RBAC}{\textbf{R}ole-\textbf{B}ased \textbf{A}ccess \textbf{C}ontrol}
+	
+\newacronym[description=\glslink{IdP}{\textbf{Id}entity \textbf{P}rovider}]
+	{idp}{IdP}{\textbf{Id}entity \textbf{P}rovider}
+	
+\newacronym[description=\glslink{SP}{\textbf{S}ervice \textbf{P}rovider}]
+	{sp}{SP}{\textbf{S}ervice \textbf{P}rovider}
+
+\newacronym[description=\glslink{XML}{e\textbf{X}tensible \textbf{M}arkup \textbf{L}anguage}]
+	{xml}{XML}{e\textbf{X}tensible \textbf{M}arkup \textbf{L}anguage}
+	
+\newacronym[description=\glslink{SaaS}{\textbf{S}oftware \textbf{a}s \textbf{a} \textbf{S}ervice}]
+	{saas}{SaaS}{\textbf{S}oftware \textbf{a}s \textbf{a} \textbf{S}ervice}
+	
+\newacronym[description=\glslink{TCO}{\textbf{T}otal \textbf{C}ost of \textbf{O}wnership}]
+	{tco}{TCO}{\textbf{T}otal \textbf{C}ost of \textbf{O}wnership}
+	
+\newacronym[description=\glslink{IGA}{\textbf{I}dentity \textbf{G}overnance and \textbf{A}dministration}]
+	{iga}{IGA}{\textbf{I}dentity \textbf{G}overnance and \textbf{A}dministration}
+	
+\newacronym[description=\glslink{UML}{\textbf{U}nified \textbf{M}odeling \textbf{L}anguage}]
+	{uml}{UML}{\textbf{U}nified \textbf{M}odeling \textbf{L}anguage}
+	
+\newacronym[description=\glslink{JWT}{\textbf{J}SON \textbf{W}eb \textbf{T}oken}]
+	{jwt}{JWT}{\textbf{J}SON \textbf{W}eb \textbf{T}oken}	
+
+\newacronym[description=\glslink{JSON}{\textbf{J}ava\textbf{S}cript \textbf{O}bject \textbf{N}otation}]
+	{json}{JSON}{\textbf{J}ava\textbf{S}cript \textbf{O}bject \textbf{N}otation}
+	
+\newacronym[description=\glslink{HMAC}{keyed-\textbf{H}ash \textbf{M}essage \textbf{A}uthentication \textbf{C}ode}]
+	{hmac}{HMAC}{keyed-\textbf{H}ash \textbf{M}essage \textbf{A}uthentication \textbf{C}ode}	
+	
+\newacronym[description=\glslink{SHA}{\textbf{S}ecure \textbf{H}ash \textbf{A}lgorithm}]
+	{sha}{SHA}{\textbf{S}ecure \textbf{H}ash \textbf{A}lgorithm}	
+	
+\newacronym[description=\glslink{IANA}{\textbf{I}nternet \textbf{A}ssigned \textbf{N}umbers \textbf{A}uthority}]
+	{iana}{IANA}{\textbf{I}nternet \textbf{A}ssigned \textbf{N}umbers \textbf{A}uthority}
+	
+\newacronym[description=\glslink{CORS}{\textbf{C}ross-\textbf{O}rigin \textbf{R}esource \textbf{S}haring}]
+	{cors}{CORS}{\textbf{C}ross-\textbf{O}rigin \textbf{R}esource \textbf{S}haring}
+	
+\newacronym[description=\glslink{XSS}{Cross-site scripting}]
+	{xss}{XSS}{Cross-site scripting}
+	
+\newacronym[description=\glslink{DRY}{\textbf{D}on't \textbf{R}epeat \textbf{Y}ourself}]
+	{dry}{DRY}{\textbf{D}on't \textbf{R}epeat \textbf{Y}ourself}
+	
+\newacronym[description={\textbf{C}reate, \textbf{R}ead, \textbf{U}pdate, \textbf{D}elete}]
+	{crud}{CRUD}{\textbf{C}reate, \textbf{R}ead, \textbf{U}pdate, \textbf{D}elete}
+	
+\newacronym[description=\glslink{CSV}{\textbf{C}omma \textbf{S}eparated \textbf{V}alues}]
+	{csv}{CSV}{\textbf{C}omma \textbf{S}eparated \textbf{V}alues}
+	
+\newacronym[description={\textbf{C}ustomer \textbf{R}elationship \textbf{M}anagement}]
+	{crm}{CRM}{\textbf{C}ustomer \textbf{R}elationship \textbf{M}anagement}
+
+\newacronym[description={\textbf{E}nterprise \textbf{R}esource \textbf{P}lanning}]
+	{erp}{ERP}{\textbf{E}nterprise \textbf{R}esource \textbf{P}lanning}
+	
+\newacronym[description={\textbf{A}ttribute \textbf{B}ased \textbf{A}ccess \textbf{C}ontrol}]
+	{abac}{ABAC}{\textbf{A}ttribute \textbf{B}ased \textbf{A}ccess \textbf{C}ontrol}	
+
+%**************************************************************
+% Glossario
+%**************************************************************
+\renewcommand{\glossaryname}{Glossario}
+
+\newglossaryentry{IAM}{
+    name=\glslink{iam}{IAM},
+    text=IAM,
+    sort=iam,
+    description={\acrlong{iam}\\Disciplina che consente ai giusti individui di accedere alle giuste risorse nel giusto momento per le giuste ragioni. L'IAM risponde alla necessità di garantire un adeguato accesso alle risorse in ambiti tecnologici sempre più eterogenei}
+}
+
+\newglossaryentry{IT}{
+    name=\glslink{it}{IT},
+    text=IT,
+    sort=it,
+    description={\acrlong{it}\\Settore caratterizzato dall'impiego di computer
+    e tecnologie di telecomunicazione per immagazzinare, prelevare, trasmettere e
+    manipolare dati in contesti aziendali}
+}
+
+\newglossaryentry{DLM}{
+	name=\glslink{dlm}{DLM},
+	text=DLM,
+	sort=dlm,
+	description={\acrlong{dlm}\\Processo di gestione dell'informazione di business durante tutto il suo ciclo di vita, a partire dalla creazione e memorizzazione iniziale fino alla sua obsolescenza e conseguente eliminazione. \\
+	I prodotti a supporto del DLM consentono di automatizzare le attività coinvolte,
+	organizzando i dati in livelli diversi e semplificando la migrazione da un livello ad un altro secondo i criteri definiti}
+}
+
+\newglossaryentry{bestpractice}{
+	name={Best practice},
+	text={Best practice},
+	description={\mbox{}\\Esperienza, procedura o azione più significativa, o comunque che ha permesso di ottenere i migliori risultati, relativamente a svariati contesti e obiettivi preposti},
+	plural={best practices}
+}
+
+\newglossaryentry{ITIL}{
+	name=\glslink{itil}{ITIL},
+	text=ITIL,
+	sort=itil,
+	description={\acrlong{itil}\\Insieme di linee guida ispirate dalla pratica (best practice) nella gestione di servizi IT. Consistono in una serie di pubblicazioni che forniscono indicazione sull'erogazione di servizi IT di	qualità e sui processi e mezzi necessari a supportarli}
+}
+
+\newglossaryentry{DBA}{
+	name=\glslink{dba}{DBA},
+	sort=dba,
+	description={\acrlong{dba}\\
+	Professionista che, all'interno di un'azienda o di un ente, si occupa di installare, configurare e gestire sistemi di archiviazione dei dati, più o meno complessi, consultabili e spesso aggiornabili per via telematica.\\
+	Configura gli accessi al database, realizza il monitoraggio dei sistemi di archiviazione, si occupa della manutenzione del server, della sicurezza degli accessi interni ed esterni alla banca dati e definisce, al contempo, le politiche aziendali di impiego e utilizzo delle risorse costituite dal database. \\Tra i principali compiti di questa figura professionale c'è quello di preservare la sicurezza e l'integrità dei dati contenuti nell'archivio}
+}
+
+\newglossaryentry{identita}{
+	name=Identità,
+	text=identità,
+	sort=identità,
+	description={\mbox{}\\Combinazione di attributi generici (come nome, cognome, indirizzo, ecc.) e	specifici (rilevanti a livello aziendale) che consentono di identificare in modo univoco un utente}
+}
+
+\newglossaryentry{SSO}{
+	name=\glslink{sso}{SSO},
+	text=sso,
+	sort=sso,
+	description={\acrlong{sso}\\
+	Il Single Sign On consente di autenticarsi una volta sola e di avere accesso, in modo del tutto automatico, a varie applicazioni di un sistema. Elimina il bisogno di autenticarsi separatamente a ciascuna applicazione e/o sistema}
+}
+
+\newglossaryentry{workflow}{
+	name=Workflow,
+	text=workflow,
+	sort=workflow,
+	description={\mbox{}\\Applicazione che automatizza le procedure e i processi aziendali di lavoro cooperativo}
+}
+
+\newglossaryentry{provisioning}{
+	name=Provisioning,
+	text=provisioning,
+	sort=provisioning,
+	description={\mbox{}\\Insieme di attività attraverso le quali viene garantito all'utente l'autorizzazione presso un sistema o un’applicazione. Il processo include l’assegnazione di diritti e privilegi all’utente, in modo tale da garantire la sicurezza del sistema}
+}
+
+\newglossaryentry{autenticazione}{
+	name=Autenticazione,
+	text=autenticazione,
+	sort=autenticazione,
+	description={\mbox{}\\Processo attraverso il quale l’utente fornisce le credenziali necessarie per ottenere l’accesso ad un sistema o ad una particolare risorsa; una volta che l’utente ha effettuato l’autenticazione, viene creata una sessione, riferita in tutte	le interazioni fra l’utente ed il sistema, finché l’utente effettua log out o la sessione viene terminata per altre ragioni (ad esempio per un timeout)}
+}
+
+\newglossaryentry{autorizzazione}{
+	name=Autorizzazione,
+	text=autorizzazione,
+	sort=autorizzazione,
+	description={\mbox{}\\Processo che garantisce che gli utenti correttamente autenticati possano accedere solo alle giuste risorse. Il collegamento tra utente e risorse viene stabilito in base alle politiche di accesso alla risorsa, precedentemente decise dal proprietario della risorsa stessa}
+}
+
+\newglossaryentry{efficienza}{
+	name=Efficienza,
+	text=efficienza,
+	sort=efficienza,
+	description={\mbox{}\\Capacità di evitare sprechi di energia, risorse, tempo e denaro durante lo svolgimento di una specifica attività. In senso più matematico, è la misura di quanto l'input è ben impiegato per produrre un output}
+}
+
+\newglossaryentry{affidabilita}{
+	name=Affidabilità,
+	text=affidabilità,
+	sort=affidabilità,
+	description={\mbox{}\\Certezza di corretto funzionamento che un impianto, un apparecchio, un dispositivo può dare in base alle sue caratteristiche tecniche e di fabbricazione}
+}
+
+\newglossaryentry{scalabilita}{
+	name=Scalabilità,
+	text=scalabilità,
+	sort=scalabilità,
+	description={\mbox{}\\Capacità di aumentare le risorse per ottenere un incremento (idealmente) lineare nella capacità del servizio. La caratteristica principale di un'applicazione scalabile è costituita dal fatto che un carico aggiuntivo richiede solamente risorse aggiuntive anziché un'estesa modifica dell'applicazione stessa}
+}
+
+\newglossaryentry{framework}{
+	name=Framework,
+	text=framework,
+	sort=framework,
+	description={\mbox{}\\Modalità strutturata, pianificata e permanente, che supporta una prassi, una metodologia, un progetto, un sistema di gestione; nello sviluppo software, inoltre, indica più specificamente una logica di supporto su cui un software può essere	progettato e realizzato}
+}
+
+\newglossaryentry{agile}{
+	name=Agile,
+	text=agile,
+	sort=agile,
+	description={\mbox{}\\Serie di principi per lo sviluppo di software secondo i quali i requisiti e le soluzioni si evolvono attraverso la collaborazione tra individui. Si basa su quattro principi fondamentali, definiti nel Manifesto for Agile Software Development:
+	\begin{itemize}
+	\item gli individui e le interazioni sono più importanti di processi e strumenti;
+	\item il software funzionante è più importante di una documentazione esaustiva;
+	\item la collaborazione con il cliente è più importante della negoziazione dei contratti;
+	\item la rapida risposta al cambiamento è più importante di seguire una pianificazione.
+	\end{itemize}}
+}
+
+\newglossaryentry{stakeholder}{
+	name=Stakeholder,
+	text=stakeholder,
+	sort=stakeholder,
+	plural=stakeholders,
+	description={\mbox{}\\Soggetto (o un gruppo di soggetti) influente nei confronti di un'iniziativa economica, che sia un'azienda o un progetto}
+}
+
+\newglossaryentry{SPID}{
+	name=\glslink{spid}{SPID},
+	text=spid,
+	sort=spid,
+	description={\acrlong{spid}\\
+	Sistema unico di login per l'accesso ai servizi online della pubblica amministrazione e dei privati aderenti
+	}
+}
+
+\newglossaryentry{AgID}{
+	name=\glslink{agid}{AgID},
+	text=agid,
+	sort=agid,
+	description={\acrlong{agid}\\
+	Agenzia pubblica italiana che si occupa di perseguire il massimo livello di innovazione tecnologica nell'organizzazione e nello sviluppo della pubblica amministrazione}
+}
+
+\newglossaryentry{IoT}{
+	name=\glslink{iot}{IoT},
+	text=iot,
+	sort=iot,
+	description={\acrlong{iot}\\
+	Neologismo riferito all'estensione di Internet al mondo degli oggetti e dei luoghi concreti. Gli oggetti si rendono riconoscibili e acquisiscono intelligenza grazie al fatto di poter comunicare dati su se stessi e accedere ad informazioni aggregate da parte di altri}
+}
+
+\newglossaryentry{IdM}{
+	name=\glslink{idm}{IdM},
+	text=Identity Management,
+	sort=idm,
+	description={\acrlong{idm}\\
+	Sistema integrato di tecnologie, criteri e procedure in grado di consentire alle organizzazioni di facilitare, e al tempo stesso controllare, gli accessi degli utenti ad applicazioni e dati critici
+	}
+}
+
+\newglossaryentry{AM}{
+	name=\glslink{am}{AM},
+	text=am,
+	sort=am,
+	description={\acrlong{am}\\
+	Sistema integrato di tecnologie in grado di consentire alle organizzazioni di definire politiche di accesso alle risorse}
+}
+
+\newglossaryentry{rollback}{
+	name=Rollback,
+	text=rollback,
+	sort=rollback,
+	description={\mbox{}\\
+	Operazione che permette di riportare il database a una versione o stato precedente}
+}
+
+\newglossaryentry{IO}{
+	name=\glslink{io}{I/O},
+	text=I/O,
+	sort=io,
+	description={\acrlong{io}\\
+	Interfacce messe a disposizione dal sistema operativo, o più in generale da qualunque sistema di basso livello, ai programmi per effettuare uno scambio di dati o segnali con altri programmi, col computer o con lo stesso sistema}
+}
+
+\newglossaryentry{thread}{
+	name=Thread,
+	text=thread,
+	sort=thread,
+	description={\mbox{}\\
+	Suddivisione di un processo in due o più filoni o sottoprocessi, che vengono eseguiti concorrentemente da un sistema di elaborazione monoprocessore (multithreading) o multiprocessore (multicore)}
+}
+
+
+\newglossaryentry{filesystem}{
+	name={File system},
+	text={file system},
+	sort={file system},
+	description={\mbox{}\\
+	Meccanismo con il quale i file sono posizionati e organizzati o su un dispositivo di archiviazione o su una memoria di massa, come un disco rigido}
+}
+
+\newglossaryentry{DBMS}{
+	name=\glslink{dbms}{DBMS},
+	text=DBMS,
+	sort=dbms,
+	description={\acrlong{dbms}\\
+	Sistema software progettato per consentire la creazione, la manipolazione e l'interrogazione efficiente di database. È ospitato su architettura hardware dedicata (server) oppure su semplice computer}
+}
+
+\newglossaryentry{NoSQL}{
+	name=\glslink{nosql}{NoSQL},
+	text=NoSQL,
+	sort=nosql,
+	description={\acrlong{nosql}\\
+	Movimento che promuove sistemi software dove la persistenza dei dati è caratterizzata dal fatto di non utilizzare il modello relazionale, di solito usato dai database tradizionali. L'espressione NoSQL fa riferimento al linguaggio SQL, che è il più comune linguaggio di interrogazione dei dati nei database relazionali, qui preso a simbolo dell'intero paradigma relazionale. Questi archivi di dati il più delle volte non richiedono uno schema fisso (schemaless), evitano spesso le operazioni di giunzione (join) e puntano a scalare in modo orizzontale
+	}
+}
+
+\newglossaryentry{REST}{
+	name=\glslink{rest}{REST},
+	text=REST,
+	sort=rest,
+	description={\acrlong{rest}\\
+	Tipo di architettura software per i sistemi di ipertesto distribuiti come il World Wide Web. Si basa su tre principi:
+	\begin{itemize}
+	\item lo stato dell'applicazione e le funzionalità sono divisi in risorse web;
+	\item ogni risorsa è unica e indirizzabile usando sintassi universale per uso nei link ipertestuali;
+	\item tutte le risorse sono condivise come interfaccia uniforme per il trasferimento di stato tra client e risorse, questo consiste in:
+		\begin{itemize}
+		\item un insieme vincolato di operazioni ben definite;
+		\item un insieme vincolato di contenuti, opzionalmente supportato da codice a richiesta;
+		\item un protocollo:
+			\begin{itemize}
+			\item client-server;
+			\item privo di stato (stateless)
+			\item memorizzabile in cache (cacheable)
+			\item a livelli
+			\end{itemize}
+		\end{itemize}
+	\end{itemize}
+	}
+}
+
+\newglossaryentry{URI}{
+	name=\glslink{uri}{URI},
+	text=URI,
+	sort=uri,
+	description={\acrlong{uri}\\
+	Stringa che identifica univocamente una risorsa generica che può essere un indirizzo Web, un documento, un'immagine, un file, un servizio, un indirizzo di posta elettronica, eccetera}
+}
+
+\newglossaryentry{HTTP}{
+	name=\glslink{http}{HTTP},
+	text=HTTP,
+	sort=http,
+	description={\acrlong{http}\\
+	Protocollo a livello applicativo usato come principale sistema per la trasmissione d'informazioni sul web, ovvero in un'architettura tipica client-server. Le specifiche del protocollo sono gestite dal World Wide Web Consortium (W3C)}
+}
+
+\newglossaryentry{resilienza}{
+	name=Resilienza,
+	text=resilienza,
+	sort=resilienza,
+	description={\mbox{}\\Capacità di un sistema di adattarsi alle condizioni d'uso e di resistere all'usura in modo da garantire la disponibilità dei servizi erogati}
+}
+
+\newglossaryentry{IDoT}{
+	name=\glslink{idot}{IDoT},
+	text=IDot,
+	sort=idot,
+	description={\acrlong{idot}\\
+	Assegnazione di identificatori univoci e attributi specifici ad oggetti per consentire loro di comunicare e interagire con le altre entità attraverso Internet}
+}
+
+\newglossaryentry{cloud}{
+	name=Cloud,
+	text=cloud,
+	sort=cloud,
+	description={\mbox{}\\Paradigma di erogazione di risorse informatiche, come l'archiviazione, l'elaborazione o la trasmissione di dati, caratterizzato dalla disponibilità on demand attraverso Internet a partire da un insieme di risorse preesistenti e configurabili. Le risorse non vengono pienamente configurate e messe in opera dal fornitore apposta per l'utente, ma gli sono assegnate, rapidamente e convenientemente, grazie a procedure automatizzate, a partire da un insieme di risorse condivise con altri utenti lasciando all'utente parte dell'onere della configurazione}
+}
+
+\newglossaryentry{branching}{
+	name=Branching,
+	text=branching,
+	sort=branching,
+	description={\mbox{}\\Duplicazione di un oggetto soggetto a controllo di versionamento, in modo che le modifiche su tale oggetto possano procedere in parallelo su due (o più) ramificazioni diverse}
+}
+
+\newglossaryentry{merging}{
+	name=Merging,
+	text=merging,
+	sort=merging,
+	description={\mbox{}\\Fusione delle modifiche effettuate su un oggetto su due ramificazioni (branch) distinti. il risultato è un unico oggetto che contiene l'unione delle modifiche}
+}
+
+\newglossaryentry{repository}{
+	name=Repository,
+	text=repository,
+	sort=repository,
+	description={\mbox{}\\Ambiente di un sistema informativo, in cui vengono gestiti i metadati, attraverso tabelle relazionali},
+	plural=repositories
+}
+
+\newglossaryentry{API}{
+	name=\glslink{api}{API},
+	text=API,
+	sort=api,
+	description={\acrlong{api}\\
+	Insieme di procedure disponibili al programmatore, di solito raggruppate a formare un set di strumenti specifici per il completamento di un determinato compito all'interno di un certo programma}
+}
+
+\newglossaryentry{IDaaS}{
+	name=\glslink{idaas}{IDaaS},
+	text=idaas,
+	sort=idaas,
+	description={\acrlong{idaas}\\
+	Identity and Access Management fornito as a Service, ovvero in modo cloud based}
+}
+
+\newglossaryentry{SAML}{
+	name=\glslink{saml}{SAML},
+	text=SAML,
+	sort=saml,
+	description={\acrlong{saml}\\
+	Standard informatico per lo scambio di dati di autenticazione e autorizzazione (dette asserzioni) tra domini di sicurezza distinti, tipicamente un identity provider (entità che fornisce informazioni di identità) e un service provider (entità che fornisce servizi)}
+}
+
+\newglossaryentry{AD}{
+	name=\glslink{ad}{AD},
+	text=AD,
+	sort=ad,
+	description={\acrlong{ad}\\
+	Servizio di directory sviluppato da Microsoft che consente di autenticare e autorizzare utenti e computer in reti di dominio Windows, assegnando policy di sicurezza e aggiornando i software}
+}
+
+\newglossaryentry{serviziodirectory}{
+	name={Servizio di directory},
+	text={servizio di directory},
+	sort={servizio di directory},
+	description={\mbox{}\\Programma (o insiemi di programmi) che provvede ad organizzare e memorizzare informazioni e a gestire risorse condivise all’interno di reti di computer, fornendo anche un controllo degli accessi sul loro utilizzo},
+	plural={servizi di directory}
+}
+
+\newglossaryentry{AJAX}{
+	name=\glslink{ajax}{AJAX},
+	text=AJAX,
+	sort=ajax,
+	description={\acrlong{ajax}\\
+	Tecnica di sviluppo software per la realizzazione di applicazioni web interattive. Lo sviluppo di applicazioni web con AJAX si basa su uno scambio di dati in background fra web browser e server, che consente l'aggiornamento dinamico di una pagina web senza esplicito ricaricamento da parte dell'utente. AJAX è asincrono nel senso che i dati extra sono richiesti al server e caricati in background senza interferire con il comportamento della pagina esistente. Normalmente le funzioni richiamate sono scritte con il linguaggio JavaScript. Tuttavia, e a dispetto del nome, l'uso di JavaScript e di XML non è obbligatorio, come non è detto che le richieste di caricamento debbano essere necessariamente asincrone}
+}
+
+\newglossaryentry{URL}{
+	name=\glslink{url}{URL},
+	text=URL,
+	sort=url,
+	description={\acrlong{url}\\
+	Sequenza di caratteri che identifica univocamente l'indirizzo di una risorsa in Internet, tipicamente presente su un host server, come ad esempio un documento, un'immagine, un video, rendendola accessibile ad un client che ne faccia richiesta attraverso l'utilizzo di un web browser}
+}
+
+\newglossaryentry{onpremises}{
+	name=On-premises,
+	text=on-premises,
+	sort=on-premises,
+	description={\mbox{}\\Installazione ed esecuzione del software direttamente su macchina locale, sia essa aziendale che privata. L'approccio on-premises per la distribuzione/utilizzo del software è stato ritenuto la norma fino al 2005, data oltre la quale si è progressivamente ampliato l'utilizzo di software che esegue su computer remoti}
+}
+
+\newglossaryentry{phishing}{
+	name=Phishing,
+	text=phishing,
+	sort=phishing,
+	description={\mbox{}\\Tipo di truffa effettuata su Internet attraverso la quale un malintenzionato cerca di ingannare la vittima convincendola a fornire informazioni personali, dati finanziari o codici di accesso, fingendosi un ente affidabile in una comunicazione digitale}
+}
+
+\newglossaryentry{MAC}{
+	name=\glslink{mac}{MAC},
+	text=MAC,
+	sort=mac,
+	description={\acrlong{mac}\\
+	Tipo di controllo d'accesso attraverso il quale il sistema operativo vincola la capacità di un soggetto di eseguire diverse operazioni su un oggetto o un obiettivo}
+}
+
+\newglossaryentry{DAC}{
+	name=\glslink{dac}{DAC},
+	text=DAC,
+	sort=dac,
+	description={\acrlong{dac}\\
+	Meccanismo di controllo degli accessi alle risorse messe a disposizione da un sistema informatico definito dalla Trusted Computer System Evaluation Criteria, nel quale i soggetti possiedono l'ownership degli oggetti da loro creati e possono concedere o revocare a loro discrezione alcuni privilegi ad altri soggetti. In un sistema informatico nel quale è realizzata una politica di controllo degli accessi di tipo DAC, l'autorizzazione degli accessi alle risorse del sistema è basata sull'identità degli utenti e/o sul gruppo utenti di appartenenza
+	}
+}
+
+\newglossaryentry{RBAC}{
+	name=\glslink{rbac}{RBAC},
+	text=RBAC,
+	sort=rbac,
+	description={\acrlong{rbac}\\
+	Approccio a sistemi ad accesso ristretto per utenti autorizzati. Si basa su tre regole fondamentali:
+	\begin{itemize}
+	\item assegnazione dei ruoli;
+	\item autorizzazione dei ruoli;
+	\item autorizzazione alla transazione.
+	\end{itemize}
+	}
+}
+
+\newglossaryentry{IdP}{
+	name=\glslink{idp}{IdP},
+	text=Identity Provider,
+	sort=idp,
+	description={\acrlong{idp}\\
+	Entità responsabile di:
+	\begin{itemize}
+	\item fornire un'identità agli utenti che interagiscono con un sistema;
+	\item assicurare che l'utente sia chi dice di essere;
+	\item fornire ulteriori informazioni sull'utente.
+	\end{itemize}
+	}
+}
+
+\newglossaryentry{SP}{
+	name=\glslink{sp}{SP},
+	text=Service Provider,
+	sort=sp,
+	description={\acrlong{sp}\\
+	Organizzazione che fornisce agli utenti servizi di vario tipo}
+}
+
+\newglossaryentry{XML}{
+	name=\glslink{xml}{XML},
+	text=XML,
+	sort=xml,
+	description={\acrlong{xml}\\
+	Metalinguaggio per la definizione di linguaggi di markup, ovvero un linguaggio basato su un meccanismo sintattico che consente di definire e controllare il significato degli elementi contenuti in un documento o in un testo}
+}
+
+\newglossaryentry{SaaS}{
+	name=\glslink{saas}{SaaS},
+	text=saas,
+	sort=saas,
+	description={\acrlong{saas}\\
+	Modello di distribuzione del software applicativo dove un produttore di software sviluppa, opera (direttamente o tramite terze parti) e gestisce un'applicazione web che mette a disposizione dei propri clienti via Internet. I clienti non pagano per il possesso del software bensì per l'utilizzo dello stesso}
+}
+
+\newglossaryentry{TCO}{
+	name=\glslink{tco}{TCO},
+	text=TCO,
+	sort=tco,
+	description={\acrlong{tco}\\
+	Approccio sviluppato da Gartner nel 1987, utilizzato per calcolare tutti i costi del ciclo di vita di un'apparecchiatura informatica IT, per l'acquisto, l'installazione, la gestione, la manutenzione e il suo smaltimento}
+}
+
+\newglossaryentry{IGA}{
+	name=\glslink{iga}{IGA},
+	text=IGA,
+	sort=iga,
+	description={\acrlong{iga}\\
+	I prodotti IGA consentono ai responsabili di amministrare e gestire i ruoli, le licenze e i privilegi degli utenti nell'azienda estesa e anche nel cloud. Queste soluzioni consentono alle organizzazioni di evitare le violazioni relative alla suddivisioni degli incarichi, supportare le politiche di business ed eliminare gli accessi inappropriati. Controllando e verificando l'attività degli utenti e rafforzando il controllo degli accessi, le organizzazioni possono ottenere una governance più efficace, prevenire le minacce alle informazioni riservate e la frode di identità}
+}
+
+\newglossaryentry{UML}{
+	name=\glslink{uml}{UML},
+	text=UML,
+	sort=uml,
+	description={\acrlong{uml}\\
+	Linguaggio di modellazione basato sul paradigma orientato agli oggetti. Svolge un'importantissima funzione di "lingua franca" nella comunità della progettazione e programmazione a oggetti. Gran parte della letteratura di settore usa UML per descrivere soluzioni analitiche e progettuali in modo sintetico e comprensibile a un vasto pubblico}
+}
+
+\newglossaryentry{bug}{
+	name=Bug,
+	text=bug,
+	sort=bug,
+	description={\mbox{}\\Errore nella scrittura del codice sorgente di un programma software},
+	plural={bugs}
+}
+
+\newglossaryentry{failure}{
+	name=Failure,
+	text=failure,
+	sort=failure,
+	description={\mbox{}\\Effetto indesiderato visibile durante l'esecuzione del prodotto},
+	plural={failures}
+}
+
+\newglossaryentry{fault}{
+	name=Fault,
+	text=fault,
+	sort=fault,
+	description={\mbox{}\\Causa del malfunzionamento del prodotto. Di solito è un errore nella scrittura del codice sorgente ed è chiamato comunemente bug},
+	plural={faults}
+}
+
+\newglossaryentry{softdeletion}{
+	name={Soft deletion},
+	text={soft deletion},
+	sort={soft deletion},
+	description={\mbox{}\\Cancellazione unicamente ''logica'' di informazioni da un database. Solitamente viene effettuata impostando a true uno specifico flag, ad esempio (is\_deleted)}
+}
+
+\newglossaryentry{JWT}{
+	name=\glslink{jwt}{JWT},
+	text=JWT,
+	sort=jwt,
+	description={\acrlong{jwt}\\
+	Stringa che rappresenta un insieme di affermazioni come un oggetto JSON, in modo da poterle firmare o criptare digitalmente}
+}
+
+\newglossaryentry{JSON}{
+	name=\glslink{json}{JSON},
+	text=JSON,
+	sort=json,
+	description={\acrlong{json}\\
+	Semplice formato completamente indipendente dal linguaggio di programmazione per lo scambio di dati. JSON è basato su due strutture:
+	\begin{itemize}
+	\item un insieme di coppie nome/valore;
+	\item un elenco ordinato di valori
+	\end{itemize}
+	}
+}
+
+\newglossaryentry{HMAC}{
+	name=\glslink{hmac}{HMAC},
+	text=HMAC,
+	sort=hmac,
+	description={\acrlong{hmac}\\
+	Modalità per l'autenticazione di messaggi basata su una funzione di hash, utilizzata in diverse applicazioni legate alla sicurezza informatica. Tramite HMAC è possibile garantire sia l'integrità che l'autenticità di un messaggio: utilizza una combinazione del messaggio originale e una chiave segreta per la generazione del codice. Una caratteristica peculiare di HMAC è il non essere legato a nessuna funzione di hash in particolare, per rendere possibile una sostituzione della funzione nel caso non fosse abbastanza sicura. Nonostante ciò le funzioni più utilizzate sono MD5 (attualmente considerata poco sicura) e SHA-2
+	}
+}
+
+\newglossaryentry{SHA}{
+	name=\glslink{sha}{SHA},
+	text=SHA,
+	sort=sha,
+	description={\acrlong{sha}\\
+	Famiglia di cinque diverse funzioni crittografiche di hash sviluppate a partire dal 1993 dalla National Security Agency (NSA) e pubblicate come standard federale dal governo degli USA. Il SHA produce un message digest, o "impronta del messaggio", di lunghezza fissa partendo da un messaggio di lunghezza variabile. La sicurezza di un algoritmo di hash risiede nel fatto che la funzione non sia reversibile (non sia cioè possibile risalire al messaggio originale conoscendo solo questo dato) e che non deve essere mai possibile creare intenzionalmente due messaggi diversi con lo stesso digest. Gli algoritmi della famiglia sono denominati SHA-1, SHA-224, SHA-256, SHA-384 e SHA-512: le ultime 4 varianti sono spesso indicate genericamente come SHA-2, per distinguerle dal primo. Il primo produce un digest del messaggio di soli 160 bit, mentre gli altri producono digest di lunghezza in bit pari al numero indicato nella loro sigla}
+}
+
+\newglossaryentry{rsa}{
+	name=RSA,
+	text=RSA,
+	sort=rsa,
+	description={\mbox{}\\Algoritmo di crittografia asimmetrica, inventato nel 1977 da Ronald \textbf{R}ivest, Adi \textbf{S}hamir e Leonard \textbf{A}dleman utilizzabile per cifrare o firmare informazioni}
+}
+
+\newglossaryentry{base64}{
+	name=Base64,
+	text=Base64,
+	sort=base64,
+	description={\mbox{}\\È un sistema di numerazione posizionale che usa 64 simboli che	viene usato principalmente come codifica di dati binari nelle email. L'algoritmo che effettua la conversione suddivide il file in gruppi da 6 bit, i quali possono quindi contenere valori da 0 a 63. Ogni possibile valore viene convertito in un carattere ASCII. L'algoritmo causa un aumento delle dimensioni dei dati del 33\%, poiché ogni gruppo di 3 byte viene convertito in 4 caratteri. Questo supponendo che per rappresentare un carattere si utilizzi un intero byte}
+}
+
+\newglossaryentry{IANA}{
+	name=\glslink{iana}{IANA},
+	text=IANA,
+	sort=iana,
+	description={\acrlong{iana}\\
+	Organismo che ha responsabilità nell'assegnazione degli indirizzi IP}
+}
+
+\newglossaryentry{cookie}{
+	name=Cookie,
+	text=cookie,
+	sort=cookie,
+	description={\mbox{}\\Un cookie è simile ad un piccolo file, memorizzato nel computer da siti web durante la navigazione, utile a salvare le preferenze e a migliorare le prestazioni dei siti web. In questo modo si ottimizza l'esperienza di navigazione da parte dell'utente. Nel dettaglio, un cookie è una stringa di testo di piccola dimensione inviata da un web server ad un web client (di solito un browser) e poi rimandati indietro dal client al server (senza subire modifiche) ogni volta che il client accede alla stessa porzione dello stesso dominio web}
+}
+
+\newglossaryentry{CORS}{
+	name=\glslink{cors}{CORS},
+	text=CORS,
+	sort=cors,
+	description={\acrlong{cors}\\
+	Meccanismo che permette alle risorse sul web di essere richieste da domini differenti da quello di appartenenza della risorsa stessa
+	}
+}
+
+\newglossaryentry{XSS}{
+	name=\glslink{xss}{XSS},
+	text=XSS,
+	sort=xss,
+	description={\acrlong{xss}\\
+	Vulnerabilità che affligge siti web dinamici che impiegano un insufficiente controllo dell'input nei form. Un XSS permette di inserire o eseguire codice lato client al fine di attuare un insieme variegato di attacchi. Nell'accezione odierna, la tecnica ricomprende l'utilizzo di qualsiasi linguaggio di scripting lato client tra i quali JavaScript. Secondo un rapporto di Symantec nel 2007 l'80\% di tutte le violazioni è dovuto ad attacchi XSS}
+}
+
+\newglossaryentry{DRY}{
+	name=\glslink{dry}{DRY},
+	text=DRY,
+	sort=dry,
+	description={\acrlong{dry}\\
+	Principio di progettazione e sviluppo secondo cui andrebbe evitata ogni forma di ripetizione e ridondanza logica nell'implementazione di un sistema software. Il principio venne inizialmente enunciato da Andy Hunt e Dave Thomas nel loro libro The Pragmatic Programmer:
+	\begin{center}''\textit{Every piece of knowledge must have a single, unambiguous, authoritative representation within a system.}''\end{center}
+	Il DRY viene spesso citato in relazione alla duplicazione del codice, ovvero nell'accezione stretta secondo cui il software non dovrebbe contenere sequenze di istruzioni uguali fra loro. Si tratta però di un concetto più ampio, che si applica a ogni parte di un sistema software}
+}
+
+\newglossaryentry{CSV}{
+	name=\glslink{csv}{CSV},
+	text=CSV,
+	sort=csv,
+	description={\acrlong{csv}\\
+	Formato di file basato su file di testo utilizzato per l'importazione ed esportazione (ad esempio da fogli elettronici o database) di una tabella di dati. Non esiste uno standard formale che lo definisca, ma solo alcune prassi più o meno consolidate}
+}
+
+\newglossaryentry{ABAC}{
+	name=\glslink{abac}{ABAC},
+	text=ABAC,
+	sort=abac,
+	description={\acrlong{abac}\\
+	Meccanismo di controllo degli accessi nel quale le richieste sono concesse o negate sulla base di un insieme attributi dell'utente, della risorsa, sulle condizioni del sistema e su un insieme di politiche specificate in funzione di questi attributi}
+}

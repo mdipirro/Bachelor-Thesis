@@ -1,0 +1,60 @@
+In Figura~\ref{fig:spidpinit} sono mostrate le due modalità di accesso in \glossaryItem{sso} con \glossaryItem{saml}: \glossaryItem{idp} e \glossaryItem{sp} Initiated. 
+
+\begin{figure}[h]
+\centering
+\mbox{
+	\begin{subfigure}[b]{\textwidth}
+    \centering
+    \includegraphics[scale=0.6,clip=false]{idp-init-sso-post}
+    \caption{SSO IdP Initiated}
+    \label{fig:idpinit}
+    \end{subfigure}
+}
+
+\mbox{
+	\begin{subfigure}[b]{\textwidth}
+    \centering
+    \includegraphics[scale=0.6,clip=false]{sp-init-sso-post-post}
+    \caption{SSO SP Initiated}
+    \label{fig:spinit}
+    \end{subfigure}
+}
+\caption[Confronto tra SSO SP e IdP Initiated]{Confronto tra SSO SP e IdP Initiated\protect\footnotemark}\label{fig:spidpinit}
+\end{figure}
+
+La differenza principale tra le due modalità è rappresentata dall'azione iniziale dell'utente. Con \textbf{\glossaryItem{idp} Initiated} (Figura~\ref{fig:idpinit}) l'utente richiede immediatamente di effettuare il \textit{login} e, successivamente, di accedere alla risorsa. Al contrario, con \textbf{\glossaryItem{sp} Initiated} (Figura~\ref{fig:spinit}) l'utente cerca fin da subito di accedere alla risorsa. È compito del \glossaryItem{sp} verificare che l'utente abbia effettuato il \textit{login} e, in caso contrario, di reindirizzarlo alla pagina di \textit{login} dell'\glossaryItem{idp}.
+
+Di seguito viene descritta in dettaglio la sequenza di azioni di entrambe le modalità.
+
+\paragraph{IdP Initiated}
+\begin{enumerate}
+\item L'utente effettua il \textit{login} presso l'\glossaryItem{idp}.
+\item L'utente richiede l'accesso ad una risorsa protetta del \glossaryItem{sp}.
+\item (\textbf{Opzionale}) Alcuni attributi aggiuntivi possono essere aggiunti alla \textit{SAMLResponse}. Questi attributi vengono ricavati dal \textit{database} delle \glossaryItem{identita} e sono determinati sulla base dei requisiti dell'applicazione.
+\item L'\glossaryItem{idp} ritorna un \textit{form} al \textit{browser} dell'utente con l'asserzione \glossaryItem{saml} ed, eventualmente, gli attributi aggiuntivi. Il \textit{browser} invia come POST il \textit{form} al \glossaryItem{sp}.
+\item Dopo aver validato l'asserzione e la firma dell'\glossaryItem{idp}, il \glossaryItem{sp} stabilisce una sessione con l'utente e il \textit{browser} viene reindirizzato alla risorsa richiesta.
+\end{enumerate}
+\footnotetext{Immagini tratte da \cite{site:SPvsIdPinitiated}}
+Come si può notare l'utente effettua inizialmente il \textit{login} e, successivamente, cerca di accedere alla risorsa. Il primo componente che entra in gioco è l'\glossaryItem{idp}.
+
+\paragraph{SP Initiated}
+\begin{enumerate}
+\item L'utente cerca di accedere ad una risorsa web attraverso una richiesta al suo \glossaryItem{sp}. La richiesta viene reindirizzata verso il server che si occupa della federazione del \glossaryItem{sp} per autenticare l'utente.
+\item Questo server invia un \textit{form} contenente una \textit{SAMLRequest} per l'\glossaryItem{autenticazione} (\textbf{AuthN Request}) al \textit{browser} dell'utente.
+\item Se l'utente non ha già effettuato il \textit{login}, l'\glossaryItem{idp} gli richiede le credenziali.
+\item (\textbf{Opzionale}) Alcuni attributi aggiuntivi possono essere aggiunti alla \textit{SAMLResponse}. Questi attributi vengono ricavati dal \textit{database} delle \glossaryItem{identita} e sono determinati sulla base dei requisiti dell'applicazione.
+\item Il server di federazione dell'\glossaryItem{idp} ritorna un \textit{form} contenente l'asserzione \glossaryItem{saml}, eventualmente con gli attributi aggiuntivi, al \textit{browser} dell'utente. Automaticamente il \textit{form} viene inoltrato al server di federazione del \glossaryItem{sp}.
+\item Dopo aver validato l'asserzione e la firma dell'\glossaryItem{idp}, il \glossaryItem{sp} stabilisce una sessione con l'utente e il \textit{browser} viene reindirizzato alla risorsa richiesta inizialmente.
+\end{enumerate}
+In questo caso, dunque, l'utente prima richiede la risorsa e successivamente esegue il \textit{login}, se non era già stato fatto in precedenza.
+
+\paragraph{Modalità utilizzata} \mbox{} \\
+Lo scenario più comune di utilizzo di \glossaryItem{saml} per un'applicazione web è quello \glossaryItem{sp} Initiated: l'utente può salvare un segnalibro, o seguire un \textit{link}, per arrivare all'applicazione. Il \glossaryItem{sp} reindirizza, se necessario, l'utente verso l'\glossaryItem{idp} per permettergli di autenticarsi. Quest'ultimo crea ad-hoc un'asserzione e la rimanda al \glossaryItem{sp}, che decide se concedere l'accesso alla risorsa richiesta.
+
+Al contrario, nella modalità \glossaryItem{idp} Initiated, l'utente è già autenticato presso un \glossaryItem{idp} e da esso accede alle risorse che ha a disposizione. 
+
+Catalogue Manager rientra perfettamente in quest'ultima categoria: è, infatti, un'applicazione presente direttamente in Monokee e fortemente legata ad esso (tanto che, in questa prima versione, ne condivide il \textit{database}). Catalogue Manager si fida di Monokee e del suo sistema di \glossaryItem{autenticazione}: Monokee è l'\glossaryItem{idp} e Catalogue Manager è il \glossaryItem{sp}. 
+
+Per questo motivo, nella progettazione dell'applicazione si è scelto di adottare la modalità di \glossaryItem{sso} \glossaryItem{idp} Initiated. 
+
+Questa modalità, per quanto più adatta alle esigenze del progetto, richiede che l'\glossaryItem{idp} sia configurato in modo tale da reindirizzare l'utente verso l'applicazione. Fortunatamente, Monokee è stato progettato per supportare entrambe le modalità. Di conseguenza non si è resa necessaria nessuna modifica o configurazione aggiuntiva. 

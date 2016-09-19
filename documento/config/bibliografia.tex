@@ -1,0 +1,52 @@
+\bibliography{bibliografia} % database di biblatex 
+
+
+\defbibheading{bibliography}
+{
+    \phantomsection 
+    \addcontentsline{toc}{chapter}{\bibname}
+    \chapter*{\bibname\markboth{\bibname}{\bibname}}
+}
+
+\setlength\bibitemsep{1.5\itemsep} % spazio tra entry
+
+\DeclareBibliographyCategory{opere}
+\DeclareBibliographyCategory{web}
+
+\addtocategory{web}{site:gartner}
+\addtocategory{web}{site:scrum}
+\addtocategory{web}{site:agilemanifesto}
+\addtocategory{web}{site:scrumroles}
+\addtocategory{web}{site:spidgov}
+\addtocategory{web}{site:spidatt}
+\addtocategory{web}{site:nodejava}
+\addtocategory{web}{site:paypalNode}
+\addtocategory{web}{site:mongodb}
+\addtocategory{web}{site:expressjs}
+\addtocategory{web}{site:git}
+\addtocategory{web}{site:bitbucket}
+\addtocategory{web}{site:guelphsso}
+\addtocategory{web}{site:jwtintro}
+\addtocategory{web}{site:signjwt}
+\addtocategory{web}{site:SPvsIdPinitiated}
+\addtocategory{web}{site:expressMiddleware}
+
+\addtocategory{opere}{reg:spid}
+\addtocategory{opere}{gilchrist05}
+\addtocategory{opere}{doglio05}
+\addtocategory{opere}{grt:G00269748}
+\addtocategory{opere}{grt:G00292924}
+\addtocategory{opere}{grt:G00279633}
+\addtocategory{opere}{rountree12}
+\addtocategory{opere}{std:saml}
+\addtocategory{opere}{grt:G00261583}
+\addtocategory{opere}{grt:G00296572}
+\addtocategory{opere}{swebok}
+\addtocategory{opere}{rfc:7519}
+\addtocategory{opere}{designPattern}
+\addtocategory{opere}{javascriptPatterns}
+\addtocategory{opere}{abacNIST}
+\addtocategory{opere}{grt:G00260705}
+
+\defbibheading{opere}{\section*{Riferimenti bibliografici}}
+\defbibheading{web}{\section*{Siti Web}}

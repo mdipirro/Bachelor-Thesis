@@ -1,0 +1,130 @@
+L'avvento dell'era del \glossaryItem{cloud} ha portato alla proliferazione di applicazioni web. Se questo da un lato rappresenta un grande passo in avanti, dall'altro porta molti problemi: le applicazioni \glossaryItem{onpremises} possono essere configurate per supportare un unico insieme di credenziali, ma molto spesso le applicazioni web salvano le informazioni degli utenti nei loro \textit{database} senza condividerle con gli altri. Esiste quindi un notevole numero di credenziali diverse, in applicazioni diverse, per lo stesso utente. 
+
+Per risolvere questo problema serve un sistema in grado di fornire accesso a tutte le applicazioni con un unico \textit{login} e in grado di scalare per supportare un insieme sempre maggiore di utenti e credenziali.
+
+La soluzione si chiama \glossaryItem{sso}. Il \glossaryItem{sso} è un servizio normalmente fornito dai sistemi di \glossaryItem{am}: all'utente vengono chieste le credenziali solamente una volta, e, dopo il primo accesso, il sistema memorizza la sessione e trasmette i suoi dati (e la sua \glossaryItem{identita}) a tutte le applicazioni. 
+
+\subsection{Caratteristiche}
+I benefici principali sono i seguenti:
+\begin{itemize}
+\item \textbf{esperienza utente}: l'utente non viene continuamente interrotto dalle richieste delle sue credenziali. Di fatto il \glossaryItem{sso} rimuove i confini tra le applicazioni e consente all'utente di spostarsi dall'una all'altra senza interruzioni;
+\item \textbf{sicurezza}: le credenziali sono controllate e gestite da un server centrale e non dal servizio al quale l'utente sta accedendo, che di conseguenza non può memorizzarle. Questo limita le possibilità di \glossaryItem{phishing};
+\item \textbf{risparmio di risorse}: gli amministratori possono risparmiare tempo e risorse utilizzando un punto di accesso centralizzato.
+\end{itemize}
+
+D'altro canto, il \glossaryItem{sso} presenta anche degli aspetti negativi:
+\begin{itemize}
+\item \textbf{Single point of failure}: se il \textit{provider} \glossaryItem{sso} non funziona gli utenti non possono autenticarsi a niente;
+\item \textbf{one key to kingdom}: se il \textit{provider} \glossaryItem{sso} viene violato il danno è enorme.
+\end{itemize}
+
+Il problema principale, però, è che un sistema di questo tipo necessita, prima di tutto, di ricevere le informazioni sull'\glossaryItem{identita} dell'utente da qualche parte. Attualmente, tuttavia, non esiste un unico \textit{database} di utenti.
+
+
+Esistono pertanto tre principali approcci al \glossaryItem{sso}:
+\begin{itemize}
+\item \textbf{centralizzato}: il principio è di disporre di un \textit{database} globale e centralizzato di tutti gli utenti e di centralizzare allo stesso modo la politica di sicurezza. Questo approccio è destinato principalmente ai servizi dipendenti tutti dalla stessa entità, per esempio all'interno di una azienda, in quanto è molto difficile, se non impossibile, disporre di un \textit{database} con le \glossaryItem{identita} di tutti gli utenti nel mondo. Inoltre, la centralizzazione della politica di sicurezza è una limitazione troppo forte per un uso non specificatamente aziendale;
+\item \textbf{federato}: differenti gestori (''federati'' tra loro) gestiscono dati di uno stesso utente. L'accesso ad uno dei sistemi federati permette automaticamente l'accesso a tutti gli altri sistemi. Un viaggiatore, ad esempio, potrebbe essere sia passeggero di un aereo che ospite di un albergo. Se la compagnia aerea e l'albergo usassero un approccio federato, potrebbero stipulare un accordo reciproco sull'\glossaryItem{autenticazione} dell'utente finale. Il viaggiatore potrebbe quindi autenticarsi per prenotare il volo ed essere autorizzato, in forza di quella sola \glossaryItem{autenticazione}, ad effettuare la prenotazione della camera d'albergo. Questo approccio è stato sviluppato per rispondere ad un bisogno di gestione decentralizzata degli utenti: ogni gestore federato mantiene il controllo della propria politica di sicurezza.
+\item \textbf{cooperativo}: il principio è che ciascun utente dipenda, per ciascun servizio, da uno solo dei gestori cooperanti. In questo modo se si cerca, ad esempio, di accedere ad una rete locale, l'\glossaryItem{autenticazione} viene effettuata dal gestore che ha in carico l'utente per l'accesso alla rete. Come per l'approccio federato, in questa maniera ciascun gestore gestisce in modo indipendente la propria politica di sicurezza. L'approccio cooperativo risponde ai bisogni di strutture istituzionali nelle quali gli utenti sono dipendenti da una entità, come ad esempio in università, laboratori di ricerca, amministrazioni, eccetera.
+\end{itemize}
+
+Di seguito verrà descritto in dettaglio l'ambito della federazione delle \glossaryItem{identita}, con un esempio di protocollo utilizzato per lo scambio dei dati: \glossaryItem{saml}.
+
+\subsection{Federazione delle identità}
+In un modello di federazione delle \glossaryItem{identita} ci sono due componenti principali, \glossaryItem{idp} e \glossaryItem{sp}, che condividono un rapporto di fiducia: l'\glossaryItem{idp} deve fidarsi dell'applicazione per l'invio delle informazioni dell'utente e l'applicazione deve fidarsi dell'\glossaryItem{idp} per accettare l'\glossaryItem{identita} ricevuta.
+
+L'\glossaryItem{idp} memorizza le informazioni sull'\glossaryItem{identita} degli utenti. Il suo compito è molto più importante della semplice \glossaryItem{autenticazione} dell'utente, perché le informazioni sulla sua \glossaryItem{identita} saranno poi inviate alle applicazioni della federazione. Le principali modalità di memorizzazione delle credenziali sono \textit{database} e \glossaryItemPl{serviziodirectory}, come \glossaryItem{ad}.
+
+Il \glossaryItem{sp}, invece, fornisce servizi agli utenti.
+
+Una delle principali confusioni sulla federazione dell'\glossaryItem{identita} è la differenza tra \textbf{\glossaryItem{identita} federata} e \textbf{\glossaryItem{autenticazione} federata}. La seconda può essere considerata come un sottoinsieme della prima: l'\glossaryItem{autenticazione} è semplicemente un modo per verificare che chi sta tentando l'accesso sia chi dice di essere. L'\glossaryItem{autenticazione} federata è quindi un mezzo per ottenere l'\glossaryItem{identita} federata: si può avere la prima senza la seconda. La federazione dell'\glossaryItem{identita} è invece un modo sicuro per trasmettere l'\glossaryItem{identita} attraverso sistemi diversi. La chiave dell'intero sistema è la fiducia: chi memorizza le informazioni e chi le chiede devono fidarsi l'un l'altro. L'applicazione non fa nessuno sforzo per verificare l'\glossaryItem{identita} dell'utente: semplicemente si fida dell'\glossaryItem{idp}. 
+
+Uno dei punti chiave della federazione delle \glossaryItem{identita} è che l'\glossaryItem{autenticazione} è divisa dall'\glossaryItem{autorizzazione}. La maggior parte delle applicazioni, infatti, inizialmente autentica l'utente e successivamente decide cosa l'utente può fare in base all'esito dell'\glossaryItem{autenticazione} (Figura~\ref{fig:authTrad}).
+
+\begin{figure}[hbpc]
+\begin{center}
+\includegraphics[scale=0.25]{authEAuthnInsieme}
+\caption[Architettura di autenticazione tradizionale]{Architettura di autenticazione tradizionale\protect\footnotemark}
+\label{fig:authTrad}
+\end{center}
+\end{figure}
+\footnotetext{Immagine ispirata da \cite{rountree12}}
+
+Questo, comunque, non significa che l'applicazione esegue il processo di \glossaryItem{autenticazione}: potrebbe infatti appoggiarsi ad un sistema esterno (ad esempio \glossaryItem{ad}). Il punto chiave è che è l'applicazione stessa ad \textbf{inviare} la richiesta di \glossaryItem{autenticazione}.
+
+Con la federazione dell'\glossaryItem{identita} quest'ultima richiesta non deve essere inviata dall'applicazione. I due processi (\glossaryItem{autenticazione} e \glossaryItem{autorizzazione}) possono essere fatti separatamente e da due sistemi diversi. In questo caso, l'\glossaryItem{idp} invia le informazioni sull'utente all'applicazione, che le utilizza per decidere se autorizzare o meno determinate operazioni (Figura~\ref{fig:authFed}). È l'\glossaryItem{idp} a ''parlare'' con il sistema di memorizzazione delle credenziali.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.25]{authEAuthnSeparate}
+\caption[Architettura di autenticazione federata]{Architettura di autenticazione federata\protect\footnotemark}
+\label{fig:authFed}
+\end{center}
+\end{figure}
+\footnotetext{Immagine ispirata da \cite{rountree12}}
+
+\paragraph{Vantaggi} \mbox{} \\
+La federazione dell'\glossaryItem{identita} offre molti vantaggi, sia lato amministratore che lato utente. Uno dei punti forti è proprio questo: molti sistemi di \glossaryItem{sso} tradizionali portano benefici solo ad uno dei due lati.
+
+I principali aspetti positivi sono:
+\begin{itemize}
+\item \textbf{sicurezza delle credenziali degli utenti}: molti utenti sono preoccupati dal fatto che le applicazioni possano memorizzare le loro credenziali. Se le prime vengono compromesse, le seconde sono accessibili da chiunque. Con la federazione dell'\glossaryItem{identita} questo non succede, perché le credenziali sono da tutt'altra parte;
+\item \textbf{esperienza utente senza interruzioni}: così come detto per il \glossaryItem{sso}, l'utente può accedere a molte applicazioni senza quasi rendersi conto di quello che sta succedendo;
+\item \textbf{solo decisioni di \glossaryItem{autorizzazione}}: le applicazioni devono decidere solo cosa può, o non può, fare un utente, senza preoccuparsi dell'\glossaryItem{autenticazione};
+\item \textbf{riduzione del numero di \textit{username} e \textit{password}}: essendo un sistema di \glossaryItem{sso}, è sufficiente una coppia di \textit{username}/\textit{password} per accedere ovunque. In aggiunta, il \glossaryItem{sso} federato è molto sicuro;
+\item \textbf{facilità di integrazione}: al posto di unire due \glossaryItem{idp} separati (processo che può essere molto lungo e complesso), è sufficiente istruire un \glossaryItem{idp} a fidarsi dell'altro e viceversa;
+\item \textbf{altamente estensibile}: può essere usato qualsiasi nuovo tipo di \glossaryItem{autenticazione} senza modificare niente nelle applicazioni.
+\end{itemize}
+
+\paragraph{Svantaggi} \mbox{} \\
+I principali svantaggi, invece, sono:
+\begin{itemize}
+\item \textbf{one key to kingdom}: come già discusso per il \glossaryItem{sso}, se l'\glossaryItem{idp} viene violato i malintenzionati avranno accesso a tutte le applicazioni di tutti gli utenti;
+\item \textbf{infrastruttura specializzata}: implementare una soluzione di questo tipo è molto difficile e costoso: bisogna sviluppare un \glossaryItem{idp}, configurarlo e manutenerlo;
+\item \textbf{conformità agli standard}: per poter comunicare con altri \glossaryItem{idp} serve ''parlare la stessa lingua'', che tradotto significa essere conformi allo stesso standard. Il problema è che lo standard non è unico, e riuscire a raggiungere un buon livello di interoperabilità è difficile.
+\end{itemize}
+
+\subsubsection{Security Assertion Markup Language}
+\glossaryItem{saml} è un standard basato su \glossaryItem{xml} per inviare informazioni sull'\glossaryItem{autenticazione} e sull'\glossaryItem{identita}, in particolare:
+\begin{itemize}
+\item gli attributi dell'utente;
+\item l'\glossaryItem{autorizzazione} che l'utente possiede sulla risorsa richiesta;
+\item l'\glossaryItem{autenticazione}, avvenuta o meno, dell'utente.
+\end{itemize}
+L'uso di \glossaryItem{saml} presenta due principali vantaggi:
+\begin{enumerate}
+\item \textbf{indipendenza dalla piattaforma}: permette ai sistemi di sicurezza ed
+alle applicazioni \textit{software} di essere sviluppate in modo indipendente. È progettato per interagire con qualsiasi sistema;
+\item \textbf{riduzione del rischio nel trasferimento delle informazioni}: tramite meccanismi di sicurezza come firme digitali (\textit{\glossaryItem{xml} Signature}), cifrature (\textit{\glossaryItem{xml} Encryption}), crittografia, codifica, eccetera, si riduce il rischio di attacchi esterni durante lo
+scambio di asserzioni.
+\end{enumerate}
+
+\begin{figure}[hbpc]
+\begin{center}
+\includegraphics[scale=0.3]{componentiSAML}
+\caption[Principali componenti di SAML v2.0]{Principali componenti di SAML v2.0\protect\footnotemark}
+\label{fig:componentiSAML}
+\end{center}
+\end{figure}
+\footnotetext{Immagine tratta da \cite{std:saml}}
+
+\glossaryItem{saml} è una collezione di standard con quattro componenti principali: \textbf{Assertions}, \textbf{Protocols}, \textbf{Bindings} e \textbf{Profiles} (Figura~\ref{fig:componentiSAML}). Di seguito verrà spiegato, brevemente, il loro scopo.
+
+\paragraph{Assertions} \mbox{} \\
+\glossaryItem{saml} permette di assicurare l'\glossaryItem{identita} di un utente nella forma di \textbf{dichiarazioni} su un \textbf{soggetto} (persona fisica o macchina). Un'asserzione è un insieme di queste informazioni, scritte in formato \glossaryItem{xml}. Ad esempio, un'asserzione potrebbe dire che il soggetto si chiama ''Mario Rossi'', possiede l'indirizzo email ''mariorossi@email.com'' ed è membro del gruppo ''programmatori''.
+
+Solitamente un'asserzione contiene un insieme di informazioni richieste e informazioni opzionali comuni a tutte le asserzioni: è presente un soggetto, delle \textbf{condizioni} usate per validare l'asserzione stessa e altre dichiarazioni. Queste ultime possono essere di tre tipi:
+\begin{itemize}
+\item \textbf{di \glossaryItem{autenticazione}}: create dall'entità che autentica il soggetto;
+\item \textbf{di attributo}: attributi sull'\glossaryItem{identita} del soggetto (nome, indirizzo email, eccetera);
+\item \textbf{di \glossaryItem{autorizzazione}}: ciò che l'utente può fare con la risorsa richiesta.
+\end{itemize}
+
+\paragraph{Protocols} \mbox{} \\
+Definiscono come si richiedono e si ricevono le asserzioni. I protocolli definiscono come devono essere formulate le richieste (\textbf{SAMLRequest}) e le risposte (\textbf{SAMLResponse}) e forniscono regole per interpretare questi elementi. Le richieste sono chiamate \textit{queries}: il \glossaryItem{sp} invia delle \textit{queries} all'\glossaryItem{idp}. Le risposte arrivano sotto forma di asserzioni. Di conseguenza ci sono tre tipi di \textit{query}, corrispondenti ai tre tipi di asserzione: \textbf{di \glossaryItem{autenticazione}}, \textbf{di attributo} e \textbf{di \glossaryItem{autorizzazione}}.
+
+\paragraph{Bindings} \mbox{} \\
+Indicano esattamente come i messaggi \glossaryItem{saml} debbano essere inviati attraverso i protocolli di trasmissione delle informazioni (ad esempio \glossaryItem{http}). Il \textit{binding} è un'operazione di mappatura delle \textit{SAMLRequests} e \textit{SAMLResponses} sui protocolli di comunicazione standard.
+
+\paragraph{Profiles} \mbox{} \\
+Definiscono alcuni scenari d’uso comune su come le asserzioni, i protocolli e i \textit{binding} debbano essere combinati tra loro in procedure definite per soddisfare gli scopi per i quali tali scenari d’uso sono stati pensati.

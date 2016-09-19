@@ -1,0 +1,8 @@
+\input{glossario} % database di termini
+\makeglossaries
+
+\renewcommand*{\glstextformat}[1]{\textcolor{black}{#1}} %toglie il colore blu dai link per il glossario
+%\defglsentryfmt{\color{black}\glsgenentryfmt}
+
+\newcommand{\glossaryItem}[1]{\textit{\gls{#1}\ped{\ped{G}}}} % termini da glossario
+\newcommand{\glossaryItemPl}[1]{\textit{\glspl{#1}\ped{\ped{G}}}} % termini da glossario

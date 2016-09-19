@@ -1,0 +1,31 @@
+\chapter{Progettazione} \label{progettazione}
+
+\section{Interfaccia REST-like}
+\input{capitoli/interfacciaREST}
+
+\section{Architettura}
+\input{capitoli/architettura}
+
+\section{Modalità di autenticazione}
+Come già visto, l'\glossaryItem{autenticazione} a Catalogue Manager deve avvenire tramite \glossaryItem{saml}. Tuttavia non esiste un modo univoco di effettuare questa \glossaryItem{autenticazione}, in quanto \glossaryItem{saml} prevede due diverse modalità di accesso, ognuna corrispondente ad uno specifico caso d'uso: in \ref{ssoSAML} verranno analizzate entrambe. 
+
+Risolto il problema dell'accesso, è importante stabilire come verrà mantenuta la sessione con l'utente autenticato, ovvero se questa sarà memorizzata sul server o meno. La scelta è stata quella di lasciare al client l'onere di far sapere se l'\glossaryItem{autenticazione} è avvenuta o no, attraverso l'uso dei \glossaryItem{jwt}, descritti in \ref{descrJWT}.
+
+\subsection{JSON Web Token} \label{descrJWT}
+\input{capitoli/jwt}
+
+\subsection{SSO con SAML} \label{ssoSAML}
+\input{capitoli/SPIdPInitiated}
+
+\section{Principali componenti} 
+Di seguito verranno analizzati i principali componenti dell'architettura dell'applicazione, in particolare modelli (\ref{modelli}) e moduli (\ref{moduli}). Per aiutare la spiegazione, ogni componente viene presentato con un diagramma delle classi che ne mostra attributi e metodi (se presenti). La trattazione non è completa: le \textit{routes}, infatti, non vengono discusse in questa sede, ma lo saranno più avanti. La scelta è motivata dal fatto che di seguito vengono descritte solo le componenti rilevanti ai fine dell'architettura e quelle che meglio mostrano l'applicazione di una progettazione orientata agli oggetti. 
+ 
+\subsection{Modelli} \label{modelli}
+\input{capitoli/models}
+  
+\subsection{Moduli} \label{moduli}
+\input{capitoli/modules}
+
+\section{Design Pattern}
+La progettazione ad oggetti presuppone l'applicazione di alcuni \textit{patterns} noti e molto utilizzati per risolvere problemi comuni. Di seguito verranno esposti quelli utilizzati durante la definizione dell'architettura di Catalogue Manager.
+\input{capitoli/designPatterns}

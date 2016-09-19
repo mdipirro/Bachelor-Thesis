@@ -1,0 +1,58 @@
+Il \glossaryItem{spid} (logo in Figura~\ref{fig:spid}) permette a cittadini e imprese di accedere con un unico \textit{login} a tutti i servizi \textit{online} di pubbliche amministrazioni e imprese aderenti. \glossaryItem{spid} nasce con lo scopo di favorire la diffusione di servizi \textit{online} e di agevolarne l'utilizzo da parte di cittadini e imprese. 
+
+Il modello proposto da \glossaryItem{spid} segue un approccio federato di aziende private e accreditate per la fornitura dei servizi di \glossaryItem{identita} digitale. Cittadini e imprese possono scegliere il loro fornitore di \glossaryItem{identita} preferito.
+
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.4]{spid}
+\caption[Logo di SPID]{Logo di SPID\protect\footnotemark}
+\label{fig:spid}
+\end{center}
+\end{figure}
+
+\subsection{Attori e ruoli}
+\footnotetext{Fonte: \url{http://www.agid.gov.it/agenda-digitale/infrastrutture-architetture/spid/percorso-attuazione}}
+Lo \glossaryItem{spid} identifica differenti ruoli:
+\begin{itemize}
+\item \textbf{Fornitori di \glossaryItem{identita} digitale (o \glossaryItem{IdP})}: sono imprese accreditate dall'\glossaryItem{agid} con il compito di identificare l'utente in modo certo, di creare le \glossaryItem{identita} digitali, di assegnare le credenziali e di gestire gli attributi dell'utente. Devono garantire la correttezza dell'\glossaryItem{identita} digitale e la riservatezza delle informazioni.
+\item \textbf{Fornitori di servizi (o \glossaryItem{SP})}: privati o pubbliche amministrazioni che erogano servizi \textit{online}.
+\item \textbf{Utente}: titolare di un'\glossaryItem{identita} digitale \glossaryItem{spid} che utilizza i servizi erogati dai fornitori di servizi.
+\item \textbf{Gestore di attributi qualificati (o Attribute Provider)}: ha il potere di attestare gli attributi qualificati su richiesta dei fornitori di servizi.
+\item \textbf{Agenzia}: organismo di vigilanza che si occupa di gestire l'accreditamento e di monitorare i gestori dell'\glossaryItem{identita} digitale e i gestori di attributi qualificati.
+\end{itemize}
+
+\subsection{Come funziona}
+Un utente si registra al servizio tramite un \glossaryItem{idp} che crea un’\glossaryItem{identita} digitale e gli assegna le credenziali per il riconoscimento. L'utente può utilizzare la sua \glossaryItem{identita} digitale per l'accesso ai servizi \textit{online} offerti dai \glossaryItem{sp}, che sono collegati a tutti gli \glossaryItem{idp}. Sarà compito dell’\glossaryItem{idp} verificare la correttezza dei dati di \textit{login} immessi dall'utente e fornire al \glossaryItem{sp} solo gli attributi dell'utente strettamente necessari alla fornitura del servizio.
+
+\glossaryItem{spid} infatti introduce il concetto di informazioni necessarie e sufficienti per il servizio. I fornitori del servizio potranno richiedere solamente le informazioni minime necessarie all'erogazione del servizio stesso, come si legge in \cite{reg:spid}:
+
+\begin{displayquote}
+\textit{I fornitori di servizi, per verificare le \textit{policies} di sicurezza relativi all'accesso ai servizi da essi erogati potrebbero avere necessità di informazioni relative ad attributi riferibili ai soggetti richiedenti. Tali \textit{policies} dovranno essere concepite in modo da richiedere per la verifica il set minimo di attributi pertinenti e non eccedenti le necessità effettive del servizio offerto e mantenuti per il tempo strettamente necessario alla verifica stessa, come previsto dall'articolo 11 del decreto legislativo n. 196 del 2003.}
+\end{displayquote}
+
+\subsection{Livelli di sicurezza}
+In Figura~\ref{fig:spidlivelli} sono mostrati i tre livelli di sicurezza di \glossaryItem{spid}.
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.5]{sicurezzaSPID}
+\caption[Livelli di sicurezza SPID]{Livelli di sicurezza SPID\protect\footnotemark}
+\label{fig:spidlivelli}
+\end{center}
+\end{figure}
+\footnotetext{Fonte: \url{http://www.spid.gov.it/}}
+\begin{itemize}
+\item \textbf{Livello 1}: garantisce con un buon grado di affidabilità dell'\glossaryItem{identita} accertata nel corso dell'attività di \glossaryItem{autenticazione}. A tale livello è associato un rischio moderato e compatibile con l'impiego di un sistema \glossaryItem{autenticazione} a singolo fattore, ad es. la \textit{password}; questo livello può essere considerato applicabile nei casi in cui il danno causato da un utilizzo indebito dell’\glossaryItem{identita} digitale ha un basso impatto per le attività del cittadino/impresa/amministrazione. Per il livello 1 la credenziale sarà dunque una \textit{password} di almeno 8 caratteri, da rinnovarsi ogni 180 giorni, formulata secondo i consueti criteri di sicurezza.
+\item \textbf{Livello 2}: garantisce con un alto grado di affidabilità dell'\glossaryItem{identita} accertata nel corso dell'attività di \glossaryItem{autenticazione}. A tale livello è associato un rischio ragguardevole e compatibile con l'impiego di un sistema di \glossaryItem{autenticazione} informatica a due fattori non necessariamente basato su certificati digitali; questo livello è adeguato per tutti i servizi per i quali un indebito utilizzo dell’\glossaryItem{identita} digitale può provocare un danno consistente. Per il livello 2, oltre alla \textit{password} sarà necessario inserire il codice proveniente da un dispositivo a chiave variabile (ad esempio una \textit{One Time Password}) che potrebbe essere anche un'applicazione sul cellulare.
+\item \textbf{Livello 3}: garantisce con un altissimo grado di affidabilità dell'\glossaryItem{identita} accertata nel corso dell'attività di \glossaryItem{autenticazione}. A tale livello è associato un rischio altissimo e compatibile con l'impiego di un sistema di \glossaryItem{autenticazione} informatica a due fattori basato su certificati digitali e criteri di custodia delle chiavi private su altri dispositivi; questo è il livello di garanzia più elevato e da associare a quei servizi che possono subire un serio e grave danno per cause imputabili ad abusi di \glossaryItem{identita}. È anche interessante notare come la definizione di ''dispositivo'' includa sia sistemi di tipo \textit{hardware} sia di tipo \textit{software} (ad esempio sono tali i generatori di \textit{password} attraverso applicazioni per \textit{smartphone}).
+\end{itemize}
+
+\subsection{Come ottenere l'identità digitale}
+Gli attori che possono assumere il ruolo di \glossaryItem{idp} sono molteplici (banche, operatori di telefonia mobile, \textit{certification authority}, fornitori di soluzioni \glossaryItem{it}) e giocano un ruolo fondamentale nel decretare il successo del sistema perché portano in “dote” allo \glossaryItem{spid} il proprio bacino di utenti potenziali. La condizione ottimale è che il numero di \glossaryItem{idp} sia sufficientemente elevato per raggiungere il maggior numero di utenti, e contemporaneamente limitato per minimizzare il numero di relazioni tra \glossaryItem{sp} e \glossaryItem{idp}. 
+
+Il processo di richiesta  dell'\glossaryItem{identita} e di \glossaryItem{autenticazione} è fondamentale perché un'esperienza utente eccessivamente complicata potrebbe scoraggiare gli utenti che vorrebbero aderire al servizio.
+
+\subsection{Vantaggi}
+I \glossaryItem{sp} che aderiscono allo \glossaryItem{spid}, sia pubbliche amministrazioni sia imprese private, possono disporre di un parco utenti senza censirli, non hanno gli oneri derivanti dalla conservazione dei dati personali e non devono preoccuparsi di evitare attacchi volti al furto delle credenziali. Inoltre, i \glossaryItem{sp} possono avere profili con un’\glossaryItem{identita} certa, eliminando i cosiddetti ''falsi profili'', ed univoca, eliminando i duplicati.
+
+Per gli utenti, \glossaryItem{spid} consente di semplificare la vita di cittadini e imprese nell'interazione con la pubblica amministrazione tramite servizi \textit{online} grazie ad un unico \textit{login}. Il sistema garantisce la massima sicurezza e \textit{privacy}. Il \glossaryItem{sp} non può conservare i dati dell'utente che riceve dall’\glossaryItem{idp} ed è assolutamente vietata la tracciatura delle attività di un individuo.

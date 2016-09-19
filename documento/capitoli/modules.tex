@@ -1,0 +1,187 @@
+\begin{center}
+\textit{Di seguito verranno trattati i tre moduli di appoggio principali e maggiormente degni di nota dal punto di vista progettuale, ovvero quelli per la gestione delle immagini, degli errori e per il salvataggio dei log su \textit{database}.}
+\end{center}
+\paragraph{Gestione delle immagini} \mbox{} \\
+In Figura~\ref{fig:ImageHandler} è mostrata la gerarchia di moduli utilizzata per gestire le immagini salvate. In particolare, \texttt{ImageHandler} contiene i due metodi principali: \texttt{save} e \texttt{remove}. Di fatto è un'istanza del \textit{design pattern} \textbf{Template Method}: \texttt{save} e \texttt{remove} chiamano dei metodi implementati dalle sottoclassi che ritornano i percorsi della cartella in cui ci sarà (o c'è) l’immagine. Questi metodi sono \texttt{make\_directories} per \texttt{save} e \texttt{get\_base\_path} per \texttt{remove}. Nelle sottoclassi vengono anche salvati, come campi statici, i percorsi delle cartelle delle immagini. 
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[scale=0.4]{Classi/ImageHandler}
+  \caption[Gerarchia per la gestione delle immagini]{Gerarchia per la gestione delle immagini}
+  \label{fig:ImageHandler}
+  \end{center} 
+\end{figure}
+
+\subparagraph{Attributi} \mbox{} \\
+Gli attributi principali sono \texttt{id} e \texttt{image}: il primo contiene l'ID dell'elemento (applicazione, gruppo o istruzioni \glossaryItem{saml}), mentre il secondo rappresenta l'immagine codificata con \glossaryItem{base64}. Oltre a questi, ogni sottoclasse contiene dei campi statici per memorizzare i \textit{path} delle cartelle delle immagini. In particolare:
+\begin{itemize}
+\item \texttt{APPS\_DIR, CATALOGUE\_DIR, GROUP\_DIR e SAML\_DIR} contengono i \textit{path} delle cartelle delle immagini di, rispettivamente, applicazioni (APPS e CATALOGUE), gruppi e istruzioni per applicazioni \glossaryItem{saml};
+\item \texttt{DEFAULT\_IMAGE}: \textit{path} dell'immagine di \textit{default}. Per le applicazioni l'immagine è obbligatoria, quindi non è prevista nessuna immagine di \textit{default}.
+\end{itemize}
+
+\subparagraph{Metodi} \mbox{} \\
+Come già detto, i due metodi principali sono \texttt{save} e \texttt{remove}. Il primo salva l'immagine, utilizzando come nome il valore dell'attributo \texttt{id}; il secondo rimuove l'immagine con nome uguale al valore dell'attributo \texttt{id}. Entrambi, però, sono metodi \textit{template}, ovvero si appoggiano a metodi implementati nelle sottoclassi. In questo modo è possibile implementare le parti invarianti dei due algoritmi una volta sola, evitando la duplicazione del codice. Sono le sottoclassi a fornire il comportamento concreto implementando i metodi lasciati astratti: \texttt{ImageHandler} definisce solo lo scheletro e l'ordine delle operazioni, senza preoccuparsi di come saranno implementate.
+
+\texttt{make\_directories} crea le \textit{directories} che conterranno l'immagine, se non sono già presenti. \texttt{get\_base\_path}, invece, ritorna il percorso generale della \textit{directory} in cui sono salvate le immagini. 
+
+\texttt{\_init} ha la funzione di costruttore, e viene richiamato automaticamente alla creazione di un oggetto tramite \texttt{new}.
+
+\texttt{get\_default\_image}, infine, è un metodo statico che ritorna l'immagine di \textit{default}.
+
+\newpage
+\paragraph{ErrorHandler} \mbox{} \\
+\begin{figure}[hbpc]
+  \begin{center}
+    \includegraphics[scale=0.5]{Classi/ErrorHandler}
+  \caption[Modulo per la gestione degli errori]{Modulo per la gestione degli errori}
+  \label{fig:ErrorHandler}
+  \end{center} 
+\end{figure}
+In Figura~\ref{fig:ErrorHandler} è mostrata il modulo utilizzato per gestire gli errori, \texttt{ErrorHandler}. Ogni risposta di errore passa da qui, indipendentemente dal tipo di errore (non autorizzato, \textit{bad request}, errore del server o interno). In caso di errore, il back end di Catalogue Manager invia al client un \glossaryItem{json} che segue la seguente struttura (\lstlistingname~\ref{jsonErrore}):
+\begin{lstlisting}[
+		caption={Struttura del JSON di errore},
+		label=jsonErrore,
+		language=json,
+		firstnumber=1
+	]
+{
+	status: false,
+	message: "Messaggio di errore",
+	error_code: code
+}
+\end{lstlisting}
+Dove \texttt{code} è, ovviamente, il codice dell'errore registrato. Se si tratta di un errore del server, la proprietà \texttt{error\_code} ha valore \texttt{undefined} e non compare nel \glossaryItem{json} ritornato. 
+\subparagraph{Attributi}
+\begin{itemize}
+\item \texttt{res}: oggetto \texttt{Resource} di Express.js. Viene utilizzato per inviare la risposta al client;
+\item \texttt{user}: indirizzo email dell'utente. Viene utilizzato per salvare il \textit{log} dell'errore;
+\item \texttt{errors}: oggetto contenente tutti i codici degli errori utilizzati da Catalogue Manager e il messaggio di errore associato. Un esempio è mostrato nel \lstlistingname~\ref{errors}:
+\begin{lstlisting}[
+		caption={Esempio di oggetto contenente i messaggi di errore},
+		label=errors,
+		language=json,
+		firstnumber=1
+	]
+{
+	3000: "Domain catalogue not found",
+	3001: "auth_type value is not supported.",
+	// ...
+	3042: "Private application with public group."
+}
+\end{lstlisting}
+\end{itemize}
+\subparagraph{Metodi}
+\begin{itemize}
+\item \texttt{server\_error}: viene chiamato nel caso in cui ci sia un errore interno del server (esempio quelli generati da mongoose.js). Il parametro \texttt{err} contiene l'errore. Per errori normali (ovvero non di validazione, ma sollevati durante l'esecuzione di un \textit{middleware}) viene semplicemente inviata una risposa di errore e salvato il \textit{log}. Altrimenti (errore di validazione) viene fatto il \textit{parsing} per recuperare le informazioni errate da salvare nel \textit{log} per funzioni di \textit{debug}. Al fine di collegare il \textit{log} ad un'entità di Catalogue Manager (applicazione, gruppo, eccetera), il parametro \texttt{main\_entity} può contenere le informazioni necessarie per memorizzare tale collegamento;
+\item \texttt{internal\_error}: invia una risposta di errore con codice \texttt{code} e messaggio \texttt{errors[code]}, senza salvare nessun \textit{log};
+\item \texttt{bad\_request}: invia una risposta con \textit{status} \glossaryItem{http} 400. Nella risposta viene anche inserito l’\textit{array} \texttt{missing\_fields}, se presente, per segnalare se alcuni parametri obbligatori non sono stati ricevuti dal servizio invocato. Il messaggio di errore è contenuto in \texttt{msg};
+\item \texttt{unauthorized}: invia una risposta con \textit{status} \glossaryItem{http} 401;
+\item \texttt{handle\_and\_save\_log}: chiama \texttt{internal\_error} per gestire l'errore e poi salva il \textit{log}. Oltre alle informazioni sulle principali entità coinvolte nell'errore (applicazione, gruppo, ecc) presenti nell’\textit{array} \texttt{refs}, possono essere incluse delle informazioni aggiuntive non collegabili ad un modello di mongoose.js che vanno inserite nell’\textit{array} \texttt{extra\_infos}. In Figura~\ref{fig:handle_and_save_log} sono mostrate le proprietà contenute nei due parametri. \texttt{refs} viene passato così com'è alla funzione di salvataggio: \texttt{model} rappresenta il nome del modello dell'entità coinvolta, \texttt{dispname} il valore dell'attributo \texttt{name} dell'entità e \texttt{element\_id} il suo ID. In alternativa a \texttt{dispname} è possibile utilizzare \texttt{name}: in questo caso esso contiene il nome dell'attributo dell'entità da mostrare in fase di visualizzazione del \textit{log}. La funzione di salvataggio effettuerà un'interrogazione al \textit{database} per ricavare il valore dell'attributo rappresentato da \texttt{name} nel modello \texttt{model}. \texttt{extra\_infos} contiene invece, come già detto, informazioni aggiuntive non collegabili a nessun modello. La sua struttura è molto semplice e simile a quella di Log (\texttt{element\_id} viene lasciato ad \texttt{undefined}).
+\begin{figure}[hbpc]
+  \begin{center}
+    \includegraphics[scale=0.6]{Classi/handle_and_save_log}
+  \caption[Proprietà dei parametri per il salvataggio dei log]{Proprietà dei parametri per il salvataggio dei log}
+  \label{fig:handle_and_save_log}
+  \end{center} 
+\end{figure}
+\end{itemize}
+
+\newpage
+\paragraph{Salvataggio dei log su database} \mbox{} \\
+\begin{figure}[hbpc]
+  \begin{center}
+    \includegraphics[scale=0.5]{Classi/DBLogger}
+  \caption[Modulo per il salvataggio dei log su database]{Modulo per il salvataggio dei log su database}
+  \label{fig:DBLogger}
+  \end{center} 
+\end{figure}
+In Figura~\ref{fig:DBLogger} è mostrato il modulo \texttt{DBLogger}, utilizzato per il salvataggio dei \textit{log} su \textit{database}. È l'unico modulo di Catalogue Manager che scrive sulla \textit{collection} rappresentata dal modello \texttt{CatalogueLog} e, grazie alla funzione \texttt{extract\_infos}, rende facilmente utilizzabili le informazioni salvate su tale \textit{collection}. Memorizza inoltre tutti i codici di \textit{log} presenti nell'applicazione.
+
+\subparagraph{Attributi} \mbox{} \\
+L'unico attributo di \texttt{DBLogger} è \texttt{codes}, che contiene tutti i codici dei log corrispondenti a operazioni riuscite (quindi non quelli per gli errori, memorizzati in \texttt{ErrorHandler}). Questi codici sono accedibili tramite proprietà di questo attributo, che ha la seguente struttura (\lstlistingname~\ref{codiciLog}):
+\begin{lstlisting}[
+		caption={Esempio di oggetto contenente i codici dei log},
+		label=codiciLog,
+		language=json,
+		firstnumber=1
+	]
+{
+	APP_CREATED: 1,
+	PRIVATE_APP_CREATED: 2,
+	APP_REMOVED: 3,
+	PRIVATE_APP_REMOVED: 4,
+	// ...
+	ACCESS_ALLOWED: 29,
+	ACCESS_DENIED: 30
+}
+\end{lstlisting}
+
+\subparagraph{Metodi} 
+\begin{itemize}
+\item \texttt{save}: salva i \textit{log} su \textit{database}. \texttt{user} rappresenta l'indirizzo email dell'utente e \texttt{code} il codice del \textit{log}. Quest'ultimo viene validato attraverso la funzione \texttt{check\_code}, che ritorna \texttt{true} se e solo se il codice è contenuto in \texttt{codes} o se è un codice di errore. Nell'\textit{array} \texttt{data}, invece, sono contenute le informazioni da salvare. La struttura di questo parametro è conforme a quella di \texttt{ModelLogInfo}, in modo da mantenere la flessibilità data dalla doppia proprietà per il nome da mostrare. Come già detto, infatti, \texttt{model} rappresenta il nome del modello dell'entità coinvolta nell'operazione, \texttt{dispname} il valore dell'attributo \texttt{name} dell'entità e \texttt{element\_id} il suo ID. In alternativa a \texttt{dispname} è possibile utilizzare \texttt{name}: in questo caso esso contiene il nome dell'attributo dell'entità da mostrare in fase di visualizzazione del \textit{log}. La funzione di salvataggio effettuerà un'interrogazione al \textit{database} per ricavare il valore dell'attributo rappresentato da \texttt{name} nel modello \texttt{model}. Ad esempio, dato il modello \textit{M}, se \texttt{name} contiene la stringa ''description'', verrà memorizzato nell'attributo \texttt{value} di \texttt{CatalogueLog} il valore \texttt{description} del \textit{document} del modello \textit{M} identificato univocamente da \texttt{element\_id}. In Tabella~\ref{tab:esempioLog} è mostrato un esempio con dei valori. 
+\begin{center}
+  \bgroup
+  
+  \begin{longtable}{ | m{4cm} | m{5cm} |}
+    \hline
+    \cellcolor[gray]{0.9}\textbf{ID} & \cellcolor[gray]{0.9}\textbf{\textit{description}} \\ \hline
+    5770fadf7a1725abe77e0382 & Lorem ipsum dolor sit amet \\ \hline
+    575ffd1c8259f70d4b775646 & Mauris suscipit semper dui \\ \hline
+    \caption[Esempio di salvataggio di un log]{Esempio di salvataggio di un log}
+    \label{tab:esempioLog} 
+    \end{longtable}
+  \egroup
+\end{center} 
+Supponiamo 
+\newline \texttt{data.element\_id} == 5770fadf7a1725abe77e0382 e 
+\newline \texttt{data.name} == \textit{description}
+
+In tal caso verrà salvato come \texttt{CatalogueLog.value} la stringa ''Lorem ipsum dolor sit amet''. 
+
+Al contrario, se 
+\newline \texttt{data.element\_id} == 5770fadf7a1725abe77e0382 e 
+\newline \texttt{data.dispname} == \textit{Mario Rossi} 
+
+verrà salvato come \texttt{CatalogueLog.value} la stringa ''Mario Rossi''.
+\item \texttt{extract\_infos}: questa funzione serve per rendere più facilmente utilizzabili le informazioni contenute il \texttt{CatalogueLog}. In particolare, dato un \textit{log} con la struttura mostrata nel \lstlistingname~\ref{rawlog} restituisce lo stesso \textit{log}, ma con la struttura mostrata nel \lstlistingname~\ref{formattedlog}:
+\begin{lstlisting}[
+		caption={Document di CatalogueLog},
+		label=rawlog,
+		language=json,
+		firstnumber=1
+	]
+{
+	_id: ObjectId,
+	code: Number,
+	user: String,
+	created_at: Date,
+	infos: Array[{
+		key: String,
+		value: String,
+		element_id: ObjectId
+	}]
+}
+\end{lstlisting}
+
+\begin{lstlisting}[
+		caption={Log riformattato},
+		label=formattedlog,
+		language=json,
+		firstnumber=1
+	]
+{
+	date: Date,
+	code: Number,
+	infos: Array[{
+		application: String,
+		group: String,
+		domain: String,
+		browser: String
+		user: String
+	}],
+	errored: Array[{
+		// struttura dipendente dal codice di errore
+	}]
+}
+\end{lstlisting}
+Le proprietà di \texttt{infos} sono potenzialmente vuote. Ad esempio, se il \textit{log} riguarda la creazione di un'applicazione pubblica, \texttt{group, domain} e \texttt{browser} saranno stringhe vuote. Le proprietà di \texttt{errored}, invece, dipendono dal codice di errore specifico e, in generale, riportano i valori dei dati errati.
+\end{itemize}

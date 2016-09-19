@@ -1,0 +1,243 @@
+\chapter{Tecnologie, strumenti e linguaggi utilizzati}\label{tecnologie}
+\section{Tecnologie}
+Di seguito saranno presentate le tecnologie principali utilizzate durante l'attività di stage. Lo \textit{stack} tecnologico usato è denominato \textbf{MEAN} (Figura~\ref{fig:mean}):
+\begin{itemize}
+\item \textbf{M}ongoDB, \textit{database} non relazionale;
+\item \textbf{E}xpress.js, \glossaryItem{framework} per applicazioni web eseguite su Node.js;
+\item \textbf{A}ngular.js, \glossaryItem{framework} JavaScript eseguito su \textit{browser};
+\item \textbf{N}ode.js, ambiente di esecuzione lato server per applicazioni ad eventi e relative comunicazioni.
+\end{itemize}
+\begin{figure}[hbpc]
+\begin{center}
+\includegraphics[scale=0.3]{mean}
+\caption[Funzionamento dello stack MEAN]{Funzionamento dello stack MEAN\protect\footnotemark}
+\label{fig:mean}
+\end{center}
+\end{figure}
+\footnotetext{Fonte: \url{http://trinathswebapps.blogspot.it/2016/01/history-of-angularjs.html}}
+In particolare, durante l'attività di stage sono state utilizzate le tecnologie lato server, quindi MongoDB, Express.js e Node.js, che saranno descritte in seguito.
+
+\subsection{Node.js}
+
+\paragraph{Asincronismo} \mbox{} \\
+In Figura~\ref{fig:confrontoNodeJava} viene mostrato un confronto tra un server Java e uno Node.js. La differenza principale è che Node.js permette la realizzazione di \textbf{server asincroni non bloccanti}. Lo stile architetturale orientato agli eventi lo rende particolarmente adatto a catturare la reattività di un'applicazione web.
+
+Quando un server viene invocato in modo sincrono, l'applicazione client che l'ha invocato deve attendere la risposta prima di poter continuare la sua esecuzione. Se la risposta è immediata va tutto bene, ma è ragionevole supporre che la maggior parte delle applicazioni eseguite da un server impieghino del tempo per essere eseguite, con conseguente rallentamento dell'intero sistema.
+
+Se il server viene invocato in modo asincrono, però, il client non deve aspettare la risposta del server e può proseguire con l'esecuzione. 
+\begin{figure}[hbpc]
+    \begin{center}
+    \begin{subfigure}[b]{0.6\textwidth}
+        \includegraphics[width=\textwidth]{threading_node}
+        \caption{Server Node.js}
+        \label{fig:servernode}
+    \end{subfigure}
+    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
+      %(or a blank line to force the subfigure onto a new line)
+    \begin{subfigure}[b]{0.6\textwidth}
+        \includegraphics[width=\textwidth]{threading_java}
+        \caption{Server Java}
+        \label{fig:serverjava}
+    \end{subfigure}
+    \caption[Confronto tra server Node.js e server Java]{Confronto tra server Node.js e server Java\protect\footnotemark}\label{fig:confrontoNodeJava}
+    \end{center}
+\end{figure}
+\footnotetext{Fonte: \url{https://strongloop.com/strongblog/node-js-is-faster-than-java/}}
+
+In Figura~\ref{fig:funzionamentoNode} viene mostrato il funzionamento di un server Node.js nel contesto di una richiesta di \glossaryItem{io}. Le funzionalità di \glossaryItem{io} sono molto importanti nell'architettura di Node.js. Un unico \glossaryItem{thread} (il \textbf{main \glossaryItem{thread}}) rimane in ascolto di connessioni. Quando si riceve una richiesta il \glossaryItem{thread} esegue l'evento richiesto, qualunque esso sia. Tuttavia, se l'operazione richiede del tempo, come una lettura da \glossaryItem{filesystem} o da \textit{database}, viene aperto un altro \glossaryItem{thread} (il \textbf{worker \glossaryItem{thread}}) che si occupa di eseguire quanto richiesto. Questo meccanismo di delega avviene attraverso l'uso di una funzione di \textit{callback}, ovvero una funzione invocata al termine dell'esecuzione di un'altra. Grazie a questo meccanismo di ''chiamata all'indietro'' il \glossaryItem{thread} delegato può notificare al \glossaryItem{thread} principale il completamento dell'operazione richiesta. Nel frattempo quest'ultimo è libero di continuare con l'esecuzione del programma principale. 
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.3]{funzionamentoNode}
+\caption[Funzionamento di un server Node.js]{Funzionamento di un server Node.js\protect\footnotemark}
+\label{fig:funzionamentoNode}
+\end{center}
+\end{figure}
+\footnotetext{Immagine tratta da \cite{doglio05}}
+
+Questo meccanismo asincrono migliora notevolmente le \textit{performance} e l'utilizzo delle risorse, ma presenta anche degli aspetti negativi. Il controllo del flusso di esecuzione risulta più complesso, e l'eccessivo uso di \textit{callback} può portare ad un rallentamento.
+
+Comunque sia, per applicazioni web molto orientate all'\glossaryItem{io} l'uso di Node.js, rispetto ad un tradizionale server Java, consente un miglioramento complessivo delle \textit{performance} e ad una riduzione dei tempi di attesa.
+
+\paragraph{Performance} \mbox{} \\
+In Figura~\ref{fig:nodejavaperf} si riporta un confronto di prestazioni tra un server Node.js e uno Java effettuato da Paypal (\cite{site:paypalNode}) e basato sulla stessa applicazione scritta nei due modi diversi.
+
+La prima differenza evidente riguarda il \textbf{numero di richieste al secondo}: Node.js riesce a gestirne il doppio rispetto a Java, e soprattutto lo fa dimezzando il \textbf{tempo di risposta medio} (questa è la seconda notevole differenza).
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.3]{node_java_perf}
+\caption[Confronto di prestazioni tra Java e Node.js]{Confronto di prestazioni tra Java e Node.js\protect\footnotemark}
+\label{fig:nodejavaperf}
+\end{center}
+\end{figure}
+\footnotetext{Immagine tratta da \cite{site:paypalNode}}
+\newpage
+\subsection{Express.js} \label{express}
+Per lo sviluppo del back end si è fatto uso di \textbf{Express.js} (logo in Figura~\ref{fig:express}), un \glossaryItem{framework} che costituisce lo standard \textit{de facto} per la creazione di servizi \glossaryItem{rest} in ambiente Node.js. Le sue caratteristiche principali sono il \textbf{routing} e le funzioni \textbf{middleware}.
+\begin{figure}[hbpc]
+\begin{center}
+\includegraphics[scale=0.4]{express}
+\caption[Logo di Express.js]{Logo di Express.js\protect\footnotemark}
+\label{fig:express}
+\end{center}
+\end{figure}
+\footnotetext{Fonte: \url{http://expressjs.com/}}
+
+\paragraph{Routing} \mbox{} \\
+Express.js fornisce un metodo semplice per gestire gli \textit{endpoint} a cui l'applicazione risponde. Per creare una \textit{route} è sufficiente utilizzare l'oggetto \texttt{Router}, specificando a quale metodo \glossaryItem{http} (\textbf{GET}, \textbf{POST}, \textbf{PUT} o \textbf{DELETE}) e \glossaryItem{uri} rispondere. In risposta all'invocazione è possibile inviare qualsiasi tipo di dato, dai più semplici ai più complessi, utilizzando i metodi che l'oggetto \texttt{Response} di Express.js fornisce.
+
+\paragraph{Middleware} \mbox{} \\
+Per \textit{middleware} si intendono delle strutture che permettono di astrarre funzionalità locali in funzionalità distribuite. In Express.js, le funzioni \textit{middleware} permettono di eseguire delle operazioni prima, durante o dopo l'esecuzione del codice associato all'\textit{endpoint} invocato, modificando gli oggetti associati alla richiesta, terminando l'invocazione o chiamando un altro \textit{middleware}.
+
+Possono essere di vario tipo:
+\begin{itemize}
+\item a livello di \textbf{applicazione}: definiti per ogni possibile \textit{endpoint};
+\item a livello di \textbf{router}: definiti quindi per gli \textit{endpoints} associati a quel \textit{router};
+\item per \textbf{gestione degli errori};
+\item di \textbf{terze parti}: possono essere importati per aggiungere delle funzionalità all'applicazione.
+\end{itemize}
+
+\subsection{MongoDB}
+Il \glossaryItem{dbms} utilizzato è \textbf{MongoDB} (logo in Figura~\ref{fig:mongodb}). 
+
+\begin{figure}[hbpc]
+\begin{center}
+\includegraphics[scale=0.2]{mongodb}
+\caption[Logo di MongoDB]{Logo di MongoDB\protect\footnotemark}
+\label{fig:mongodb}
+\end{center}
+\end{figure}
+%\footnotetext{Fonte: \url{https://www.mongodb.com/}}
+
+L'integrazione con Node.js è effettuata grazie al modulo \textbf{mongoose.js}, che semplifica le operazioni che coinvolgono il database aggiungendo metodi per validare e controllare i dati e per eseguire \textit{query}. 
+
+Per facilitare la lettura dei dati, inoltre, è stato utilizzato \textbf{Robomongo}, che verrà descritto in \hyperref[sec:robomongo]{seguito}.
+
+\paragraph{Confronto con un database relazionale} \mbox{} \\
+MongoDB è un \textit{database} non relazionale (o \glossaryItem{nosql}) appartenente alla famiglia dei \textit{database} \textbf{orientati ai documenti}: è in grado quindi di memorizzare oggetti con struttura complessa e non fissata inizialmente. I \textbf{documenti} memorizzati vengono organizzati in \textbf{collezioni}, con la possibilità di definire indici di vario tipo per velocizzare le ricerche ed esprimere vincoli. L'utilizzo di tali indici è inoltre necessario per mantenere le relazioni tra collezioni di documenti diversi.
+
+In Tabella~\ref{tab:terminiSQLNoSQL} è mostrato un confronto di terminologia tra i due tipi di \textit{database}.
+\begin{table}[h]
+\centering
+\caption{Confronto di terminologia tra un database relazionale e MongoDB}
+\label{tab:terminiSQLNoSQL}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Database relazionale} & \textbf{MongoDB} \\ \hline
+Database                      & Database         \\ \hline
+Tabella                       & Collezione       \\ \hline
+Riga                          & Documento        \\ \hline
+Colonna                       & Campo	         \\ \hline
+\end{tabular}
+\end{table}
+
+\newpage
+\paragraph{Caratteristiche principali} \mbox{} \\
+Le caratteristiche principali di MongoDB sono:
+\begin{itemize}
+\item \textbf{Prestazioni elevate}: MongoDB riesce a garantire alte prestazioni nella persistenza dei dati. Fornisce modelli che riducono le operazioni di \glossaryItem{io} nel \textit{database} e consente la creazioni di indici su qualsiasi tipo di dato.
+\item \textbf{Alta disponibilità}: MongoDB è provvisto di mezzi di replica, chiamati \textit{replica sets}, ovvero gruppi di server che mantengono lo stesso insieme di dati.
+\item \textbf{Scalabilità automatica}: MongoDB scala, automaticamente, in orizzontale, ovvero aumenta le prestazioni aggiungendo altre macchine.
+\end{itemize}
+
+\section{Strumenti}
+Nel corso del progetto sono stati utilizzati numerosi strumenti di supporto per facilitare lo svolgimento delle diverse attività, dal controllo di versione all'analisi del codice scritto. La scelta si è basata su un attento studio delle funzionalità offerte, sul supporto presente \textit{online} e sulla facilità di utilizzo, in modo da assicurare un'alta qualità. Di seguito saranno descritte le principali funzionalità di ogni strumento.
+
+\subsection{Git}
+Git (logo in Figura~\ref{fig:git}) è un \textit{software} di controllo di versione distribuito creato da Linus Torvalds nel 2005. Il controllo di versione permette di tener traccia di tutte le versioni di un progetto, con la possibilità di ripristinare un file o un intero lavoro ad uno stato precedente, evitando quindi la perdita dei dati e le sovrascritture accidentali.
+
+Le sue principali caratteristiche sono:
+\begin{itemize}
+\item supporto allo sviluppo non lineare (\glossaryItem{branching} e \glossaryItem{merging});
+\item sviluppo distribuito: ad ogni sviluppatore viene fornita una copia locale dell'intera cronologia di sviluppo. Quasi tutte le operazioni fatte da Git sono in locale, quindi non è soggetto a latenze di rete.
+\item gestione efficiente di grandi progetti: git è veloce e scalabile;
+\item gestione della cronologia: il nome di un \textit{commit} dipende dall'intera cronologia di sviluppo che ha condotto a quel \textit{commit}.
+\end{itemize}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.6]{git}
+\caption[Logo di Git]{Logo di Git\protect\footnotemark}
+\label{fig:git}
+\end{center}
+\end{figure}
+\footnotetext{Fonte: \url{https://git-scm.com/} (\cite{site:git})}
+
+\subsection{Bitbucket}
+Bitbucket (logo in Figura~\ref{fig:bitbucket}) è un sistema web di \textit{hosting}, dedicato a progetti che usano Mercurial o git per il controllo di versione. Permette di avere un \textit{account} gratuito e un numero illimitato di \glossaryItemPl{repository} private con la possibilità di aggiungere al progetto fino a cinque membri del \textit{team}. Bitbucket offre un sistema di discussione su codice sorgente con commenti in linea, visualizzazione per \textit{branch} o \textit{tag} per vedere i progressi del \textit{team} e richieste di \textit{pull}.
+\begin{figure}[hbpc]
+\begin{center}
+\includegraphics[scale=0.3]{bitbucket}
+\caption[Logo di Bitbucket]{Logo di Bitbucket\protect\footnotemark}
+\label{fig:bitbucket}
+\end{center}
+\end{figure}
+\footnotetext{Fonte: \url{https://bitbucket.org/} (\cite{site:bitbucket})}
+
+\subsection{JSHint}
+JSHint è uno strumento di analisi statica del codice usato per controllare se il codice JavaScript è conforme ad alcune regole di codifica. È presente sia una versione installabile come modulo di Node.js che una \textit{online}, oltre ad una grande varietà di \textit{plug ins} per i principali \textit{editor} di testo.
+
+\subsection{Mocha.js} \label{mocha}
+Mocha.js è un \glossaryItem{framework} di \textit{test} per JavaScript eseguito su ambiente Node.js. Tra le sue caratteristiche principali troviamo:
+\begin{itemize}
+\item supporto per i \textit{test} su \textit{browser};
+\item \textit{testing} asincrono;
+\item report sulla copertura dei \textit{test};
+\item utilizzo di una qualsiasi libreria di asserzioni.
+\end{itemize}
+In particolare, come libreria di asserzioni è stato usato Express.js.
+\begin{figure}[h]
+\begin{center}
+    \includegraphics[scale=0.08]{mocha}
+    \caption{Logo di Mocha.js}
+    \label{fig:mocha}
+\end{center}
+\end{figure}
+\footnotetext{Fonte: \url{https://mochajs.org/}}
+
+\subsection{DHC} \label{dhc}
+DHC (logo in Figura~\ref{fig:dhc}) è uno strumento per rendere più semplice l'uso
+e il \textit{testing} delle risorse \glossaryItem{HTTP}/\glossaryItem{REST} ed è disponibile come \textit{plug in} nel \textit{browser} Google Chrome. Oltre alla sua funzione principale: inviare o ricevere rispettivamente richieste o risposte \glossaryItem{HTTP}/\glossaryItem{REST}, esso permette di salvare in modo permanente una richiesta e le sue variabili in un \glossaryItem{repository} locale per un successivo riutilizzo.
+\begin{figure}[hbpc]
+\begin{center}
+\includegraphics[scale=0.5]{dhc}
+\caption[Logo di DHC]{Logo di DHC\protect\footnotemark}
+\label{fig:dhc}
+\end{center}
+\end{figure}
+\footnotetext{Fonte: \url{https://restlet.com/products/dhc/}}
+
+\subsection{Robomongo} \label{sec:robomongo}
+Robomongo è uno strumento di gestione di MongoDB che permette di utilizzare tutte le funzionalità della \textit{shell} di MongoDB fornendo però un'intuitiva interfaccia grafica. Tra i vantaggi vi sono, oltre alla maggiore leggibilità dei dati contenuti nel \textit{database}, la possibilità di avere più finestre con i risultati visibili contemporaneamente, di poter visualizzare nella stessa \textit{shell} i risultati di due \textit{query} differenti e un aiuto nella scrittura delle interrogazioni, dovuta alla funzione di auto-completamento.
+\begin{figure}[hbpc]
+\begin{center}
+\includegraphics[scale=0.5]{robomongo}
+\caption[Logo di Robomongo]{Logo di Robomongo\protect\footnotemark}
+\label{fig:robomongo}
+\end{center}
+\end{figure}
+\footnotetext{Fonte: \url{https://robomongo.org/}}
+
+\subsection{APIDoc e JSDoc}
+Per documentare il codice JavaScript e le \glossaryItem{api} scritte sono stati usati, rispettivamente, JSDoc e APIDoc, che consentono di documentare \textit{inline} il codice e di generare, a partire dalla documentazione, dei piccoli siti web che consentono una facile e veloce consultazione.
+
+\section{Linguaggi}
+L'unico linguaggio utilizzato è JavaScript: la scelta è stata imposta dal fatto che l'applicazione viene eseguita su un server Node.js. Di seguito verranno descritte le principali caratteristiche di questo linguaggio. 
+
+\subsection{JavaScript}
+JavaScript (logo in Figura~\ref{fig:javascript}) è un linguaggio di programmazione importante perché è il linguaggio più usato nei \textit{browser} web, ma al contempo è uno dei più ''disprezzati''. Presenta notevoli differenze rispetto a tutti gli altri e molte delle sue caratteristiche possono essere viste come un bene o un male. 
+\begin{figure}[hbpc]
+\begin{center}
+\includegraphics[scale=0.2]{javascript}
+\caption[Logo di JavaScript]{Logo di JavaScript\protect\footnotemark}
+\label{fig:javascript}
+\end{center}
+\end{figure}
+\footnotetext{Fonte: \url{https://code.support/category/code/javascript/}}
+
+
+Una di queste è la tipizzazione debole. In un linguaggio fortemente tipizzato il compilatore è in grado di riconoscere gli errori di tipo e di segnalarli al programmatore, impedendo che questi si tramutino in errori di esecuzione difficili da trovare. D'altro canto, però, nel mondo delle applicazioni web una tipizzazione forte costringerebbe ad usare complicate gerarchie di classi che in JavaScript possono essere evitate. Il lato negativo è che il programmatore deve essere molto più attento e sapere molto meglio quello che sta facendo. Questo si traduce in un maggior numero di \textit{test}. 
+
+Un punto forte è la facilità con cui possono essere creati gli oggetti: basta semplicemente elencare tutte le componenti (o proprietà) di un oggetto per crearlo. In JavaScript anche le funzioni sono oggetti, quindi i metodi si definiscono esattamente come gli attributi. Tuttavia, come sarà descritto in seguito, questa flessibilità porta alla mancanza di incapsulazione.
+
+Un altro punto controverso è l'ereditarietà prototipale. In JavaScript gli oggetti possono ereditare liberamente proprietà da altri oggetti: questo meccanismo è molto potente, ma è difficile padroneggiarlo, soprattutto per chi è abituato all'ereditarietà ''classica'' dei linguaggi fortemente tipizzati. Il problema si riflette soprattutto nell'applicazione dei \textit{design pattern} per la progettazione ad oggetti: è impossibile applicarli così come sono, e imparare ad applicarli può risultare frustrante. 
+
+L'enorme diffusione di JavaScript è dovuta principalmente al fiorire di numerose librerie nate allo scopo di semplificare la programmazione sul \textit{browser}, ma anche alla nascita di \glossaryItem{framework} lato server e nel mondo \textit{mobile} che lo supportano come linguaggio principale. Node.js, infatti, si basa su JavaScript. Di conseguenza ogni applicazione eseguita su un server Node.js deve essere scritta in JavaScript. 

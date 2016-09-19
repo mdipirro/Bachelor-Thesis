@@ -1,0 +1,47 @@
+\texttt{/acs} & Data la \textit{SAMLResponse}, verifica che l'utente abbia accesso all'applicazione Catalogue Manager e genera il \textit{token} corrispondente. All'interno di esso viene memorizzato l'indirizzo email dell'utente e il suo identificativo all'interno del \textit{database} di Monokee. \\ \hline
+\texttt{/auth/add\_applications\_in\_group} & Aggiunge un insieme di applicazioni ad un gruppo. Le applicazioni e il gruppo vengono identificate tramite i loro ID, e vengono effettuati tutti i controlli necessari per non creare inconsistenze. In particolare:
+\begin{itemize}
+\item la visibilità dell'applicazione e del gruppo deve essere la stessa;
+\item se il gruppo è privato (specifico di un dominio, l'applicazione deve appartenere al catalogo di quel dominio);
+\item l'applicazione non deve essere già inserita in un altro gruppo.
+\end{itemize}
+\\ \hline
+\texttt{/auth/create\_application} & Crea un'applicazione pubblica o privata e la aggiunge al catalogo di Monokee, nel primo caso, o al catalogo di un dominio, nel secondo. \\ \hline
+\texttt{/auth/create\_domain\_catalogue} & Crea un catalogo di dominio per il dominio selezionato. Se il dominio ha già un catalogo viene sollevato un errore. \\ \hline
+\texttt{/auth/create\_group} & Crea un gruppo (pubblico o privato). Durante la creazione di un gruppo è possibile decidere quali applicazioni faranno parte di quel gruppo. Se vengono forniti degli ID di applicazioni vengono fatti gli stessi controlli descritti per \texttt{add\_applications\_in\_group}. \\ \hline
+\texttt{/auth/get\_access\_by\_intervals} & Ritorna il numero di accessi effettuati nelle ultime 24 ore e nell'ultima settimana. \\ \hline
+%get\_access\_logs & Ritorna i log riguardanti gli accessi permessi o negati in un intervallo temporale deciso dall'utente. \\ \hline
+\texttt{/auth/get\_activities\_from\_to} & Ritorna un qualsiasi tipo di \textit{log} (riguardanti le attività su gruppi, applicazioni, accessi o domini) in un intervallo temporale deciso dall'utente. \\ \hline
+\texttt{/auth/get\_addable\_applications} & Ritorna, dato l'ID di un gruppo, le applicazioni che possono essere aggiunte a tale gruppo. \\ \hline
+\texttt{/auth/get\_application\_details} & Ritorna, dato l'ID di un'applicazione, i dettagli di tale applicazione. I dettagli includono nome, descrizione, \glossaryItem{url}, informazioni sul tipo di \glossaryItem{autenticazione}, eccetera. \\ \hline
+%get\_application\_logs & Ritorna i log riguardanti le attività su applicazioni in un intervallo temporale deciso dall'utente. \\ \hline
+\texttt{/auth/get\_applications\_by\_dates} & Ritorna il numero di applicazioni, pubbliche e private, aggiunte e rimosse in un intervallo temporale deciso dall'utente. Le informazioni vengono separate per settimana. \\ \hline
+\texttt{/auth/get\_applications\_by\_group} & Dato l'ID di un gruppo, ritorna le applicazioni contenute in quel gruppo. \\ \hline
+\texttt{/auth/get\_applications\_by\_intervals} & Ritorna le applicazioni aggiunte e rimosse nelle ultime 24 ore, nell'ultima settimana, mese e anno. \\ \hline
+\texttt{/auth/get\_applications\_list} & Ritorna la lista di tutte le applicazioni pubbliche. \\ \hline
+\texttt{/auth/get\_categories} & Ritorna la lista delle categorie, complete delle sotto categorie. \\ \hline
+\texttt{/auth/get\_domain\_by\_name} & Ritorna una lista di domini con nome simile a quello inviato dall'utente. \\ \hline
+\texttt{/auth/get\_domain\_catalogue} & Dato un dominio, ritorna le applicazioni del catalogo di quel dominio. \\ \hline
+%get\_domain\_logs & Ritorna i log riguardanti le attività su domini in un intervallo temporale deciso dall'utente. \\ \hline
+\texttt{/auth/get\_domains\_with\_catalogue} & Ritorna i domini che hanno un catalogo di applicazioni associato. \\ \hline
+%get\_error\_logs & Ritorna i log riguardanti le operazioni che hanno generato degli errori in un intervallo temporale deciso dall'utente. \\ \hline
+\texttt{/auth/get\_group\_details} & Ritorna i dettagli di un gruppo di applicazioni, come il nome, la descrizione e l'immagine. \\ \hline
+\texttt{/auth/get\_groups} & Ritorna i gruppi pubblici di applicazioni presenti in Catalogue Manager. \\ \hline
+%get\_groups\_logs & Ritorna i log riguardanti le attività su gruppi in un intervallo temporale deciso dall'utente. \\ \hline
+\texttt{/auth/get\_properties} & Ritorna le \texttt{properties} utilizzabili per l'accesso in \glossaryItem{sso} di tipo \textit{form-based}. \\ \hline
+\texttt{/auth/get\_sovra\_category\_stats} & Ritorna il numero di applicazioni, pubbliche e private, presenti in ciascuna sotto categoria. \\ \hline
+\texttt{/auth/get\_sso\_actions} & Ritorna una lista delle \texttt{actions} da eseguire per l'accesso in \glossaryItem{sso} di tipo \textit{form-based}. \\ \hline
+\texttt{/auth/get\_stats} & Ritorna il numero totale di applicazioni e gruppi, pubblici e privati. Vengono inoltre ritornate il numero di applicazioni presenti in ciascuna categoria. \\ \hline
+\texttt{/auth/get\_user\_info} & Ritorna le informazioni dell'utente che ha effettuato il \textit{login}. \\ \hline
+\texttt{/auth/remove\_application} & Rimuove definitivamente un'applicazione dato il suo ID. \\ \hline
+\texttt{/auth/remove\_applications\_from\_group} & Rimuove un insieme di applicazioni da un gruppo. \\ \hline
+\texttt{/auth/remove\_domain\_catalogue} & Dato l'ID di un dominio, rimuove il catalogo di quel dominio. Le applicazioni contenute in quel catalogo vengono eliminate definitivamente. \\ \hline
+\texttt{/auth/remove\_group} & Dato l'ID di un gruppo, lo rimuove. La rimozione del gruppo causa solo la cancellazione del collegamento con le applicazioni che vi erano inserite. Queste applicazioni restano nel catalogo di Monokee, o in quello di un dominio. \\ \hline
+\texttt{/auth/set\_learning\_catalogue} & Consente di utilizzare il \textit{plug in} di Monokee per il \textit{learning}. Il \textit{learning} serve per il \glossaryItem{sso} tramite \textit{form fulfillment}. \\ \hline
+\texttt{/auth/set\_learning\_mobile} & Consente inserire i dati per il \textit{form fulfillment} per \textit{browsers} \textit{mobile}. \\ \hline
+\texttt{/auth/set\_maintenance} & Consente di aggiornare il \textit{flag} di manutenzione di un'applicazione. \\ \hline
+\texttt{/auth/update\_3rd\_type\_data} & Consente di aggiornare i dati di \glossaryItem{autenticazione} per un'applicazione con accesso del terzo tipo. L'\glossaryItem{autenticazione} per queste applicazioni viene effettuata tramite una richiesta POST \glossaryItem{ajax}. È quindi possibile modificare tutti gli elementi di questa richiesta, come le \texttt{properties} utilizzate e gli \texttt{headers} della richiesta. \\ \hline
+\texttt{/auth/update\_formSSO\_data} & Consente di aggiornare i dati di \glossaryItem{autenticazione} per un'applicazione di tipo \textit{form-based}. Oltre all'utilizzo del \textit{learning}, quindi, è possibile impostare questi dati anche manualmente. Questa possibilità si rivela molto utile se l'accesso viene effettuato tramite richieste POST \glossaryItem{ajax} e non tramite \textit{form-fulfillment}. \\ \hline
+\texttt{/auth/update\_general\_data} & Consente di aggiornare i dati generali di un'applicazione, come il nome, la descrizione, l'\glossaryItem{url} o l'immagine. \\ \hline
+\texttt{/auth/update\_group} & Consente di aggiornare i dati generali di un gruppo, ma non di aggiungere o rimuovere applicazioni da esso. \\ \hline
+\texttt{/auth/update\_saml\_instructions} & Consente di aggiornare le istruzioni per la configurazione dell'accesso tramite \glossaryItem{saml}. Essendo l'applicazione nel catalogo generale e indipendente dagli utilizzatori, è permesso solo configurare le istruzioni (viste come una serie di azioni da compiere) per configurare le informazioni richieste per l'utilizzo di \glossaryItem{saml}. È compito di chi aggiunge l'applicazione desiderata al proprio \textit{application broker} inserire queste informazioni. \\ \hline

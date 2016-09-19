@@ -1,0 +1,19 @@
+\newcounter{riskcounter}                % define a counter
+\setcounter{riskcounter}{0}             % set the counter to some initial value
+
+%%%% Parameters
+% #1: Title
+\newenvironment{risk}[1]{
+    \refstepcounter{riskcounter}        % increment counter
+    \par \noindent                      % start new paragraph
+    \textbf{\arabic{riskcounter}. #1}   % display the title before the 
+                                        % content of the environment is displayed 
+}{
+    \par\medskip
+}
+
+\newcommand{\riskname}{Rischio}
+
+\newcommand{\riskdescription}[1]{\textbf{\\Descrizione:} #1.}
+
+\newcommand{\risksolution}[1]{\textbf{\\Soluzione:} #1.}

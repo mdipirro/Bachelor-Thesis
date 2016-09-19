@@ -1,0 +1,208 @@
+\paragraph{Catalogue} \mbox{} \\
+In Figura~\ref{fig:Catalogue} è mostrato il modello \texttt{Catalogue}, che rappresenta il catalogo delle applicazioni. Ogni \textit{document} della \textit{collection} descrive un'applicazione da catalogo, non importa se di quello di Monokee o di quello di un dominio.
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[scale=0.6]{Classi/Catalogue}
+  \caption[Modello Catalogue]{Modello Catalogue}
+  \label{fig:Catalogue}
+  \end{center} 
+\end{figure}
+\subparagraph{Attributi}
+\begin{itemize}
+\item \texttt{name}: nome dell'applicazione;
+\item \texttt{description}: descrizione dell'applicazione;
+\item \texttt{url}: \glossaryItem{url} dell'applicazione;
+\item \texttt{private\_application}: \texttt{true} se e solo se l'applicazione è privata, ovvero se appartiene al catalogo di un dominio; \texttt{false} altrimenti;
+\item \texttt{image}: \textit{path} dell'immagine dell'applicazione, salvata su un server di Monokee;
+\item \texttt{categories}: \textit{array} di oggetti \texttt{Category} rappresentante le categorie dell'applicazione. \texttt{Category} (Figura~\ref{fig:Category}) è caratterizzato da due stringhe:
+	\begin{itemize}
+	\item \texttt{category}: il nome della categoria;
+	\item \texttt{sovra\_category}: il nome della ''sovra categoria''.
+	\end{itemize}
+	\begin{figure}[h]
+	  \begin{center}
+	    \includegraphics[scale=0.7]{Classi/Category}
+	  \caption[Attributi di Category]{Attributi di Category}
+	  \label{fig:Category}
+	  \end{center} 
+	\end{figure}
+La consistenza dell'associazione categoria/sovra categoria è assicurata durante la validazione dei dati effettuata da mongoose.js. Tutte le categorie accettabili sono state definite in un \textit{file}, \texttt{categories.json}, che viene letto per assicurare che vengano inseriti solo dati corretti;
+\item \texttt{auth\_type}: identifica il tipo di \glossaryItem{autenticazione} per l'applicazione;
+\item \texttt{application\_form}: riferimento al \textit{document} contenente i dati per l'\glossaryItem{autenticazione} \textit{form-based}. Se l'applicazione ha un tipo di \glossaryItem{autenticazione} diverso (\glossaryItem{saml} o terzo tipo) è \texttt{null};
+\item \texttt{application\_saml}: riferimento al \textit{document} contenente i dati per l'\glossaryItem{autenticazione} \glossaryItem{saml}. Se l'applicazione ha un tipo di \glossaryItem{autenticazione} diverso (\textit{form-based} o terzo tipo) è \texttt{null};
+\item \texttt{application\_third\_type}: riferimento al \textit{document} contenente i dati per l'\glossaryItem{autenticazione} del terzo tipo. Se l'applicazione ha un tipo di \glossaryItem{autenticazione} diverso (\glossaryItem{saml} o  \textit{form-based}) è \texttt{null};
+\item \texttt{removed}: \textit{flag} per la \glossaryItem{softdeletion}. \texttt{true} se l'applicazione deve essere rimossa, \texttt{false} altrimenti;
+\item \texttt{group}: riferimento al \textit{document} contenente i dettagli del gruppo. È \texttt{null} se l'applicazione non appartiene ad un gruppo;
+\item \texttt{published}: \texttt{true} se e solo se l'applicazione è pubblicata, \texttt{false} altrimenti;
+\item \texttt{work\_in\_progress}: \texttt{true} se e solo se l'applicazione è in manutenzione; \texttt{false} altrimenti;
+\item \texttt{available}: \texttt{true} se l'applicazione può essere aggiunta agli \textit{application brokers}, \texttt{false} altrimenti. Il valore di questo \textit{flag} è modificato durante la rimozione dell'applicazione. Se quest'ultima ha associazioni con qualche utente, infatti, non può essere eliminata definitivamente perché non funzionerebbe più il \glossaryItem{sso} per gli utenti che la vedono nel loro \textit{application broker}. Per questo motivo l'applicazione resta presente nel \textit{database}, ma non è più aggiungibile ad alcun \textit{application broker}. È compito di Monokee segnalare la rimozione dell'applicazione originale agli utenti che ne fanno uso.
+\end{itemize}
+
+\paragraph{CatalogueDomain} \mbox{} \\
+In Figura~\ref{fig:CatalogueDomain} è mostrato il modello \texttt{CatalogueDomain}, che rappresenta il catalogo privato di un dominio. Ogni \textit{document} della \textit{collection} rappresentata da questo modello contiene un \textit{array} di riferimenti ad applicazioni (\textit{documents} del modello \texttt{Catalogue}): l'\textit{array} è il catalogo del dominio.
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[scale=0.6]{Classi/CatalogueDomain}
+  \caption[Modello CatalogueDomain]{Modello CatalogueDomain}
+  \label{fig:CatalogueDomain}
+  \end{center} 
+\end{figure}
+\subparagraph{Attributi}
+\begin{itemize}
+\item \texttt{catalogue\_applications}: \textit{array} contenente i riferimento alle applicazioni del catalogo del dominio;
+\item \texttt{removed}: \textit{flag} per la \glossaryItem{softdeletion}. \texttt{true} se il catalogo di dominio deve essere rimosso, \texttt{false} altrimenti.
+\end{itemize}
+
+\paragraph{CatalogueForm} \mbox{} \\
+In Figura~\ref{fig:CatalogueForm} è mostrato il modello \texttt{CatalogueForm}, che rappresenta i dati necessari per il \glossaryItem{sso} \textit{form-based}. 
+
+Si nota che gli attributi coprono i principali \textit{browser} utilizzati. Sebbene la distinzione per \textit{browser} non sia una buona tecnica per discriminare le azioni da eseguire, questa si è rivelata necessaria a causa delle differenze, anche sostanziali, che essi presentano quando si cerca di effettuare richieste \glossaryItem{ajax}. A seconda della tipologia di \glossaryItem{sso} (tramite \textit{form fulfillment} o \glossaryItem{ajax}), ciascun attributo contiene i dati necessari a compilare il \textit{form} di accesso o per eseguire la richiesta POST.
+\begin{figure}[hbpc]
+  \begin{center}
+    \includegraphics[scale=0.6]{Classi/CatalogueForm}
+  \caption[Modello CatalogueForm]{Modello CatalogueForm}
+  \label{fig:CatalogueForm}
+  \end{center} 
+\end{figure}
+\subparagraph{Attributi}
+\begin{itemize}
+\item \texttt{method\_sso\_chrome}: dati per Google Chrome;
+\item \texttt{method\_sso\_ie}: dati per Microsoft Internet Explorer;
+\item \texttt{method\_sso\_safari}: dati per Safari;
+\item \texttt{method\_sso\_edge}: dati per Microsoft Edge;
+\item \texttt{method\_sso\_firefox}: dati per Mozilla Firefox;
+\item \texttt{removed}: \textit{flag} per la \glossaryItem{softdeletion}. \texttt{true} se il \textit{document} deve essere rimosso, \texttt{false} altrimenti.
+\end{itemize}
+
+\paragraph{CatalogueGroup} \mbox{} \\
+In Figura~\ref{fig:CatalogueGroup} è mostrato il modello \texttt{CatalogueGroup}, che rappresenta un gruppo di applicazioni del catalogo (di Monokee o di dominio).
+\begin{figure}[hbpc]
+  \begin{center}
+    \includegraphics[scale=0.6]{Classi/CatalogueGroup}
+  \caption[Modello CatalogueGroup]{Modello CatalogueGroup}
+  \label{fig:CatalogueGroup}
+  \end{center} 
+\end{figure}
+\subparagraph{Attributi}
+\begin{itemize}
+\item \texttt{name}: nome del gruppo;
+\item \texttt{private\_group}: \texttt{true} se e solo se il gruppo è privato, ovvero se è specifico di un dominio; \texttt{false} altrimenti;
+\item \texttt{removed}: \textit{flag} per la \glossaryItem{softdeletion}. \texttt{true} se il gruppo deve essere rimosso, \texttt{false} altrimenti;
+\item \texttt{domain}: riferimento al dominio di appartenenza del gruppo. È \texttt{null} se il gruppo è pubblico;
+\item \texttt{description}: descrizione del gruppo;
+\item \texttt{image}: \textit{path} dell'immagine del gruppo, salvata su un server di Monokee.
+\end{itemize}
+
+\paragraph{CatalogueLog} \mbox{} \\
+In Figura~\ref{fig:CatalogueLog} è mostrato il modello \texttt{CatalogueLog}, che rappresenta un \textit{log} salvato su \textit{database}. Questo modello è utilizzato sia per i \textit{log} delle operazioni eseguite con successo sia per quelle che hanno generato un errore: la distinzione si basa unicamente su un codice definito in fase di progettazione. 
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[scale=0.6]{Classi/CatalogueLog}
+  \caption[Modello CatalogueLog]{Modello CatalogueLog}
+  \label{fig:CatalogueLog}
+  \end{center} 
+\end{figure}
+\subparagraph{Attributi}
+\begin{itemize}
+\item \texttt{infos}: informazioni sull'operazione eseguita. \texttt{Log} è stato progettato per essere il più generico possibile e per poter contenere, di conseguenza, informazioni molto eterogenee tra loro. In Figura~\ref{fig:Log} sono mostrati i suoi attributi. Ogni istanza di \texttt{Log} è caratterizzata principalmente da una coppia chiave/valore, utilizzata per poter recuperare le informazioni durante la visualizzazione dei \textit{log}.
+	\begin{figure}[hbpc]
+	\begin{center}
+  		\includegraphics[scale=0.6]{Classi/Log}
+ 		\caption[Attributi di Log]{Attributi di Log}
+ 		\label{fig:Log}
+ 	\end{center} 
+	\end{figure}
+	\begin{itemize}
+		\item \texttt{key}: chiave, utilizzata per recuperare l'informazione richiesta;
+		\item \texttt{value}: valore dell'informazione;
+		\item \texttt{element\_id}: ID dell'elemento. È utilizzato per risalire all'elemento (applicazione, gruppo, dominio, eccetera) ''bersaglio'' dell'operazione eseguita e per recuperare, se necessario, informazioni aggiuntive. L'ID è inoltre usato per identificare univocamente l'elemento, soprattutto nel caso di \textit{log} di errore.
+	\end{itemize}
+\item \texttt{code}: codice del \textit{log};
+\item \texttt{user}: indirizzo email dell'utente che ha eseguito l'operazione;
+\item \texttt{created\_at}: \textit{timestamp} di esecuzione dell'operazione;
+\end{itemize}
+La struttura del modello \texttt{CatalogueLog}, e in particolare di \texttt{Log}, rende difficile e possibilmente confusionario l'utilizzo delle informazioni: non tutti i \textit{log} hanno le stesse informazioni, quindi sarebbero necessari molti controlli per capire quali attributi sono presenti di volta in volta. Per questo, prima di essere trasmesse al client, esse sono ''riformattate'' utilizzando una struttura più facilmente utilizzabile. Tale struttura differisce anche di molto in base al codice del \textit{log}: se il client accetta la struttura specifica non deve eseguire nessun controllo aggiuntivo: nel \glossaryItem{json} ritornato sono presenti tutti e soli gli attributi necessari.
+
+\paragraph{CatalogueSAML} \mbox{} \\
+In Figura~\ref{fig:CatalogueSAML} è mostrato il modello \texttt{CatalogueSAML}, che rappresenta le istruzioni per la configurazione del \glossaryItem{sso} con un'applicazione di tipo \glossaryItem{saml}. Dato che queste applicazioni devono essere configurate a mano dagli utilizzatori, il catalogo offre solo una serie di azioni da compiere per configurarle al meglio, eventualmente accompagnate da un'immagine.
+\begin{figure}[hbpc]
+	\begin{center}
+  		\includegraphics[scale=0.6]{Classi/CatalogueSAML}
+ 		\caption[Modello CatalogueSAML]{Modello CatalogueSAML}
+ 		\label{fig:CatalogueSAML}
+ 	\end{center} 
+\end{figure}
+\subparagraph{Attributi}
+\begin{itemize}
+\item \texttt{instructions}: \textit{array} contenente le istruzioni per la configurazione, viste come usa serie di passi accompagnati da un'immagine. Ogni passo è caratterizzato da nome e descrizione (Figura~\ref{fig:Instruction});
+\begin{figure}[hbpc]
+	\begin{center}
+  		\includegraphics[scale=0.7]{Classi/Instruction}
+ 		\caption[Attributi di Instruction e Step]{Attributi di Instruction e Step}
+ 		\label{fig:Instruction}
+ 	\end{center} 
+\end{figure}
+\item \texttt{removed}: \textit{flag} per la \glossaryItem{softdeletion}. \texttt{true} se il \textit{document} deve essere rimosso, \texttt{false} altrimenti.
+\end{itemize}
+
+\paragraph{CatalogueThirdType} \mbox{} \\
+In Figura~\ref{fig:CatalogueThirdType} è mostrato il modello \texttt{CatalogueThirdType}, che rappresenta le informazioni necessarie al \glossaryItem{sso} con applicazioni di terze parti. Un'\glossaryItem{autenticazione} di questo tipo è caratterizzata da una richiesta POST al servizio di accesso dell'applicazione stessa. Di conseguenza vengono memorizzate tutte le informazioni necessarie a popolare la richiesta.
+
+\begin{figure}[hbpc]
+	\begin{center}
+  		\includegraphics[scale=0.6]{Classi/CatalogueThirdType}
+ 		\caption[Modello CatalogueThirdType]{Modello CatalogueThirdType}
+ 		\label{fig:CatalogueThirdType}
+ 	\end{center} 
+\end{figure}
+\subparagraph{Attributi}
+\begin{itemize}
+\item \texttt{post\_url}: \glossaryItem{url} verso il quale effettuare la richiesta POST;
+\item \texttt{properties}: dati necessari a popolare la richiesta. In Figura~\ref{fig:Property} viene mostrata in dettaglio la struttura di queste informazioni:
+	\begin{figure}[hbpc]
+		\begin{center}
+	  		\includegraphics[scale=0.7]{Classi/Property}
+	 		\caption[Attributi di Property]{Attributi di Property}
+	 		\label{fig:Property}
+	 	\end{center} 
+	\end{figure}
+	\begin{itemize}
+	\item \texttt{property}: nome della proprietà da mostrare all'utente nel \textit{form} di inserimento dei dati;
+	\item \texttt{type}: valore dell'attributo \texttt{type} del \textit{tag input} corrispondente alla \textit{property} nel \textit{form} di inserimento dei dati;
+	\item \texttt{post\_property}: nome della \textit{property} da utilizzare nella richiesta;
+	\item \texttt{hidden}: \textit{true} se e solo se il corrispondente \textit{tag input} deve essere marcato come nascosto;
+	\item \texttt{value}: valore della \textit{property}.
+	\end{itemize}
+\item \texttt{headers}: \textit{headers} da utilizzare nella richiesta. Come mostrato in Figura~\ref{fig:Header}, un \textit{header} è caratterizzato da un nome (\texttt{name}) e dal valore (\texttt{value});
+	\begin{figure}[h]
+		\begin{center}
+	  		\includegraphics[scale=0.7]{Classi/Header}
+	 		\caption[Attributi di Header]{Attributi di Header}
+	 		\label{fig:Header}
+	 	\end{center} 
+	\end{figure}
+\item \texttt{removed}: \textit{flag} per la \glossaryItem{softdeletion}. \texttt{true} se il \textit{document} deve essere rimosso, \texttt{false} altrimenti.
+\end{itemize}
+
+\paragraph{Domain} \mbox{} \\
+Il modello Domain viene utilizzato principalmente dal modulo \texttt{DomainCatalogue} per recuperare l'ID del catalogo di dominio associato. In Figura~\ref{fig:Domain} vengono riportati solo gli attributi utili all'applicazione Catalogue Manager e vengono tralasciati quelli utilizzati solamente da Monokee.
+
+\begin{figure}[h]
+	\begin{center}
+  		\includegraphics[scale=0.7]{Classi/Domain}
+ 		\caption[Modello Domain]{Modello Domain}
+ 		\label{fig:Domain}
+ 	\end{center} 
+\end{figure}
+
+\subparagraph{Attributi}
+\begin{itemize}
+\item \texttt{name}: nome del dominio. Viene utilizzato per ricercare un dominio a partire dall'applicazione Catalogue Manager;
+\item \texttt{type}: tipo del dominio. Come già detto, un dominio può essere \textbf{personale} (\textit{personal}) o \textbf{aziendale} (\textit{company}). I domini \textit{personal} non possono avere un catalogo associato, mentre quelli \textit{company} si. La consistenza dell'attributo \texttt{type} è controllata durante la validazione effettuata da mongoose.js;
+\item \texttt{catalogue}: riferimento al \textit{document} di \texttt{CatalogueDomain} contenente il catalogo del dominio.
+\end{itemize}
+
+%\paragraph{User e UserApplication} \mbox{} \\
+%I modelli User e UserApplication sono utilizzati dal servizio \textbf{/acs} per verificare l'associazione tra utente e applicazione Catalogue Manager. Se questa associazione non è presente l'utente non è autorizzato ad accedere, e viene riportato (e salvato) l'errore. 
+%
+%Non vengono mostrati i diagrammi delle classi di questi modelli, in quanto non considerati utili ai fini del documento.

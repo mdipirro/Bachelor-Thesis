@@ -1,0 +1,104 @@
+Un numero sempre crescente di compagnie sta ''migrando'' da soluzioni \glossaryItem{iam} \glossaryItem{onpremises} a soluzioni \glossaryItem{cloud} (\glossaryItem{idaas}). Questa migrazione è in gran parte dovuta alla possibilità di utilizzare il \glossaryItem{sso} tra applicazioni \glossaryItem{cloud} (\glossaryItem{saas}), ma le differenze tra le due modalità sono molte altre. Di seguito verrà presentato un confronto basato sui seguenti punti:
+\begin{itemize}
+\item \textbf{caratteristiche intrinseche}: in particolare:
+	\begin{itemize}
+	\item \textbf{piattaforma software e facilità di installazione}: il costo iniziale per configurare ed installare il prodotto;
+	\item \textbf{manutenzione e aggiornamento}: risorse richieste per manutenere ed aggiornare il prodotto;
+	\item \textbf{sicurezza e protezione dei dati}: difficoltà per rendere il sistema sicuro;
+	\item \textbf{privacy}: difficoltà per mantenere i dati privati;
+	\item \textbf{agilità}: capacità di adattarsi ai cambiamenti;
+	\item \textbf{distribuzione dell'architettura}: vantaggi sul posizionamento dell'architettura (\glossaryItem{onpremises} o \glossaryItem{cloud}).
+	\end{itemize}
+\item \textbf{maturità funzionale}: in particolare:
+	\begin{itemize}
+	\item \textbf{modernità dell'architettura}: consistenza, accesso facile a tutte le funzionalità, eccetera;
+	\item \textbf{modernità dell'interfaccia grafica}: facilità con la quale l'utente trova quello che cerca;
+	\item \textbf{integrazione con \glossaryItem{saas}}: facilità di integrazione del \glossaryItem{sso} con applicazioni di tipo \glossaryItem{saas};
+	\item \textbf{integrazione con applicazioni \glossaryItem{onpremises}}: facilità di integrazione del \glossaryItem{sso} con applicazioni di tipo \glossaryItem{onpremises};
+	\item \textbf{personalizzazione}: facilità di modifica per adattarsi a necessità specifiche;
+	\item \textbf{aderenza agli standard}: grado di supporto degli standard;
+	\item \textbf{maturità generale delle funzionalità \glossaryItem{iam}};
+	\item \textbf{flessibilità dei termini di licenza}: supporto per varie opzioni appropriate per differenti casi d'uso. 
+	\end{itemize}
+\end{itemize}
+In Figura~\ref{fig:IDaaSvsOnPremises} viene mostrato un confronto qualitativo sulle caratteristiche appena elencate.
+
+\begin{figure}[hbpc]
+\begin{center}
+\includegraphics[scale=0.45]{IDaaSvsOnPremises}
+\caption[Confronto tra sistemi IDaaS e on-premises nell'ambito IAM]{Confronto tra sistemi IDaaS e on-premises nell'ambito IAM\protect\footnotemark}
+\label{fig:IDaaSvsOnPremises}
+\end{center}
+\end{figure}
+\footnotetext{Immagine tratta da \cite{grt:G00261583}}
+
+\subsection{Caratteristiche intrinseche}
+\paragraph{Piattaforma software e facilità di installazione} \mbox{} \\
+Per definizione l'\glossaryItem{idaas} è quello in cui il servizio mette a disposizione la piattaforma e il \textit{software}, quindi non richiede nessuno sforzo da parte degli utilizzatori, che risparmiano moltissimo tempo e denaro pagando solo le funzionalità di cui hanno bisogno. Inoltre:
+\begin{itemize}
+\item se l'organizzazione non dispone di uno \textit{staff} adatto a mantenere un sistema \glossaryItem{onpremises} o non può procurarselo la scelta \glossaryItem{idaas} è la migliore;
+\item se l'organizzazione non ha nessuna esperienza di \glossaryItem{saas} allora conviene l'alternativa \glossaryItem{onpremises};
+\item se il tempo a disposizione è poco conviene \glossaryItem{idaas}, in quanto non necessita della configurazione iniziale;
+\item se il costo iniziale per la creazione dell'infrastruttura è elevato conviene, ancora una volta, \glossaryItem{idaas}.
+\end{itemize}
+
+\paragraph{Manutenzione e aggiornamento} \mbox{} \\
+In questo ambito \glossaryItem{idaas} vince di misura. Infatti, non essendoci la necessità di installazione, non c'è neanche quella di manutenzione o aggiornamento. Al contrario, un prodotto \glossaryItem{onpremises} necessita di essere seguito e aggiornato.
+
+\paragraph{Sicurezza e protezione dei dati} \mbox{} \\
+Nell'ambito della sicurezza la decisione è più difficile, e in generale dipende dalla situazione. Si potrebbe pensare che sia più sicuro mantenere i dati \glossaryItem{onpremises} in quanto l'organizzazione ne ha il completo controllo. Questo è vero, ma molto spesso non si dispone di esperti di sicurezza che possano, a tempo pieno, dedicarsi alla protezione dei dati. Sebbene le organizzazioni di grandi dimensioni siano in grado di far fronte a questo problema, quelle di dimensioni medio/piccole non possono, e questo rende, per loro, più conveniente la scelta \glossaryItem{idaas}. 
+
+\paragraph{Privacy} \mbox{} \\
+Il tema della \textit{privacy} è molto controverso. Se i dati sono interamente mantenuti dall'organizzazione si ha l'assoluto controllo e si è sicuri di dove risiedono. D'altro canto, se il sistema è \glossaryItem{cloud} bisogna chiedersi dove sono memorizzati, come vengono trasferiti e in che giurisdizione ricadono. Se i dati sono molto sensibili è più sicuro usare sistemi \glossaryItem{onpremises}. Al contrario, se l'organizzazione ha particolari requisiti di riservatezza o protezione (come un'agenzia governativa) può essere utile cercare un sistema \glossaryItem{idaas} che possieda questi requisiti: alcuni recenti sistemi \glossaryItem{cloud}, ad esempio, soddisfano le necessità delle agenzie federali statunitensi. Infine \glossaryItem{idaas} consente di memorizzare i dati sotto una specifica giurisdizione: è sufficiente cercare un produttore che supporta quella voluta.
+
+\paragraph{Agilità} \mbox{} \\
+L'agilità è il maggior punto di vantaggio dei sistemi \glossaryItem{idaas}. Sistemi di questo tipo possono scalare con facilità. Ogni cambiamento viene fatto in gran velocità e i produttori non devono richiedere ai clienti di aggiornare per ottenere il supporto di altre funzionalità (il ciclo di rilascio si misura in settimane nel primo caso e mesi nell'altro). Sebbene molte aree siano già mature, in altre dei cicli così veloci sono un grande vantaggio. Per questi motivi, \glossaryItem{idaas} è la scelta giusta se si necessita l'integrazione con applicazioni in rapida evoluzione o un rapido rilascio di nuove funzionalità. 
+
+\paragraph{Distribuzione dell'architettura} \mbox{} \\
+Dipendentemente dalle situazioni può essere più vantaggioso avere un sistema eseguito su \glossaryItem{cloud} o no. Ad esempio, se l'organizzazione non dispone di una connessione veloce, l'\glossaryItem{idaas} può comportare latenze significative; d'altra parte, se l'integrazione con \glossaryItem{saas} è una priorità l'\glossaryItem{onpremises} deve essere scartato. Oggigiorno, comunque, molte organizzazioni fanno uso di \glossaryItemPl{serviziodirectory} \glossaryItem{onpremises}, quindi, se si è su \glossaryItem{cloud}, sono necessari dei connettori per accedere a questi sistemi.
+
+Per scegliere bisogna chiedersi chi sono gli utenti e da dove accedono. Se sono persone esterne all'organizzazione e devono accedere ad applicazioni su \glossaryItem{cloud} la scelta \glossaryItem{idaas} è assolutamente la più conveniente.
+
+\subsection{Maturità funzionale}
+\paragraph{Modernità dell'architettura} \mbox{} \\
+La maggior parte dei nuovi sistemi \glossaryItem{iam} è di tipo \glossaryItem{idaas}, quindi è naturale che questi presentino delle architetture più vicine alle \glossaryItemPl{bestpractice} correnti. Anche i sistemi \glossaryItem{onpremises} sono stati riprogettati per adattarsi, ma il cambiamento dell'architettura richiede pesanti cambiamenti e aggiornamenti.
+
+\paragraph{Modernità dell'interfaccia} \mbox{} \\
+La maggior parte delle innovazioni grafiche vengono introdotte prima in sistemi \glossaryItem{idaas}. Il mondo web è molto più dinamico, e un'interfaccia sempre aggiornata è un obbligo. Al contrario, i sistemi \glossaryItem{onpremises} continuano a rimanere ancorati alle loro scelte senza cambiare.
+
+\paragraph{Integrazione con SaaS} \mbox{} \\
+L'integrazione con \glossaryItem{saas} è molto più facile e veloce per sistemi \glossaryItem{idaas}, anche perché l'organizzazione non deve fare niente per integrare i nuovi \textit{software}. Le alternative \glossaryItem{onpremises}, invece, richiedono costi e tempo aggiuntivi per integrare nuove applicazioni.
+
+\paragraph{Integrazione con applicazioni on-premises} \mbox{} \\
+In generale l'integrazione con applicazioni \glossaryItem{onpremises} è migliore per le soluzioni \glossaryItem{onpremises}. Sebbene anche i sistemi \glossaryItem{idaas} stiano cercando di supportarle, se si necessita l'integrazione con un gran numero di applicazioni di questo tipo, allora la scelta migliore è ancora la prima.
+
+\paragraph{Personalizzazione} \mbox{} \\
+La personalizzazione è il principale vantaggio dei sistemi \glossaryItem{onpremises}. In teoria \glossaryItem{idaas} offre un approccio adatto a quasi tutte le organizzazioni grazie alla possibilità di configurare il prodotto in molti modi diversi. La realtà, però, è più confusa. 
+
+La personalizzazione comporta un cambiamento nel codice del prodotto, perché richiede l'aggiunta di funzionalità specifiche e necessarie solamente ad un ristretto numero di interessati. Sebbene i prodotti \glossaryItem{onpremises} possano essere altamente personalizzati, la personalizzazione in sé dovrebbe essere evitata e nel futuro sarà sempre meno necessaria: più è matura un'area di interesse meno personalizzazioni sono richieste e più è possibile prevedere diverse configurazioni per incontrare i bisogni di tutti i clienti. D'altro canto, la maturità di aree dinamiche come il \glossaryItem{cloud} o il \textit{mobile} è ancora molto lontana. 
+
+Se si ritiene che un prodotto configurabile non si adatti alle necessità dell'azienda, allora l'\glossaryItem{onpremises} è la scelta giusta.
+
+\paragraph{Aderenza agli standard} \mbox{} \\
+Vista la grande diffusione di applicazioni \glossaryItem{saas}, molti produttori di sistemi \glossaryItem{iam} tendono ad aggiungere supporto agli standard più velocemente nelle versioni \glossaryItem{idaas} rispetto a quelle \glossaryItem{onpremises}. Questa tendenza è destinata a crescere, in quanto permette di ricevere \textit{feedbacks} più velocemente e di reagire con maggiore rapidità alla nascita di nuovi standard.
+
+\paragraph{Maturità generale delle funzionalità} \mbox{} \\
+In media i sistemi \glossaryItem{onpremises} tendono ad essere più vecchi. Di conseguenza dispongono di tecnologie superate e di funzionalità più legate ad applicazioni \glossaryItem{onpremises}. \glossaryItem{idaas}, invece, offre un'ottima integrazione con \glossaryItem{saas} e un buon supporto di applicazioni \glossaryItem{onpremises}. Nel lungo periodo ci si aspetta che nel \glossaryItem{cloud} le innovazioni arrivino prima\footnote{Vedi \cite{grt:G00261583}}, quindi \glossaryItem{idaas} è la scelta migliore.
+
+\paragraph{Flessibilità dei termini della licenza} \mbox{} \\
+Storicamente, i sistemi \glossaryItem{onpremises} sono venduti con licenze pagate una sola volta, mentre quelli \glossaryItem{idaas} normalmente prevedono un pagamento ogni mese e si adattano meglio alle esigenze degli utenti perché consentono di pagare solo le funzionalità volute. 
+
+Nonostante questo, anche le licenze dei \textit{software} \glossaryItem{onpremises} si stanno adattando e stanno diventando più flessibili, quindi la differenza tra le due alternative è poca e non c'è un vincitore netto.
+
+\subsection{Cosa scegliere?}
+La scelta tra \glossaryItem{cloud} e \glossaryItem{onpremises} dipende fortemente dalle necessità dell'organizzazione e dal \glossaryItem{tco}. Soluzioni \glossaryItem{onpremises} sono adatte se si hanno vincoli stretti sulla residenza e sulla protezione dei dati, se si vogliono implementazioni \glossaryItem{iam} mature e personalizzabili e un forte controllo sull'amministrazione delle \glossaryItem{identita} (\glossaryItem{iga}), attualmente carenti nei prodotti basati su \glossaryItem{cloud}. Al contrario, sistemi \glossaryItem{idaas} sono adatti se si cercano implementazioni \glossaryItem{iam} dinamiche e una maggiore integrazione con \glossaryItem{saas} (Figura~\ref{fig:IDaaSvsorPremises}).
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=0.25]{IDaaSorOnPremises}
+\caption[Scelta tra sistemi IDaaS e on-premises nell'ambito IAM]{Scelta tra sistemi IDaaS e on-premises nell'ambito IAM\protect\footnotemark}
+\label{fig:IDaaSvsorPremises}
+\end{center}
+\end{figure}
+\footnotetext{Immagine tratta da \cite{grt:G00296572}}
+\newpage

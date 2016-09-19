@@ -1,0 +1,58 @@
+\documentclass{beamer}
+\usetheme[titlepagelogo=Logounipd,% Logo for the first page
+		  language=italian,
+		  bullet=triangle,
+		  color=red,
+		  pageofpages=di,
+		  titleline=true
+         ]{TorinoTh}
+         
+\usepackage[beamer,customcolors]{hf-tikz} 
+\usepackage[absolute,overlay]{textpos}
+\hfsetfillcolor{alerted text.fg!10}
+\hfsetbordercolor{alerted text.fg}
+\graphicspath{{immagini/}}
+
+\author{Matteo Di Pirro}
+\rel{Prof. Mauro Conti}
+\title{Gestione del catalogo applicativo per un sistema di Identity and Access Management cloud based}
+\ateneo{Università degli Studi di Padova}
+\date{21/09/2016}
+
+\begin{document}
+%\renewcommand{\inserttotalframenumber}{\pageref{lastslide}}
+\titlepageframe 				% prima pagina
+%\addtocounter{framenumber}{-1}
+\input{slides/azienda}			% azienda
+\input{slides/identita}			% identita
+\input{slides/sso}				% sso
+%\input{slides/federazione}		% federazione
+%\input{slides/monokee}			% monokee
+\input{slides/magicquadrant}	% magicquadrant
+%\input{slides/architettura}		% architettura
+\input{slides/applicazioni}		% funzionalità di Catalogue Manager
+\input{slides/federazione}		% accesso a Catalogue Manager
+\input{slides/tecnologie}		% tecnologie
+%\input{slides/difficolta}		% difficoltà riscontrate
+\input{slides/bilancio}			% conclusioni
+
+\appendix
+\makethanks
+%gets rid of bottom navigation bars
+\setbeamertemplate{footline}[frame number]{}
+
+%gets rid of bottom navigation symbols
+\setbeamertemplate{navigation symbols}{}
+
+%gets rid of footer
+%will override 'frame number' instruction above
+%comment out to revert to previous/default definitions
+\setbeamertemplate{footline}{}
+
+\input{slides/accesso}
+\input{slides/saml}
+\input{slides/architettura}
+\input{slides/chainofresponsibility}
+\input{slides/jwt}
+\input{slides/scrum}
+\end{document}

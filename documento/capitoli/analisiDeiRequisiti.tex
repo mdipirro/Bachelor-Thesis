@@ -1,0 +1,93 @@
+\chapter{Analisi dei requisiti}\label{adr}
+\section{Attori coinvolti}
+L'attore principale dell'applicazione Catalogue Manager è l'Utente Autenticato. Una gerarchia di utenti, ognuno associato a permessi e funzionalità crescenti, è prevista per le successive versioni del gestore del catalogo applicativo di Monokee, ma non è stata inserita tra i requisiti del progetto per volontà del tutor aziendale. 
+
+L'autenticazione è di tipo federato e fa uso di \glossaryItem{saml}: non è pertanto presente una fase di registrazione. L'applicazione ha il ruolo di \glossaryItem{sp} e utilizza Monokee come \glossaryItem{idp}. Un utente non autenticato (ma autenticato presso Monokee) dipendentemente dal suo ruolo può:
+\begin{itemize}
+\item aggiungere manualmente l'applicazione ad un dominio;
+\item accedere all'applicazione.
+\end{itemize}
+Tutte le funzionalità di Catalogue Manager sono accessibili solamente dopo aver effettuato l'accesso e, come già detto, non esiste nessuna distinzione tra utenti: questo significa che un amministratore di dominio e un semplice utente di Monokee in Catalogue Manager hanno gli stessi poteri.
+
+\section{Casi d'uso ad alto livello}
+Considerando l'elevato numero di funzionalità previste in Catalogue Manager di seguito vengono riportati solo i casi d'uso di alto livello, in modo da poter dare una visione d'insieme più precisa del prodotto sviluppato.
+
+Ad ogni caso d'uso è associato un identificatore univoco così formato:
+
+\begin{center}
+\textbf{UCTX.Y.Z}
+\end{center}
+dove:
+\begin{itemize}
+\item \textbf{T} corrisponde al tipo di caso d'uso:
+	\begin{itemize}
+	\item \textbf{U} per l'Utente Non Autenticato;
+	\item \textbf{A} per l'Utente Autenticato;
+	\end{itemize}
+\item \textbf{X} corrisponde all'identificatore del caso d'uso ''padre'';
+\item \textbf{Y} corrisponde all'identificatore del caso d'uso ''figlio'' di primo livello;
+\item \textbf{Z} corrisponde all'identificatore del caso d'uso ''figlio'' di secondo livello;
+\end{itemize}
+Man mano che si scende nella gerarchia (da padre a figlio di primo e poi secondo livello) si aumenta il dettaglio del caso d'uso.
+
+\input{capitoli/UCU} % casi d'uso per utente non autenticato
+\input{capitoli/UCA} % casi d'uso per utente autenticato
+
+
+\section{Requisiti}
+I requisiti funzionali e di vincolo individuati sono riportati nelle seguenti tabelle. Viene inoltre indicato se si tratta di un requisito fondamentale, desiderabile o facoltativo e una sua descrizione.
+
+Ogni requisito è identificato da un codice, che segue il seguente formalismo:
+\begin{center}
+		\textbf{RXY Gerarchia}
+\end{center}
+
+Dove:
+\begin{itemize}
+ \item \textbf{X} corrisponde alla tipologia del requisito e può assumere i seguenti valori:
+		\begin{itemize}
+		 \item[] \textbf{1} = Funzionale;
+		 \item[] \textbf{2} = Vincolo.
+		\end{itemize}
+
+ \item \textbf{Y} corrisponde alla priorità del requisito e può assumere i seguenti valori:
+		\begin{itemize}
+		 \item[] \textbf{O} = Obbligatorio;
+		 \item[] \textbf{D} = Desiderabile;
+		 \item[] \textbf{F} = Facoltativo o Opzionale.
+		\end{itemize}
+
+ \item \textbf{Gerarchia} identifica la relazione gerarchica che c'è tra i requisiti di uno stesso tipo. Vi è dunque una struttura gerarchica per ogni tipologia di requisito.
+\end{itemize}
+
+\subsection{Principali requisiti funzionali}
+Nella Tabella~\ref{tab:reqfunzionali} vengono elencati i principali requisiti funzionali dell'applicazione Catalogue Manager.
+\begin{center}
+  \bgroup
+  \def\arraystretch{1.8}
+  \begin{longtable}{ | l | p{8.4cm} |}
+    \hline
+    \cellcolor[gray]{0.9} \textbf{Requisito} & \cellcolor[gray]{0.9} \textbf{Descrizione} \\ \hline
+    \input{capitoli/requisitiFunzionali}
+    \caption[Principali requisiti funzionali]{Principali requisiti funzionali}
+    \label{tab:reqfunzionali}
+  \end{longtable}
+  \egroup
+\end{center} 
+
+\subsection{Requisiti di vincolo}
+Nella Tabella~\ref{tab:reqvincolo} vengono elencati i requisiti di vincolo dell'applicazione.
+\begin{center}
+  \bgroup
+  \def\arraystretch{1.8}
+  \begin{longtable}{ | l | p{8.4cm} |}
+    \hline
+    \cellcolor[gray]{0.9} \textbf{Requisito} & \cellcolor[gray]{0.9} \textbf{Descrizione} \\ \hline
+    R2O 1 & L'applicazione deve utilizzare Node.js e JavaScript. \\ \hline
+    R2O 2 & L'applicazione deve memorizzare i dati su MongoDB. \\ \hline
+    R2O 3 & L'accesso all'applicazione deve avvenire con \glossaryItem{saml}. \\ \hline
+    \caption[Requisiti di vincolo]{Requisiti di vincolo}
+    \label{tab:reqvincolo} 
+    \end{longtable}
+  \egroup
+\end{center} 

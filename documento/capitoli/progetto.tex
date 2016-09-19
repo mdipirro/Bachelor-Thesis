@@ -1,0 +1,299 @@
+\chapter{Il progetto}\label{progetto}
+\section{Monokee}
+\textbf{Monokee} è un sistema \glossaryItem{idaas} nato con lo scopo di realizzare una corretta gestione degli utenti e delle loro autorizzazioni all'interno di sistemi informativi eterogenei. Utilizzandolo, ciascun utente sarà in grado di gestire in modo centralizzato l'accesso in \glossaryItem{sso} ad applicazioni differenti. In parole povere, Monokee assicura che le persone giuste accedano alle risorse di propria competenza.
+
+Ogni utente di Monokee ha a disposizione un \textbf{domain broker} (Figura~\ref{fig:domainBroker}) in cui sono elencati i diversi domini ad esso associati. Un dominio è uno spazio di un web server che identifica in maniera precisa il nome di un privato, un ente o un'organizzazione su Internet. Il dominio \textbf{personale} è obbligatorio: qui sono presenti le applicazioni personali; ci possono poi essere uno o più domini di tipo \textbf{company}, ovvero relativi ad aziende registrate al servizio. 
+
+\begin{figure}[hbpc]
+\begin{center}
+\includegraphics[scale=0.25]{domainBroker}
+\caption{Domain broker di Monokee}
+\label{fig:domainBroker}
+\end{center}
+\end{figure}
+
+Le utenze sono quindi di due tipi differenti:
+\begin{itemize}
+\item \textbf{consumer}: con il solo dominio personale (il rapporto utente:domini è 1:1);
+\item \textbf{company}: oltre al dominio personale hanno anche la possibilità di avere domini aziendali (il rapporto utente:domini è 1:N). 
+\end{itemize}
+Attualmente i concetti di dominio e \textit{domain broker} sono propri di Monokee: nessun \textit{competitor} e nessun altro sistema di \glossaryItem{iam} supporta una gestione di questo tipo. In generale, infatti, il problema viene risolto imponendo all'utente di registrarsi più volte al sistema, creando un evidente controsenso per un sistema di gestione delle \glossaryItem{identita}.
+
+Accedendo ad uno dei domini a sua disposizione, l'utente può visualizzare l'\textbf{application broker}, ovvero un elenco delle applicazioni associate a quel dominio (Figura~\ref{fig:applicationBroker}). Da qui è possibile, selezionando un'applicazione, effettuare l'accesso in \glossaryItem{sso}. 
+
+\begin{figure}[hbpc]
+\begin{center}
+\includegraphics[scale=0.25]{applicationBroker}
+\caption{Application broker di Monokee}
+\label{fig:applicationBroker}
+\end{center}
+\end{figure}
+
+Se i permessi associati all'\textit{account} lo consentono si possono inoltre gestire le applicazioni dell'\textit{application broker} rimuovendo quelle presenti o aggiungendone altre dal \textbf{catalogo} (illustrato in Figura~\ref{fig:catalogo}).
+
+\begin{figure}[hbpc]
+\begin{center}
+\includegraphics[scale=0.25]{catalogo}
+\caption{Catalogo applicativo di Monokee}
+\label{fig:catalogo}
+\end{center}
+\end{figure}
+
+Infine, se il dominio è di tipo \textit{company}, un utente amministratore può gestire gli utenti, le applicazioni ed eventuali gruppi appartenenti al dominio.
+
+\subsection{I moduli}
+L'architettura base di Monokee si compone di sette moduli che interagiscono tra di loro per il corretto funzionamento del servizio:
+\begin{itemize}
+\item \textbf{Front end}: responsabile delle interazioni con l'utente e scritto utilizzando Angular.js;
+\item \textbf{Plug in}: ha una duplice funzione: da un lato permette di inserire nuove applicazioni non presenti del catalogo attraverso una fase di \textbf{learning} della struttura della pagina web, e dall'altro consente l'accesso in \glossaryItem{sso} alle applicazioni tramite il \textbf{form fulfillment};
+\item \textbf{\glossaryItem{IdP}}: si occupa dell'accesso di tipo federato \glossaryItem{saml} elaborando le richieste del \glossaryItem{SP} (\textbf{SAMLRequest}) e producendo l'appropriata \textbf{SAMLResponse} consentendo o meno l'accesso all'applicazione. È scritto in Java;
+\item \textbf{\glossaryItem{ad} Integration}: consente l'integrazione del sistema con uno o più \glossaryItemPl{serviziodirectory} di tipo \glossaryItem{ad} e si occupa di effettuare periodicamente delle \textit{query} volte a replicare l'intera struttura delle utenze nel \textit{database} del sistema inviando una copia di tutti i dati al modulo \textit{Core}; questo strumento garantisce a Monokee di operare sempre
+sull'ultima versione aggiornata delle utenze;
+\item \textbf{Mobile}: applicazione \textit{mobile} per \textit{smartphone} e \textit{tablet};
+\item \textbf{\glossaryItem{SP}}: si occupa della generazione di \textit{SAMLRequest} per erogare dei servizi. Il \glossaryItem{sp} di Monokee è utilizzato per l'accesso all'applicazione di gestione del catalogo, obiettivo dell'attività di stage. Così come l'\glossaryItem{idp}, è scritto in Java;
+\item \textbf{Core}: insieme di servizi \glossaryItem{rest} su protocollo \glossaryItem{http} che ricevono, ed elaborano, i dati provenienti dagli altri moduli, si occupano della loro gestione e memorizzazione nel \textit{database}, producono ed inviano le risposte in base alle situazioni e salvano i \textit{log} di quanto è stato fatto.
+\end{itemize}
+Un ulteriore modulo, obiettivo dell'attività di stage, verrà descritto nella successiva sezione.
+
+\section{Monokee Catalogue Manager} \label{catmgr}
+Lo scopo dell'attività di stage è quello di realizzare la parte di back end del gestore del catalogo applicativo dell'applicazione Monokee. 
+
+La fonte principale delle applicazioni accedibili in \glossaryItem{sso} è il catalogo: attraverso di esso è possibile cercare e aggiungere applicazioni al proprio dominio. Il prodotto sviluppato permetterà la gestione, lato amministratore, del catalogo stesso, con le principali funzionalità di aggiunta, rimozione e configurazione.
+
+\subsection{Funzionalità principali}
+Attraverso il catalogo applicativo sarà possibile gestire le applicazioni utilizzabili in modo ''predefinito'' in Monokee. In particolare, le funzioni principali saranno:
+\begin{itemize}
+\item gestione di un'applicazione:
+\begin{itemize}
+	\item aggiunta e configurazione;
+	\item rimozione;
+	\item modifica della configurazione;
+\end{itemize}
+\item categorizzazione delle applicazioni;
+\item visualizzazione e ricerca delle applicazioni;
+\item gestione dei cataloghi specifici dei domini:
+\begin{itemize}
+	\item aggiunta di un catalogo ad un dominio \textit{company};
+	\item rimozione di un catalogo da un dominio \textit{company};
+	\item aggiunta di un'applicazione al catalogo;
+	\item rimozione di un'applicazione dal catalogo;
+\end{itemize}
+\item gestione dei gruppi di applicazioni:
+\begin{itemize}
+	\item aggiunta di un gruppo;
+	\item rimozione di un gruppo;
+	\item modifica di un gruppo;
+	\item aggiunta di un'applicazione al gruppo;
+	\item rimozione di un'applicazione dal gruppo;
+\end{itemize}
+\item visualizzazione di statistiche sul numero di applicazioni, gruppi e utenti;
+\item visualizzazione dei \textit{log} delle operazioni svolte dagli utenti e degli errori riscontrati durante l'esecuzione di queste operazioni.
+\end{itemize}
+
+Principalmente, quindi, le entità coinvolte sono tre:
+\begin{enumerate}
+	\item applicazione;
+	\item gruppo;
+	\item categoria.
+\end{enumerate}
+
+\paragraph{Applicazione} \mbox{} \\
+Le applicazioni possono essere di due tipi:
+\begin{itemize}
+\item pubbliche;
+\item private, ovvero specifiche di un dominio aziendale.
+\end{itemize}
+È presente, di base, un catalogo pubblico, contenente tutte le applicazioni pubbliche. Accanto a questo possono esistere anche dei cataloghi di dominio (un catalogo per ogni dominio aziendale esistente): questi raccolgono le applicazioni private. Così facendo è possibile inserire applicazioni specifiche di un'azienda (anche raggiungibili solamente attraverso la rete \textit{ethernet} aziendale) e permettere agli utenti di quell'azienda di usufruirne. 
+
+Indipendentemente dal fatto che siano pubbliche o private, gli utenti di Monokee potranno accedere alle applicazioni in \glossaryItem{sso}. Attualmente, l'\glossaryItem{autenticazione} può avvenire in tre modi:
+\begin{itemize}
+\item \textbf{form-based}, attraverso due differenti modalità:
+\begin{itemize}
+	\item \textbf{form fulfillment}: una fase di \textit{learning} specifica per applicazione e \textit{browser} effettuata grazie a dei \textit{plug in} già sviluppati consente di ''istruire'' Monokee sulla struttura della pagina dell'applicazione web per poter eseguire il \glossaryItem{sso} ''riempiendo'' il \textit{form} di accesso;
+	\item \textbf{richieste POST realizzate tramite \glossaryItem{ajax}}.
+\end{itemize}
+\item \textbf{federata}, con l'utilizzo dello standard \glossaryItem{saml} 2.0;
+\item \textbf{accesso di terzo tipo}, ad applicazioni di terze parti che necessitano una richiesta POST \glossaryItem{ajax} completa di \textit{headers} \glossaryItem{http}.
+\end{itemize}
+Esiste, in realtà, anche un quarto tipo di applicazione supportato da Monokee, ma non è rilevante per la discussione in quanto le applicazioni di questo tipo non possono essere gestite da Catalogue Manager.
+
+Le regole di accesso specifiche delle applicazioni dovranno quindi tenere conto della modalità di \glossaryItem{autenticazione}. Inoltre, l'accesso tramite \glossaryItem{sso} comporta il dover conoscere l'\glossaryItem{url} della pagina di \textit{login} dell'applicazione. Questa pagina può variare da \textit{browser} a \textit{browser}, come già citato, ma anche da Paese a Paese (\textbf{localizzazione}): per una stessa applicazione di base possono essere quindi memorizzate più pagine di \textit{login}, dipendentemente dal Paese ''bersaglio''. Un esempio è dato da Amazon (Figura~\ref{fig:amazon}):
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.2]{amazonIT}\hfill
+\includegraphics[scale=0.2]{amazonES}
+\caption[Confronto tra Amazon Italia e Spagna]{Confronto fra le pagine di login di Amazon Italia e Amazon Spagna}
+\label{fig:amazon}
+\end{figure}\newpage
+Come si può notare, nell'\glossaryItem{url} i due \textit{host} sono diversi (www.amazon.it in un caso, www.amazon.es nell'altro). Questo porta a dover memorizzare, per ogni applicazione localizzata, una lista delle diverse localizzazioni e dei corrispondenti \glossaryItem{url} per il \textit{login}. Dal punto di vista dell'utente, ogni localizzazione è considerata un'applicazione a sé stante. Nel caso appena citato, ad esempio, sarebbero presenti due diverse ''versioni'' di Amazon, Amazon Italia e Amazon Spagna. Ovviamente l'utente potrà inserire nel suo dominio entrambe le versioni, qualora voglia autenticarsi sia al sito italiano che a quello spagnolo.
+
+Appena creata, l'applicazione non è \textbf{pubblicata}: questo significa che gli utenti di Monokee non possono vederla, in quanto i dati necessari al \glossaryItem{sso} non sono ancora stati impostati. Una volta pubblicata, l'applicazione è visibile nel catalogo. Può accadere, però, che sia necessario il cambiamento di alcuni dati in seguito ad una modifica dell'applicazione. Quest'ultima può quindi essere messa, momentaneamente, \textbf{in manutenzione} in modo da poter modificare i dati necessari e avvisare gli utenti che l'autenticazione potrebbe non funzionare correttamente.
+
+\paragraph{Gruppo} \mbox{} \\
+Applicazioni con caratteristiche simili (ad esempio nel caso della localizzazione sopra citata) possono essere raggruppate per consentire una migliore gerarchizzazione e per generare meno confusione nell'utente. I gruppi possono essere creati per applicazioni sia pubbliche che private, e aiutano gli amministratori del catalogo a mantenere ordine tra le applicazioni presenti. Non c'è limite al numero di applicazioni che possono essere inserite in un gruppo, ma un'applicazione può essere inserita in un solo gruppo per volta. 
+
+Così come per le applicazioni, anche i gruppi possono essere pubblici o privati, ma in un gruppo privato non possono essere inserite applicazioni pubbliche e viceversa.
+
+\paragraph{Categorie} \mbox{} \\
+Ogni applicazione deve appartenere ad una o più categorie, in modo da rendere il più semplice possibile la ricerca nel catalogo. Il sistema di categorizzazione è più vicino ad un sistema di ''etichette'': la categorizzazione non è, infatti, mutuamente esclusiva e può accadere (e in generale accade) che ad un'applicazione siano associate più categorie. Questo è un esempio del cosiddetto ''\textbf{schema ambiguo per argomento}''. Schemi di questo genere sono più difficilmente manutenibili da parte degli sviluppatori, perché richiedono un costante lavoro di controllo e aggiornamento, ma risultano molto più utilizzabili da parte degli utenti, in quanto non è necessario sapere esattamente cosa si sta cercando. 
+
+Considerato che Monokee può essere usato sia per uso personale che per uso aziendale si è resa necessaria una profonda ad approfondita categorizzazione delle applicazioni web. Tale categorizzazione tiene conto di entrambi gli utilizzi previsti di Monokee e questo ha portato all'ottenimento di un alto numero di ''etichette''. Tuttavia, un utente di Monokee rischierebbe di essere confuso e disorientato da un numero elevato di categorie: è stato pertanto fatto un ulteriore lavoro di raggruppamento, in modo da definire le seguenti 13 ''sovra categorie'':
+\begin{itemize}
+\item Arts;
+\item Beauty \& Sport;
+\item Career;
+\item Computer \& Electronics;
+\item Education;
+\item Finance;
+\item Food \& Health;
+\item Hobby \& Travel;
+\item Internet \& Communication;
+\item News;
+\item People \& Pets;
+\item Productivity;
+\item Vehicles.
+\end{itemize}
+Queste ultime vengono mostrate nella pagina di aggiunta di un'applicazione all'\textit{application broker}, come mostrato in Figura~\ref{fig:catalogo}. Le ''etichette'', invece, vengono mostrate all'utente del gestore del catalogo che, essendo un amministratore di Monokee, ha una maggiore conoscenza del mondo web e non rischia di essere sopraffatto dal gran numero di categorie. Di seguito vengono indicate le sovra categorie, complete delle categorie mostrate agli utenti del gestore del catalogo di Monokee:
+\begin{itemize}
+\item \textbf{Arts}:
+	\begin{itemize}
+	\item Animation \& Comics;
+	\item Arts \& Entertainment;
+	\item Movies;
+	\item Music \& Audio;
+	\item Photography.
+	\end{itemize}
+\item \textbf{Beauty \& Sport}:
+	\begin{itemize}
+	\item Beauty;
+	\item Sports.
+	\end{itemize}
+\item \textbf{Career}:
+	\begin{itemize}
+	\item Jobs \& Employment.
+	\end{itemize}
+\item \textbf{Computer \& Electronics}:
+	\begin{itemize}
+	\item Computer Hardware;
+	\item Computer Security;
+	\item Electronics;
+	\item Multimedia;
+	\item Networking;
+	\item Programming;
+	\item Software.
+	\end{itemize}
+\item \textbf{Education}:
+	\begin{itemize}
+	\item Book Retailers;
+	\item Dictionaries;
+	\item Ebooks;
+	\item Education;
+	\item Science;
+	\item Universities.
+	\end{itemize}
+\item \textbf{Finance}:
+	\begin{itemize}
+	\item Banking;
+	\item Financial Investing;
+	\item Financial Management;
+	\item Insurance.
+	\end{itemize}
+\item \textbf{Food \& Health}:
+	\begin{itemize}
+	\item Food Delivery;
+	\item Health;
+	\item Nutrition;
+	\item Restaurants.
+	\end{itemize}
+\item \textbf{Hobby \& Travel}:
+	\begin{itemize}
+	\item Games;
+	\item Hotels;
+	\item Maps;
+	\item Online Games;
+	\item Recreations \& Hobbies;
+	\item TV \& Video;
+	\item Video Games.
+	\end{itemize}
+\item \textbf{Internet \& Communication}:
+	\begin{itemize}
+	\item Chat;
+	\item ECommerce;
+	\item Email;
+	\item File Sharing;
+	\item Forum \& Blog;
+	\item Search Engine;
+	\item Social Networks;
+	\item Web Hosting.
+	\end{itemize}
+\item \textbf{News}:
+	\begin{itemize}
+	\item News;
+	\item Newspapers;
+	\item Weather.
+	\end{itemize}
+\item \textbf{People \& Pets}:
+	\begin{itemize}
+	\item Pets;
+	\item Relationship \& Dating.
+	\end{itemize}
+\item \textbf{Productivity}:
+	\begin{itemize}
+	\item Collaboration;
+	\item \glossaryItem{crm};
+	\item Data Analysis;
+	\item \glossaryItem{erp};
+	\item Human Resources;
+	\item Supply Chain Management;
+	\item Transportation.
+	\end{itemize}
+\item \textbf{Vehicles}:
+	\begin{itemize}
+	\item Aviation;
+	\item Boating;
+	\item Car Buying \& Rentals;
+	\item Cars;
+	\item Motorcycles;
+	\item Railways.
+	\end{itemize}
+\end{itemize}
+
+\section{Il futuro ed i competitors}
+Quello delle soluzioni \glossaryItem{idaas} è un mercato recente ed in forte espansione, introdotto dagli analisti del gruppo Gartner come categoria chiave dell’\glossaryItem{it} solamente nel 2014. Confrontando i due \textit{report} (corredati dai celebri \textit{Magic Quadrant}, figure~\ref{fig:mq2015} e \ref{fig:mq2016}) prodotti da Gartner nel giugno 2015 e giugno 2016, infatti, si può notare come, nell'arco di un solo anno, molte aziende abbiano deciso di investire in tale ambito sviluppando e facendo crescere i propri prodotti. Particolarmente significativa è la presenza e la crescita di molte compagnie \textit{leader} nel settore \glossaryItem{it}, quali, ad esempio, Microsoft, Salesforce e IBM.
+
+\begin{figure}[h]
+\centering
+\mbox{
+	\begin{subfigure}[b]{\textwidth}
+    \centering
+    \includegraphics[scale=0.5,clip=false]{mq2015}
+	\caption[Giugno 2015]{Giugno 2015\protect\footnotemark}
+	\label{fig:mq2015}
+    \end{subfigure}
+}
+
+\mbox{
+	\begin{subfigure}[b]{\textwidth}
+    \centering
+    \includegraphics[scale=0.5,clip=false]{mq2016}
+    \caption[Giugno 2016]{Giugno 2016\protect\footnotemark}
+    \label{fig:mq2016}
+    \end{subfigure}
+}
+\caption{Gartner Magic Quadrants}\label{fig:confrontomq}
+\end{figure}
+\footnotetext{Fonte: \url{http://get.onelogin.com/GartnerMQ-2015.html}}
+\footnotetext{Immagine tratta da \cite{grt:G00279633}}
+
+Nonostante ciò, e in particolare nonostante la crescita di Microsoft e Centrify, Gartner ha identificato, anche nel 2016, Okta come principale \textit{leader} del mercato \glossaryItem{idaas}. Okta, Inc. è stata fra le prime aziende a capire il potenziale dell'emergente ambito dell’\glossaryItem{idaas}. Ciò che ha determinato il suo successo e l'ha eletta \textit{leader} anche per il 2016 è l'ampia gamma di funzionalità offerte dal suo prodotto, la semplicità nell'utilizzo e l'impegno nel supporto e nell'integrazione del suo sistema con \glossaryItemPl{serviziodirectory} aziendali, come \glossaryItem{ad}.
+
+Gartner stabilisce dei ''requisiti minimi'' per poter partecipare alla ricerca, e divide i partecipanti nelle quattro aree che formano il \textit{Magic Quadrant}:
+\begin{itemize}
+\item \textbf{leaders}: i molti clienti sono soddisfatti e le funzionalità offerte sono al passo con le richieste del mercato. I servizi offerti sono molti e il supporto è di alto livello;
+\item \textbf{challengers}: sono sulla buona strada per diventare \textit{leaders}, ma la loro visione complessiva dell'\glossaryItem{idaas} è troppo limitata o focalizzata solo su un'area specifica. I clienti sono generalmente soddisfatti, ma devono fare richieste specifiche per nuove funzionalità;
+\item \textbf{visionaries}: i loro prodotti incontrano i bisogni della maggior parte dei clienti, ma questi ultimi non sono sufficienti a renderli dei \textit{leaders}. Sono molto innovativi, e spesso presentano funzionalità che gli altri non hanno;
+\item \textbf{niche players}: i loro prodotti sono adatti a specifici casi d'uso, come particolari settori industriali. Hanno di solito pochi clienti, e i prezzi sono troppo alti per permettere di essere competitivi sul mercato. Ad ogni modo, nel loro ambito possono essere molto conosciuti ed apprezzati.
+\end{itemize}
+
+\paragraph{Posizionamento di Monokee} \mbox{} \\
+Nello sviluppo del suo prodotto, \textit{iVoxIT S.r.l} ha analizzato a fondo le funzionalità offerte dalle aziende \textit{competitor} ed ha dedicato particolare attenzione ad Okta quale riferimento del mercato. Lo studio di tali realtà ha portato all'individuazione di alcuni punti critici attorno ai quali l'azienda si è concentrata al fine di trovare delle soluzioni efficaci ed innovative che le permettano di distinguersi nell'ambito \glossaryItem{idaas}. Un esempio è la gestione dei domini già citata. In particolare, l'azienda punta ad affermarsi come realtà importante in ambito europeo, collocandosi in uno spazio che le permetta ampie possibilità di sviluppo e crescita (attualmente, fra le aziende indicate nel \textit{Magic Quadrant} di Gartner, solo iWelcome opera nativamente in Europa).

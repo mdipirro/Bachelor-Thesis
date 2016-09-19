@@ -1,0 +1,121 @@
+\subsection{Operazioni permesse ad un Utente Non Autenticato}
+\begin{figure}[hbpc]
+  \begin{center}
+    \includegraphics[width=12cm]{UC/UtenteNonAutenticato}
+  \caption[Operazioni Generali per l'Utente Non Autenticato]{Operazioni di alto livello permesse ad un Utente Non Autenticato}
+  \end{center} 
+\end{figure}
+
+\begin{center}
+  \bgroup
+  \def\arraystretch{1.8}     
+  \begin{longtable}{  p{3.5cm} | p{8cm} } 
+    \hline
+    \multicolumn{2}{ | c | }{ \cellcolor[gray]{0.9} \textbf{Operazioni generali per l'Utente Non Autenticato}} \\
+    \textbf{Attori Primari} & Utente Non Autenticato \\ 
+    \textbf{Scopo e Descrizione} & L'Utente Non Autenticato può aggiungere, tramite le funzionalità di Monokee, l'applicazione Catalogue Manager ad un \textit{application broker} di un dominio. Dopo averla aggiunta può decidere in qualsiasi momento di cambiarne gli attributi di configurazione attraverso la pagina di modifica di Monokee. Infine può accedere all'applicazione per gestire il catalogo applicativo. Si ricorda che, sebbene venga definito come Utente Non Autenticato, l'utente in questione deve essere autenticato ed autorizzato tramite Monokee. \\ 
+    \textbf{Precondizioni}  & L'Utente Non Autenticato ha effettuato l'accesso a Monokee. \\
+    \textbf{Postcondizioni} & Monokee ha preso in carico, ed eseguito, l'operazione voluta dall'Utente Non Autenticato.  \\ 
+    \textbf{Flusso Principale} & 
+    1. L'Utente Non Autenticato aggiunge l'applicazione Catalogue Manager ad un \textit{application broker} di un dominio di Monokee. (UCU1) \newline
+    2. L'Utente Non Autenticato modifica gli attributi di Catalogue Manager. (UCU2) \newline
+    3. L'Utente Non Autenticato accede a Catalogue Manager. (UCU3) \\
+    \textbf{Estensioni} & L'Utente Non Autenticato visualizza un messaggio di errore perché non è autorizzato ad accedere a Catalogue Manager. (UCU4)
+  \end{longtable}
+  \egroup
+\end{center}
+
+\subsubsection{UCU1 - Aggiunta di Catalogue Manager ad un Application Broker}
+\begin{center}
+  \bgroup
+  \def\arraystretch{1.8}     
+  \begin{longtable}{  p{3.5cm} | p{8cm} } 
+    \multicolumn{2}{ | c | }{ \cellcolor[gray]{0.9} \textbf{UCU1 - Aggiunta di Catalogue Manager ad un Application Broker}} \\
+    \hline
+    
+    \textbf{Attori Primari} & Utente Non Autenticato \\ 
+    \textbf{Scopo e Descrizione} & L'Utente Non Autenticato può aggiungere l'applicazione Catalogue Manager ad un \textit{application broker} di un dominio di Monokee. Dato che l'\glossaryItem{autenticazione} avviene tramite \glossaryItem{saml}, per aggiungere l'applicazione è necessario inserire tutti i parametri richiesti da questo standard. \\ 
+    
+    \textbf{Precondizioni}  & L'Utente Non Autenticato ha effettuato l'accesso a Monokee e si trova nella pagina dell'aggiunta di una nuova applicazione \glossaryItem{saml}. \\ 
+    
+    \textbf{Postcondizioni} & Monokee ha aggiunto all'\textit{application broker} del dominio selezionato dall'Utente Non Autenticato l'applicazione Catalogue Manager. \\ 
+    \textbf{Flusso Principale} & 
+    1. L'Utente Non Autenticato inserisce l'\glossaryItem{url} dell'\textit{assertion consumer service}. \newline
+    2. L'Utente Non Autenticato inserisce l'\glossaryItem{uri} del \glossaryItem{sp}. \newline
+    3. L'Utente Non Autenticato inserisce il certificato del \glossaryItem{sp}. \newline
+    4. L'Utente Non Autenticato inserisce l'\glossaryItem{url} della pagina successiva al \textit{login}. \newline
+    5. L'Utente Non Autenticato inserisce le regole dell'asserzione \glossaryItem{saml}. \newline
+    6. L'Utente Non Autenticato inserisce l'algoritmo di firma. \newline
+    7. L'Utente Non Autenticato inserisce l'\glossaryItem{uri} della pagina di \textit{log out}. \newline
+    8. L'Utente Non Autenticato inserisce l'\glossaryItem{uri} della pagina di risposta al \textit{log out}. 
+  \end{longtable}
+  \egroup
+\end{center}
+
+\subsubsection{UCU2 - Modifica della configurazione specifica di un dominio di Catalogue Manager}
+\begin{center}
+  \bgroup
+  \def\arraystretch{1.8}     
+  \begin{longtable}{  p{3.5cm} | p{8cm} } 
+    \multicolumn{2}{ | c | }{ \cellcolor[gray]{0.9} \textbf{UCU2 - Modifica della configurazione specifica di un dominio di Catalogue Manager}} \\
+    \hline
+    
+    \textbf{Attori Primari} & Utente Non Autenticato \\ 
+    \textbf{Scopo e Descrizione} & L'Utente Non Autenticato può modificare gli attributi di configurazione di Catalogue Manager per un dominio tramite la pagina di modifica di un'applicazione prevista da Monokee. \\ 
+    
+    \textbf{Precondizioni}  & L'Utente Non Autenticato ha effettuato l'accesso a Monokee e si trova nella pagina di modifica di un'applicazione esistente. \\ 
+    
+    \textbf{Postcondizioni} & Monokee ha modificato l'applicazione Catalogue Manager per il dominio selezionato dall'Utente Non Autenticato. \\ 
+    \textbf{Flusso Principale} & 
+    1. L'Utente Non Autenticato modifica l'\glossaryItem{url} dell'\textit{assertion consumer service}. \newline
+    2. L'Utente Non Autenticato modifica l'\glossaryItem{uri} del \glossaryItem{sp}. \newline
+    3. L'Utente Non Autenticato modifica il certificato del \glossaryItem{sp}. \newline
+    4. L'Utente Non Autenticato modifica l'\glossaryItem{url} della pagina successiva al \textit{login}. \newline
+    5. L'Utente Non Autenticato modifica le regole dell'asserzione \glossaryItem{saml}. \newline
+    6. L'Utente Non Autenticato modifica l'algoritmo di firma. \newline
+    7. L'Utente Non Autenticato modifica l'\glossaryItem{uri} della pagina di \textit{log out}. \newline
+    8. L'Utente Non Autenticato modifica l'\glossaryItem{uri} della pagina di risposta al \textit{log out}. 
+  \end{longtable}
+  \egroup
+\end{center}
+
+\subsubsection{UCU3 - Accesso a Catalogue Manager}
+\begin{center}
+  \bgroup
+  \def\arraystretch{1.8}     
+  \begin{longtable}{  p{3.5cm} | p{8cm} } 
+    \multicolumn{2}{ | c | }{ \cellcolor[gray]{0.9} \textbf{UCU3 - Accesso a Catalogue Manager}} \\
+    \hline
+    
+    \textbf{Attori Primari} & Utente Non Autenticato \\ 
+    \textbf{Scopo e Descrizione} & L'Utente Non Autenticato può accedere a Catalogue Manager tramite l'\textit{application broker} di un dominio di Monokee. \\ 
+    
+    \textbf{Precondizioni}  & L'Utente Non Autenticato ha effettuato l'accesso a Monokee e si trova nell'\textit{application broker} di un dominio. \\ 
+    
+    \textbf{Postcondizioni} & L'Utente Non Autenticato ha effettuato l'accesso a Catalogue Manager e si trova nella pagina principale della nuova applicazione. \\ 
+    \textbf{Flusso Principale} & 
+    1. L'Utente Non Autenticato richiede (tramite un \textit{click}) l'accesso a Catalogue Manager. \\
+    \textbf{Estensioni} & L'Utente Non Autenticato visualizza un messaggio di errore perché l'\glossaryItem{idp} di Monokee non gli ha consentito l'accesso a Catalogue Manager.
+  \end{longtable}
+  \egroup
+\end{center}
+
+\subsubsection{UCU4 - Visualizzazione messaggio di errore per utente non autorizzato}
+\begin{center}
+  \bgroup
+  \def\arraystretch{1.8}     
+  \begin{longtable}{  p{3.5cm} | p{8cm} } 
+    \multicolumn{2}{ | c | }{ \cellcolor[gray]{0.9} \textbf{UCU4 - Visualizzazione messaggio di errore per utente non autorizzato}} \\
+    \hline
+    
+    \textbf{Attori Primari} & Utente Non Autenticato \\ 
+    \textbf{Scopo e Descrizione} & L'Utente Non Autenticato visualizza un messaggio di errore in seguito all'accesso negato, da parte dell'\glossaryItem{idp} di Monokee, all'applicazione Catalogue Manager. \\ 
+    
+    \textbf{Precondizioni}  & L'Utente Non Autenticato ha effettuato l'accesso a Monokee e si trova nell'\textit{application broker} di un dominio. ha inoltre richiesto l'accesso all'applicazione Catalogue Manager, ma gli è stata negata dall'\glossaryItem{idp} di Monokee. \\ 
+    
+    \textbf{Postcondizioni} & L'Utente Non Autenticato ha visualizzato il messaggio di errore per autenticazione non riuscita. \\ 
+    \textbf{Flusso Principale} & 
+    1. L'Utente Non Autenticato visualizza il messaggio di errore conseguente all'accesso negato a Catalogue Manager.
+  \end{longtable}
+  \egroup
+\end{center}

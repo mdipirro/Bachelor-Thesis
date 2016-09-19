@@ -1,0 +1,37 @@
+Il back end si basa su uno stile \glossaryItem{rest}-\textit{like}, ovvero con le seguenti caratteristiche:
+\begin{itemize}
+\item stato dell'applicazione e funzionalità divisi in risorse web;
+\item ogni risorsa è unica e indirizzabile attraverso un \glossaryItem{uri};
+\item tutte le risorse sono condivise come interfaccia uniforme per il trasferimento di stato tra client e risorse. Questo trasferimento consiste in:
+\begin{itemize}
+\item un insieme vincolato di operazioni ben definite;
+\item un insieme vincolato di contenuti, opzionalmente supportato da codice a richiesta;
+\item un protocollo:
+\begin{itemize}
+\item client-server;
+\item privo di stato;
+\item memorizzabile in cache;
+\item a livelli.
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\glossaryItem{rest} utilizza il concetto di risorsa (aggregato di dati con un nome e una rappresentazione interna), sulla quale è possibile invocare operazioni \glossaryItem{crud} secondo la corrispondenza indicata in Tabella~\ref{tab:RESTCRUD}.
+\begin{center}
+  \bgroup
+  
+  \begin{longtable}{ | m{2cm} | m{2cm} | p{7cm} |}
+    \hline
+    \cellcolor[gray]{0.9}\textbf{Metodo HTTP} & \cellcolor[gray]{0.9}\textbf{Operazione CRUD} & \cellcolor[gray]{0.9}\textbf{Descrizione} \\ \hline
+    GET & Read & Ricava e ritorna informazioni su una risorsa \\ \hline
+    PUT & Update & Aggiorna una risorsa \\ \hline
+    POST & Create & Crea una risorsa \\ \hline
+    DELETE & Delete & Cancella una risorsa \\ \hline
+    \caption[Corrispondenza tra CRUD e HTTP]{Corrispondenza tra CRUD e HTTP}
+    \label{tab:RESTCRUD} 
+    \end{longtable}
+  \egroup
+\end{center} 
+Per la rappresentazione dei dati si è scelto di utilizzare \glossaryItem{json} perché si integra molto bene con le tecnologie utilizzate e con il linguaggio JavaScript. Questo non è vero per \glossaryItem{xml} o \glossaryItem{csv}, che richiederebbero librerie specifiche. Inoltre \glossaryItem{json} è molto meno verboso e molto più flessibile di \glossaryItem{xml}, e si adatta molto bene al dominio dell'applicazione.
+
+Uno stile architetturale di questo tipo permette l'indipendenza completa tra back end e front end, permettendo così espansioni su altre piattaforme senza dover modificare il back end dell'applicazione.

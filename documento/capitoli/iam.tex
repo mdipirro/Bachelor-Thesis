@@ -1,0 +1,97 @@
+\glsreset{iam}
+La capacità di fornire il giusto accesso ai giusti utenti alle giuste risorse nei tempi e nelle modalità giuste è la chiave per aumentare la produttività e per mitigare rischi di qualsiasi tipo. Per questo la gestione dell'\glossaryItem{identita} è una parte fondamentale nella sicurezza del mondo \glossaryItem{it}.
+
+Storicamente l'approccio a questa disciplina è stato molto semplice: tutto si basava su \textbf{qualcosa che l'utente conosceva}, tipicamente una \textit{password}. Per applicazioni a rischio più alto sono stati poi introdotti ulteriori controlli, come l'\glossaryItem{autenticazione} a più fattori (\textbf{qualcosa che l'utente possiede}, come \textit{smartphone}, carte speciali, chiavette, eccetera) o controlli biometrici (\textbf{qualcosa che l'utente è}, come scansione della retina o rilevamento delle impronte digitali). 
+
+Questi sistemi sono ottimi se si deve gestire solamente l'\glossaryItem{identita} di una persona, ma l'avvento del \textit{mobile} ha cambiato tutto. Inoltre, in seguito alla nascita dell'\glossaryItem{iot}, anche qualsiasi dispositivo può connettersi ad Internet: non più solo utenti o \textit{smartphone}, ma anche sensori, elettrodomestici, e altro. 
+
+In un contesto come questo è necessario essere in grado di gestire agevolmente le \glossaryItem{identita} e gli accessi alle risorse. Ecco perché nascono sistemi di \glossaryItem{iam}. Nelle successive sezioni saranno approfondite le due componenti fondamentali di un sistema di \glossaryItem{iam}: la gestione dell'\glossaryItem{identita} (\glossaryItem{idm}) e la gestione degli accessi (\glossaryItem{am}).
+
+\subsection{Identity Management - IdM}
+La funzionalità principale dell'\glossaryItem{IdM} è fornire \glossaryItem{identita} creando \textit{account} ed eventualmente disabilitando o cancellando quelli creati quando non sono più necessari (Figura~\ref{fig:identitylifecicle}). Tipicamente questo è un compito complicato, perché le \glossaryItem{identita} richieste sono molto eterogenee: impiegati, clienti, fornitori, \textit{partner}, eccetera. È pertanto necessario un fornitore di \glossaryItem{identita} unico per ogni tipologia di \textit{account} che automatizzi l'intero processo. Ogni tipologia deve, inoltre, avere degli attributi ben definiti (ad esempio il periodo di validità).
+
+Solitamente ad ogni \textit{account} è associato un identificatore univoco (ID), in modo da associare un'\glossaryItem{identita} all'\textit{account} stesso e tracciare le operazioni effettuate a scopo di \textit{log} o \textit{report}. L'ID può essere rappresentato da un indirizzo email, oppure essere generato \textit{ad hoc}, ma è fondamentale che la sua unicità sia mantenuta: questo comporta la memorizzazione dell'ID stesso in caso di cancellazione, in modo da evitare la possibilità di inconsistenze.
+
+\begin{figure}[hbpc]
+\begin{center}
+\includegraphics[scale=0.2]{identityLifecycle}
+\caption[Ciclo di vita dell'identità]{Ciclo di vita dell'identità\protect\footnotemark}
+\label{fig:identitylifecicle}
+\end{center}
+\end{figure}
+
+Scegliere tra disabilitazione e cancellazione di un \textit{account} è fondamentale: la cancellazione è, ovviamente, più rischiosa, soprattutto se fatta in modo errato, ma consente il riutilizzo dell'\glossaryItem{identita} cancellata. La disabilitazione, invece, consente il \glossaryItem{rollback}, ma comporta un maggior numero di dati memorizzati. Generalmente gli \textit{account} vengono disabilitati quando l'utente associato non è presente (ad esempio per periodi di malattia) e riabilitati al rientro, oppure cancellati dopo un certo numero di giorni di inattività (\textbf{use it or lose it}). 
+
+Le politiche di creazione, disabilitazione e cancellazione, comunque, variano da un'organizzazione all'altra e, in generale, si integrano con i sistemi di gestione del personale.
+\footnotetext{Fonte: \url{https://www.linkedin.com/pulse/identity-management-internet-things-george-moraetes}}
+
+\subsection{Access Management - AM}
+La semplice associazione \glossaryItem{identita}/\textit{account} è poco utile se non ci sono autorizzazioni o politiche di accesso associate a quell'\textit{account}. L'\glossaryItem{AM} si occupa di creare e far rispettare queste politiche: applica regole diverse in base al ruolo e controlla le autorizzazioni degli \textit{account} generati e gestiti dai sistemi di \glossaryItem{idm}. 
+
+Le politiche di \glossaryItem{autenticazione} e \glossaryItem{autorizzazione} possono essere rafforzate da un sistema di controllo degli accessi, usato per imporre dei permessi sui sistemi e sulle risorse. Principalmente ne esistono di quattro tipi:
+\begin{itemize}
+\item \glossaryItem{mac};
+\item \glossaryItem{dac};
+\item \glossaryItem{rbac};
+\item \glossaryItem{abac}.
+\end{itemize}
+Di seguito verranno descritti vantaggi e svantaggi di ciascuno.
+
+\paragraph{Mandatory Access Control} \mbox{} \\
+\glossaryItem{mac} è fondato su un modello gerarchico basato sui livelli di sicurezza. Ogni utente, o oggetto, è associato ad un livello di sicurezza. Gli utenti possono accedere alle risorse che corrispondono al loro livello, o che hanno un livello inferiore nella gerarchia.
+
+Gli accessi sono controllati solamente dagli amministratori, che impostano ogni permesso degli utenti. I sistemi \glossaryItem{mac} sono considerati molto sicuri proprio grazie a questa amministrazione centralizzata e sono generalmente utilizzati in ambiti governativi.
+
+Il principale pregio è però anche un difetto, perché gli amministratori devono obbligatoriamente assegnare ogni permesso senza poter delegare niente: per sistemi di grandi dimensioni questo può portare ad un ''sovraccarico'' dello staff amministrativo. Proprio per questo motivo i sistemi \glossaryItem{mac} sono poco usati in ambito web.
+
+\paragraph{Discretionary Access Control} \mbox{} \\
+\glossaryItem{dac} si basa su un modello governato da una lista che indica chi può accedere a cosa e cosa può fare con quella risorsa. Nella lista vanno elencati tutti gli utenti e i permessi, per ogni risorsa. Sistemi di questo tipo utilizzano un'architettura più distribuita e sono generalmente più facili da gestire dei \glossaryItem{mac}, perché gli amministratori non hanno l'onere dell'impostazione dei permessi. Tuttavia sono anche meno sicuri, perché i permessi possono essere impostati in modo errato.
+
+La maggior parte dei sistemi operativi usano modelli \glossaryItem{dac}.
+
+\paragraph{Role-Based Access Control} \mbox{} \\
+\glossaryItem{rbac} si basa su un modello di ruoli e responsabilità. Agli utenti non è permesso l'accesso al sistema: un insieme di ruoli è assegnato ad un utente, e un insieme di livelli di accesso è assegnato a ciascun ruolo. I ruoli sono gestiti dagli amministratori, che determinano quanti e quali devono essere e, successivamente, assegnano questi ruoli a funzioni e compiti. 
+
+In questo modello è necessario conoscere in modo più specifico il sistema, perché ad ogni ruolo devono essere assegnate delle politiche di accesso e delle funzioni. È possibile delegare il ruolo di amministratore semplicemente creando un nuovo ruolo e assegnandolo a delle persone.
+
+\glossaryItem{rbac} è difficile da implementare; per grandi organizzazioni, inoltre, è complicato identificare con precisione i ruoli. Nonostante questo, però, è molto utilizzato nell'ambito web, perché consente di automatizzare la creazione e la gestione degli utenti. 
+
+\paragraph{Attribute Based Access Control} \mbox{} \\
+\glossaryItem{abac} è un meccanismo di controllo degli accessi alle risorse che fornisce maggiore flessibilità rispetto a \glossaryItem{rbac}. L'\glossaryItem{autorizzazione} è basata su una serie di attributi associati con utenti, risorse, transazioni e attività; le decisioni sono rappresentate da regole condizionali sui valori degli attributi. In questo modo le politiche di sicurezza sono completamente indipendenti da utenti e oggetti.
+
+Gli attributi utilizzabili in un sistema di questo tipo sono moltissimi, e variano da quelli più ''stabili'' (come ruoli, etichette di sicurezza, eccetera) a quelli più ''dinamici'' (come posizione geografica, tipologia di \glossaryItem{autenticazione} effettuata, ambiente operativo dal quale viene effettuato l'accesso, eccetera). Considerato che le decisioni vengono prese sulla base delle condizioni nel momento dell'accesso, \glossaryItem{abac} è un meccanismo di controllo degli accessi \textbf{dipendente dal contesto}.
+
+\subsection{IdM e AM: IAM}
+\glossaryItem{idm} e \glossaryItem{am} sono componenti fondamentali per qualsiasi sistema di sicurezza e dipendono fortemente l'uno dall'altro: non si possono associare ruoli e politiche se non si dispone di \textit{account}, e un \textit{account} senza permessi e politiche di accesso non serve a niente. La loro unione e combinazione porta alla definizione di sistemi di \glossaryItem{IAM}. La gestione di accessi e \glossaryItem{identita} non è più un male non necessario, ma è una componente fondamentale della sicurezza di qualsiasi organizzazione: non si tratta più di avere a che fare solamente con persone confinate nel loro ufficio, ma di gestire interazioni tra impiegati, fornitori, soci, clienti e oggetti (Figura~\ref{fig:interazioniIAM}). 
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.4]{interazioniIAM}
+\caption[Gestione di identità, privilegi e accessi]{Gestione di identità, privilegi e accessi\protect\footnotemark}
+\label{fig:interazioniIAM}
+\end{center}
+\end{figure}
+\footnotetext{Immagine tratta da \cite{grt:G00292924}}
+
+L'\glossaryItem{iot}, in particolare, è fonte di un elevatissimo numero di opportunità per le aziende e di servizi per i consumatori: un esempio è la possibilità di connettere le auto ad Internet, per aprirle, chiuderle, monitorare i consumi, accendere o spegnere il motore, eccetera. D'altro canto ha portato ad un grande incremento dei rischi legati alla sicurezza: ogni dispositivo connesso ad Internet rischia di essere compromesso e di fornire pericolose informazioni circa il suo utilizzo. Il dispositivo può poi essere controllato in modo da agire sull'ambiente circostante: sarebbe possibile aumentare o diminuire la temperatura di una stanza, spegnere, disabilitare o manomettere delle funzionalità e molto altro. È necessario gestire anche l'\glossaryItem{identita} delle cose (\glossaryItem{idot}) per assegnare ruoli e permessi anche agli oggetti, oltre che alle persone. 
+
+La marcata eterogeneità delle entità coinvolte rende i sistemi di \glossaryItem{iam} molto complessi: è necessario gestire e proteggere enormi moli di dati (\textbf{sicurezza}), derivanti da interazioni tra persone e oggetti (\textbf{privacy}) effettuate con modalità in continua espansione (\textbf{\glossaryItem{resilienza}} e \textbf{\glossaryItem{scalabilita}}). Oltre a questo, le \glossaryItem{identita} da gestire sono sempre di più: non ci sono più solo quelle fornite dai governi, ma anche quelle digitali create direttamente dagli utenti (ad esempio quelle sui \textit{social networks}).
+
+Tra i compiti principali dell'\glossaryItem{iam}, dunque, ci sono:
+\begin{itemize}
+\setlength\itemsep{2pt}
+\item mantenimento della consistenza dell'\glossaryItem{identita} di un utente tra le varie applicazioni;
+\item supporto del \glossaryItem{sso};
+\item controllo degli accesi alle risorse basato sui ruoli o sugli attributi (\glossaryItem{rbac} e \glossaryItem{abac});
+\item gestione di diverse \glossaryItem{identita}, ruoli e permessi: la stessa persona può essere un amministratore di un sistema e un semplice utente in un altro;
+\item fornitura di processi e procedure per gestire il ciclo di vita dell'\glossaryItem{identita} (di utenti e di oggetti);
+\item gestione dell'\glossaryItem{iot};
+\item fornitura di meccanismi di accesso sicuri e senza interruzioni ad applicazioni interne, esterne e \glossaryItem{cloud};
+\item identificazione di \textit{account} orfani (ancora attivi sebbene non più associati ad un utente);
+\item incremento della produttività degli utenti, grazie alla possibilità di accedere alle applicazioni in meno tempo e in maggiore sicurezza;
+\item incremento della sicurezza;
+\item gestione delle relazioni tra oggetti e persone;
+\item memorizzazione delle operazioni svolte da ciascun utente (o oggetto) nel sistema e generazione di \textit{log} e \textit{report};
+\item fornitura di servizi \textit{self service} per l'utente: cambio \textit{password}, gestione profilo, eccetera;
+\item pianificazione e giustificazione dell'allocazione delle risorse.
+\end{itemize}

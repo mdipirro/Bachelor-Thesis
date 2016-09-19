@@ -1,0 +1,104 @@
+In Figura~\ref{fig:architetturaGenerale} è rappresentata l'architettura di Catalogue Manager. Il diagramma dei \textit{package} rappresenta i componenti ad un livello di dettaglio molto basso, ma sufficiente a capire le relazioni principali. Come si nota, Catalogue Manager utilizza i modelli di mongoose.js (\textit{package} \texttt{Monokee.models}) di Monokee. Questa scelta è stata imposta dall'architettura esistente: alcuni servizi di Monokee utilizzavano, e utilizzano, alcuni modelli riguardanti il catalogo. Uno spostamento completo avrebbe causato numerosi problemi e cambiamenti. È stato pertanto deciso di importare solo e soltanto i modelli necessari allo svolgimento delle operazioni di Catalogue Manager. Successivamente verranno descritti i modelli importati.
+
+\begin{figure}[hbpc]
+  \begin{center}
+    \includegraphics[scale=0.4]{Classi/architettura}
+  \caption[Architettura generale]{Architettura generale}
+  \label{fig:architetturaGenerale}
+  \end{center} 
+\end{figure}
+
+\subsection{Moduli esterni}
+Catalogue Manager fa uso di numerosi moduli esterni: nel diagramma in Figura~\ref{fig:architetturaGenerale} sono stati riportati solamente quelli principali.
+
+\paragraph{mongoose.js} \mbox{} \\
+\textbf{mongoose.js} è uno strumento di modellazione ad oggetti per MongoDB progettato per lavorare in ambiente asincrono (e quindi ottimo per Node.js) che offre grande supporto per le interrogazioni al \textit{database}. La modellazione ad oggetti consente di progettare con precisione le collezioni attraverso la definizione degli attributi, dei loro tipi e delle loro relazioni: in questo modo è possibile definire uno schema sul quale basarsi. 
+
+La definizione dei tipi, in particolare, consente di controllare la consistenza dei dati inseriti. Grazie alla definizione di \textit{middlewares}\footnote{I \textit{middlewares} sono delle funzioni alle quali è passato il controllo durante l'esecuzione di funzioni asincrone. Sono specifici a livello di schema.}, inoltre, è possibile eseguire delle operazioni prima, o dopo, le interrogazioni al \textit{database}, evitando la replicazione di codice e aderendo al principio \glossaryItem{dry}. Esistono due tipi di \textit{middleware}: \textbf{document}, che agiscono a livello dell'intero \textit{document} MongoDB e che possono essere definiti su operazioni come salvataggio, rimozione o validazione, e \textbf{query}, che agiscono durante le interrogazioni al \textit{database}, in particolare per il \texttt{find} (ricerca), l'\texttt{update} (aggiornamento) e il \texttt{count} (conteggio). La possibilità di eseguire codice personale prima dello svolgimento di queste operazioni consente, ad esempio, di effettuare controlli specifici sui dati e di modificarli se necessario. È uno strumento molto potente del quale si è fatto grande uso.
+
+Un \textit{middleware} meno conosciuto, ma importantissimo per la gestione degli errori in Catalogue Manager, è quello che viene eseguito dopo la sollevazione di un errore (\texttt{post error}). Durante la sua esecuzione si dispone dell'errore sollevato, ed è possibile aggiungerci delle informazioni sfruttando il permissivo paradigma ad oggetti di JavaScript. Questi dati aggiuntivi consentono di salvare dei \textit{log} precisi ed accurati.
+\subparagraph{Dipendenze}
+Come si nota dal diagramma, mongoose.js è utilizzato dal \textit{package} \texttt{models} di Monokee.
+
+\paragraph{async.js} \mbox{} \\
+\textbf{async.js} è un modulo di utilità che fornisce potenti funzioni per lavorare in modo asincrono con JavaScript. È stato progettato per un uso con Node.js, ma è utilizzabile anche direttamente nel \textit{browser}. Tra le circa 70 funzioni presenti si trovano molte utili per operare con gli \textit{array} (come \texttt{map}, \texttt{reduce}, \texttt{filter}, eccetera) e altre che implementano \textit{pattern} comuni per un flusso di controllo asincrono. Tutte queste seguono le convenzioni di Node.js e prevedono una sola funzione di \texttt{callback} (con due parametri: l'errore sollevato, se presente, e i risultati dell'intera esecuzione o fino al verificarsi dell'errore) che va chiamata una sola volta.
+\subparagraph{Dipendenze}
+async.js è utilizzato da tutto Catalogue Manager, sia dal \textit{package} \texttt{routes} sia da \texttt{modules}.
+
+\paragraph{body-parser} \mbox{} \\
+\textbf{body-parser} effettua il \textit{parsing} del \textit{body} delle richieste alle \glossaryItem{api} e lo rende disponibile nella proprietà \texttt{body} dell'oggetto \texttt{req} (\texttt{Request})di Express.js. Mette a disposizione numerose funzioni che definiscono come deve essere effettuato il \textit{parsing}: Catalogue Manager utilizza la funzione \texttt{json} in modo da analizzare solamente \textit{body} di tipo \glossaryItem{json}.
+\subparagraph{Dipendenze}
+body-parser è utilizzato dallo \textit{script} JavaScript utilizzato per avviare l'applicazione (\texttt{app.js}).
+
+\paragraph{Express.js} \mbox{} \\
+Come abbondantemente descritto in \ref{express}, \textbf{Express.js} è utilizzato per definire gli \textit{endpoints} del back end di Catalogue Manager. 
+
+\subparagraph{Dipendenze}
+Ogni elemento del \textit{package} \texttt{routes} dipende da Express.js, oltre allo script principale per l'avvio dell'applicazione, che lo utilizza per definire gli \glossaryItem{uri} dei servizi esposti.
+
+\paragraph{expressjwt e jsonwebtoken} \mbox{} \\
+Questi due moduli permettono di utilizzare i \glossaryItem{jwt}. \textbf{jsonwebtoken} è un'implementazione che rispetta il documento RFC7519 (\cite{rfc:7519}) ed è utilizzato per generare e firmare \textit{token} \glossaryItem{jwt}. \textbf{expressjwt}, invece, è utilizzato per validare i \glossaryItem{jwt} e per inserire il contenuto del \textit{token} nella proprietà \textbf{user} dell'oggetto \texttt{req} di Express.js. Quest'ultimo modulo consente di autenticare richieste \glossaryItem{http} utilizzando \textit{token} \glossaryItem{jwt} in applicazioni Node.js. 
+
+\subparagraph{Dipendenze}
+jsonwebtoken è utilizzato da un unico servizio, \texttt{/acs}, ovvero quello che, dopo aver ricevuto la \textit{SAMLResponse} dall'\glossaryItem{idp}, genera il \textit{token} e lo invia al front end di Catalogue Manager.
+
+expressjwt, invece, è utilizzato nello \textit{script} per l'avvio dell'applicazione e ''protegge'' i servizi per i quali è richiesta l'\glossaryItem{autenticazione}. 
+
+\subsection{Models di Monokee}
+Il \textit{package} \texttt{models} di Monokee contiene i modelli di mongoose.js utilizzati da Catalogue Manager, che verranno descritti in dettaglio successivamente (vedi \ref{modelli}). In Figura~\ref{fig:models} sono riportati quelli di maggior interesse.
+
+\begin{figure}[hbpc]
+  \begin{center}
+    \includegraphics[scale=0.4]{Classi/models}
+  \caption[Package models]{Package models}
+  \label{fig:models}
+  \end{center} 
+\end{figure}
+
+Come si può notare dai nomi, la quasi totalità di questi riguarda esclusivamente il catalogo. Il modello principale è \texttt{Catalogue}, che specifica lo schema delle applicazioni da catalogo, non importa se quello di Monokee o uno di dominio. Le applicazioni appartenenti ad uno stesso dominio sono raggruppate nei \textit{document} di \texttt{CatalogueDomain}: ad ogni \textit{document} corrisponde un catalogo di dominio.
+
+\texttt{CatalogueForm}, \texttt{CatalogueSAML} e \texttt{CatalogueThirdType} definiscono le informazioni specifiche per i tre tipi di accesso diversi.
+
+\texttt{CatalogueGroup} quelle dei gruppi di applicazioni del catalogo, mentre \texttt{CatalogueLog} specifica lo schema dei \textit{log}.
+
+\texttt{Domain}, invece, è utilizzato solamente per mantenere la consistenza dei dati e per recuperare il giusto catalogo da \texttt{CatalogueDomain}: definisce le informazioni dei domini di Monokee.
+
+\subsection{Modules di Catalogue Manager}
+Il \textit{package} \texttt{modules} di Catalogue Manager (Figura~\ref{fig:modules}) contiene i moduli di utilità usati dalle \textit{routes}, che verranno descritti in dettaglio successivamente (vedi \ref{moduli}).  Questi moduli permettono di raggruppare le operazioni comuni, evitando la duplicazione di codice e rendendo, di conseguenza, il prodotto più manutenibile. Ogni modulo è fortemente coeso, e dipende in misura quasi completamente nulla dagli altri moduli. L'unica eccezione è rappresentata dalla dipendenza nei confronti dei due moduli di \textit{logging}.
+
+\begin{figure}[hbpc]
+  \begin{center}
+    \includegraphics[scale=0.4]{Classi/modules}
+  \caption[Package modules]{Package modules}
+  \label{fig:modules}
+  \end{center} 
+\end{figure}
+
+\texttt{Logger} e \texttt{DBLogger} si occupano di salvare i \textit{log} rispettivamente su \textit{file} e nel \textit{database} (attraverso il modello \texttt{CatalogueLog}).
+
+La gerarchia di \texttt{ImageHandler} implementa il \textit{design pattern} \textbf{Template Method} per il salvataggio e la rimozione delle immagini dei gruppi (\texttt{GroupImageHandler}), delle applicazioni (\texttt{ApplicationImageHandler}) e delle istruzioni per la configurazione di applicazioni di tipo \glossaryItem{saml} (\texttt{SAMLInstructionsImageHandler}). 
+
+\texttt{ClearDB} è utilizzato per eliminare i residui della \glossaryItem{softdeletion} dal \textit{database} di Monokee. Per consentire il \glossaryItem{rollback} dei dati, infatti, i \textit{document} non sono direttamente eliminati dal \textit{database}, ma viene impostato a \textit{true} un \textit{flag} (\texttt{removed}). Alla fine del processo di cancellazione, se non sono stati rilevati errori, \texttt{ClearDB} si occupa di eliminare tutto ciò che ha \texttt{removed} a \texttt{true}. 
+
+\texttt{CheckRequiredFields} controlla semplicemente che tutti i campi obbligatori per il servizio che lo invoca siano presenti nella proprietà \texttt{body} dell'oggetto \texttt{req} di Express.js.
+
+\texttt{DomainCatalogue} popola il catalogo di un dominio specifico. 
+
+\texttt{ErrorHandler} è utilizzato per gestire gli errori riscontrati: oltre a salvare il \textit{log} invia risposte diverse al client in base a quanto è successo. È inoltre in grado di intercettare gli errori sollevati direttamente da mongoose.js (ad esempio, una validazione fallita) e di effettuare un \textit{parsing} per presentare al client un \glossaryItem{json} conforme alla definizione definita durante la progettazione.
+
+\texttt{GroupApplicationsHandler} raggruppa le operazioni che coinvolgono gruppi di applicazioni, come l'aggiunta e la rimozione di applicazioni e il controllo sull'associazione gruppo/applicazione.
+
+\texttt{RemoveApp} si occupa di rimuovere (tramite \glossaryItem{softdeletion}) un'applicazione dal \textit{database} di Monokee, ed è usato anche come \glossaryItem{rollback} se si verificano errori durante una creazione.
+
+\texttt{ResetFirstSignIn}, infine, reimposta i \textit{flag} di \textit{first sign in} in seguito alla modifica delle informazioni sull'\glossaryItem{autenticazione} \textit{form-based}. 
+
+\subsection{Routes di Catalogue Manager}
+Il \textit{package} \texttt{routes} (Figura~\ref{fig:routes}) di Catalogue Manager contiene gli \textit{endpoints} esposti dal server. In generale, ogni \textit{route} corrisponde a (e soddisfa un) requisito funzionale di alto livello. I servizi \glossaryItem{rest} definiti sono circa 40, e un diagramma delle classi che li mostri tutti risulterebbe illeggibile e inutile. Una descrizione di ciascuna \textit{route} viene fornita in \ref{servizi}.
+
+\begin{figure}[hbpc]
+  \begin{center}
+    \includegraphics[scale=0.4]{Classi/routes}
+  \caption[Package routes]{Package routes}
+  \label{fig:routes}
+  \end{center} 
+\end{figure}

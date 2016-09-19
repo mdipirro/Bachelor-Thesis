@@ -1,0 +1,43 @@
+\chapter{Valutazione retrospettiva} \label{conclusioni}
+
+\section{Obiettivi fissati}
+Gli obiettivi fissati erano molto ambiziosi: è stato inizialmente richiesto un elevato numero di funzionalità, che è cresciuto ulteriormente durante lo svolgimento dell'attività di stage. Monokee è un prodotto in continua evoluzione: di conseguenza i requisiti sono soggetti a cambiamenti frequenti e, talvolta, inaspettati. 
+
+Le principali modifiche apportate, in corso d'opera, ai requisiti sono le seguenti:
+\begin{itemize}
+\item \textbf{tipologie di applicazioni permesse}: come descritto in \ref{catmgr} sono presenti tre tipi di autenticazione diversa: \textit{form based}, tramite \glossaryItem{saml} o di terzo tipo. Inizialmente, tuttavia, solamente le prime due erano state richieste. L'introduzione del nuovo tipo ha portato all'aggiunta di altri servizi \glossaryItem{rest}, di un nuovo modello di mongoose.js e la modifica di alcuni servizi e moduli già scritti;
+\item \textbf{servizio di logging e statistiche}: sebbene non fossero funzionalità definite inizialmente, sono diventate importanti grazie al parallelo sviluppo di Monokee, e sono pertanto state inserite come requisiti desiderabili;
+\item \textbf{sviluppo di un'applicazione mobile}: ha richiesto la definizione di un ulteriore servizio \glossaryItem{rest} (\texttt{set\_learning\_mobile}) e la modifica di uno dei modelli utilizzati da Catalogue Manager (\texttt{CatalogueForm}). 
+\end{itemize}
+Oltre a questo, lo sviluppo parallelo del front end ha, in qualche caso, portato alla luce degli aspetti tralasciati durante l'esposizione del progetto e durante le riunioni di analisi del prodotto e dei requisiti.
+
+\section{Obiettivi raggiunti}
+Grazie alla collaborazione del personale di \textit{Athesys S.r.l.} e del tutor aziendale Roberto Griggio, il periodo di apprendimento e di analisi si è concluso velocemente e in anticipo rispetto a quanto pianificato. Monokee è un prodotto molto complesso, e capirne a pieno la struttura si è rivelato, inizialmente, molto complicato: al di là delle funzionalità offerte, il sistema di \glossaryItem{idm} ha richiesto del tempo per essere compreso a fondo. Inoltre, l'accesso a Catalogue Manager è di tipo federato con \glossaryItem{saml}, e riuscire a capire il funzionamento di questo standard si è rivelato difficile, ma fondamentale.
+
+L'architettura riflette quella classica utilizzata per applicazioni web basate sul \glossaryItem{framework} Express.js ed ha potuto beneficiare della struttura esistente di Monokee. Se da un lato questo è un aspetto positivo, perché molte scelte si sono rivelate già prese, adottate e provate, dall'altro è stata necessaria una particolare attenzione all'integrazione con gli elementi esistenti, in modo da preservare la scalabilità e la manutenibilità del prodotto. 
+
+Nonostante i cambiamenti nei requisiti e le nuove funzionalità richieste, tutti i requisiti, sia obbligatori che desiderabili, sono stati soddisfatti. 
+
+\section{Conclusioni}
+Al momento della scelta dello stage, mi sono trovato davanti una lista di aziende proposte dall'Università di Padova, operanti in diversi settori. Dopo la giornata di presentazione di STAGE-IT, ho avuto modo di approfondire la conoscenza di alcune di esse tramite colloqui individuali e, in seguito, ho scelto \textit{Athesys S.r.l.} per i contenuti dei progetti proposti ed il buon clima aziendale che si è percepito già in fase di contatto. L'ambito dell'\glossaryItem{IAM} era a me sconosciuto, e l'impatto iniziale è stato difficile, ma grazie al clima di collaborazione e all'atteggiamento socievole del \textit{team} è stato facile capire come funzionavano le cose.
+
+Giunti al termine dell'attività risulta comunque doveroso valutare in modo critico quanto prodotto. Il sistema, nell'arco di tutto il suo sviluppo, è stato continuamente oggetto di confronto e discussione da parte del \textit{team} di sviluppo dell'intera applicazione Monokee; questo approccio, se da una parte ha portato alcune volte a modifiche successive (talvolta onerose) di requisiti e componenti, ha indubbiamente permesso al prodotto di crescere come visione collettiva di un insieme di persone anziché di un unico responsabile, guadagnandone in termini di funzionalità individuate e completezza di visione del problema.
+
+Ritengo quindi l'esperienza decisamente positiva. Tutti gli obiettivi fissati sono stati portati a termine ed è nata un'applicazione funzionante ed estensibile che diventerà parte di un progetto interessante e dal grande futuro. L'intera attività di stage si è svolta con il \textit{team} di sviluppo di Monokee, che mi ha aiutato ad apprendere nozioni nuove ed affascinanti. Questa esperienza mi ha fatto capire che da soli possiamo fare molto poco e che grandi risultati possono derivare solo dalla collaborazione di persone motivate e sempre disponibili ad aiutarsi in caso di bisogno.
+
+Una delle cose che mi ha colpito maggiormente durante tutta il periodo di stage è la serietà con cui è stata presa in considerazione ogni mia singola opinione; ognuno ha sempre potuto esprimere le proprie idee, i propri dubbi e le proprie perplessità su quanto stava sviluppando così come sulle altre parti dell'applicativo. Questo atteggiamento mi ha fatto superare la mia iniziale timidezza e mi ha spinto ad esprimere le mie opinioni ed i miei dubbi ogniqualvolta ne sentissi l'utilità, nella speranza di provare a contribuire con qualche piccola idea. 
+
+L'atteggiamento socievole del \textit{team}, inoltre, mi ha permesso di integrarmi all'interno del gruppo con gran semplicità, favorendo la collaborazione con gli altri componenti e risultando parte attiva nella buona riuscita dell'attività.
+
+Ho infine avuto la possibilità di applicare le nozioni apprese durante le molte ore di studio e di lezione di questi tre anni università, ma anche di studiare in modo autonomo nuovi concetti e tecnologie. Si sono rivelate molto utili tutte le conoscenze acquisite durante l'insegnamento di Ingegneria del Software, dall'esistenza di database \glossaryItem{nosql}, all'utilizzo di Node.js e JavaScript per lo sviluppo del back end di applicazioni web, dalle tecniche di analisi dei requisiti alle modalità di stesura della documentazione di un'architettura e del codice. 
+
+Ho capito ancora meglio come l'obiettivo del Corso di Laurea in Informatica sia quello di fornire un ''modo di pensare'' che permetta allo studente (o laureato) di far fronte a qualsiasi situazione, di affrontare autonomamente le difficoltà e di saper scegliere sempre la strada giusta. Molti studenti, tuttavia, durante il loro percorso di studi, valutano la loro preparazione informatica in relazione alle tecnologie che hanno appreso fino a quel momento, ricercando e richiedendo le tecnologie più nuove e criticando i corsi che propongono linguaggi per loro obsoleti. Questa visione, a mio giudizio, è eccessivamente miope: l'informatica è un'area dinamica e in continua evoluzione. Le cose progrediscono e cambiano molto velocemente, e quello che oggi è attuale già domani potrebbe essere obsoleto. Al contrario, le capacità analitiche e di ragionamento sono utili in qualsiasi situazione e permettono di adattarsi al meglio alle difficoltà.
+
+È quindi soprattutto merito di questa visione se mi sono travato ad apprendere velocemente nuove tecnologie e nozioni in ambiti a me sconosciuti e se non ho riscontrato significativi problemi nel corso dell'attività di stage. La capacità di gestire un progetto complesso, di affrontare difficoltà e scadenze e di ragionare a fondo su ogni aspetto sono state provvidenziali e utilissime.
+
+\begin{displayquote}
+\centering
+\textit{It is not the task of the University to offer what society asks for, but to give what society needs.}
+
+\textit{Edsger Wybe Dijkstra}
+\end{displayquote}
