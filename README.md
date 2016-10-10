@@ -1,4 +1,4 @@
-# Bachelor-Thesis
+# Bachelor Thesis
 Bachelor Thesis on the management of the application catalogue of an Identity and Access Management cloud based (IDaaS) system.
 
 Please take note that the Thesis is written in italian. 
